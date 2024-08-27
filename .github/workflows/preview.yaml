@@ -36,4 +36,4 @@ jobs:
         run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Success
-        run: echo "Deployment to Production was successful!"
+        run: echo "Preview deployment was successful!"
