@@ -1,5 +1,6 @@
 import { useEffect, useCallback } from 'react';
 import { useAuthStore } from '../../stores/use-auth-store';
+import World from '../../r3f/scenes/World';
 
 function Login() {
     const { user, observeAuthState, loginGoogleWithPopup, logout } = useAuthStore();
@@ -20,10 +21,13 @@ function Login() {
         <div className="container-login">
             {user ? (
                 <>
-                    <p className="welcome-text">Welcome, {user.displayName}</p>
-                    <button className="logout-button" onClick={handleLogout}>
-                        Logout
-                    </button>
+                    <div className='world-container'>
+                        <p className="welcome-text">Welcome, {user.displayName}</p>
+                        <button className="logout-button" onClick={handleLogout}>
+                            Logout
+                        </button>
+                        <World />
+                    </div>
                 </>
             ) : (
                 <button className="login-button" onClick={handleLogin}>
