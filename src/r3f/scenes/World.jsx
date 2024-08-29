@@ -4,6 +4,7 @@ import Tree from "../meshes/Tree";
 import Leaf from "../meshes/Leaf";
 import Floor from "../meshes/Floor";
 import Mountain from "../meshes/Mountain";
+import './World.css'
 
 const World = () => {
   const relativePosition = 25;
@@ -28,6 +29,7 @@ const World = () => {
   const TreePositions = generateTreePositions(20, 15, 4.5, 0);
 
   return (
+    <div className="canvas-container">
     <Canvas
       camera={{
         position: [1, 0.7, relativePosition],
@@ -78,6 +80,7 @@ const World = () => {
       <Mountain size={25} color={"#98FB98"} distance={-140} gap={30} />
       <Mountain size={25} color={"#98FB98"} distance={-140} gap={-30} />
     </Canvas>
+    </div>
   )
 };
 

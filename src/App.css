@@ -1,3 +1,12 @@
+body {
+  height: 100%; /* Asegúrate de que el body ocupe toda la altura */
+  margin: 0;    /* Elimina márgenes por defecto */
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center;     /* Centra verticalmente */
+  text-align: center;      /* Centra el texto */
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
