@@ -11,13 +11,18 @@ function Login() {
     }, [observeAuthState]);
 
     useEffect(() => {
-        if (user){
-            const newUser ={
+        if (user) {
+            const newUser = {
                 email: user.email,
-                name: user.name,
-                photo:user.photoURL
+                name: user.displayName,
+                photo: user.photoURL
             };
-            UserDAO.createUser(newUser)
+
+            if (newUser.email && newUser.name && newUser.photo) {
+                UserDAO.createUser(newUser);
+            } else {
+                console.error('Invalid user data:', newUser);
+            }
         }
     }, [user]);
 
