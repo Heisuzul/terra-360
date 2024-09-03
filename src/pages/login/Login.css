@@ -14,6 +14,8 @@ html, body {
     padding: 10px 20px;
     font-size: 16px; 
     cursor: pointer;
+    align-items: center;
+    justify-content: center;
 }
 
 .logout-button {
@@ -47,3 +49,45 @@ html, body {
 
 }
 
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Full viewport height */
+    text-align: center;
+}
+
+.login-icon {
+    margin-bottom: 5vh; /* Space between the logo and button, proportional to viewport height */
+    width: 20vw; /* Width proportional to viewport width */
+    max-width: 400px; /* Optional: limit maximum size */
+}
+
+.login-button {
+    display: flex;
+    align-items: center;
+    padding: 1vw 2vw; /* Padding proportional to viewport width */
+    background-color: #277e0b;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* .login-button {
+    background-color: #277e0b;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    border: none;
+    margin: 50px;
+    padding: 10px 20px;
+    font-size: 16px; 
+    cursor: pointer;
+} */
+
+.button-icon {
+    width: 3vw; /* Width proportional to viewport width */
+    height: 3vw; /* Height proportional to viewport width */
+    max-width: 40px; /* Optional: limit maximum size */
+    max-height: 40px; /* Optional: limit maximum size */
+    margin-right: 1vw; /* Space between the image and text */
+}

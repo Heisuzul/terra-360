@@ -55,9 +55,13 @@ function Login() {
                     </div>
                 </>
             ) : (
-                <button className="login-button" onClick={handleLogin}>
-                    Login with Google
-                </button>
+                <div className='login-container'>
+                    <img src="Terra360 Logo-01.svg" alt="Terra Logo" className="login-icon" />
+                    <button className="login-button" onClick={handleLogin}>
+                        <img src="google_icon.svg" alt="Google Logo" className="button-icon" />
+                        Login
+                    </button>
+                </div>
             )}
         </div>
     );
