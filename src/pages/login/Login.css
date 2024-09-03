@@ -1,0 +1,10 @@
+
+.login-button {
+    background-color:rgb(73, 144, 211); 
+    color: rgb(255, 0, 0); 
+}
+
+.logout-button {
+    background-color: rgb(76, 77, 69); 
+    color: rgb(212, 185, 31); 
+}
