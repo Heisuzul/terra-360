@@ -12,3 +12,4 @@ const Floor = ({width=100, color="#a0a0a0", height=-0.5}) => {
 };
 
 export default Floor;
+
