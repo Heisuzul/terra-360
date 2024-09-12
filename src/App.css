@@ -5,6 +5,8 @@ body {
   justify-content: center; /* Centra horizontalmente */
   align-items: center;     /* Centra verticalmente */
   text-align: center;      /* Centra el texto */
+  background-color: #aad8ee;
+
 }
 
 #root {

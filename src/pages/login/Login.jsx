@@ -5,6 +5,7 @@ import World from '../../r3f/scenes/World.jsx';
 import './Login.css'
 
 function Login() {
+
     const { user, observeAuthState, loginGoogleWithPopup, logout } = useAuthStore();
     const navigate = useNavigate();
 
@@ -23,10 +24,10 @@ function Login() {
     }, [logout], [navigate]);
 
     return (
-        <div className="container-login">
+        <div>
             {user ? (
                 <>
-                    <div className='world-container'>
+                    <div>
                         <World/>
                         <div className="welcome-div">
                         <p className="welcome-text">Welcome, {user.displayName}</p>
