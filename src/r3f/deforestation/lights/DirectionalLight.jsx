@@ -5,7 +5,7 @@ import { DirectionalLightHelper } from 'three';
 
 const DirectionalLight = ({ 
   intensity = 1, 
-  position = [50, 30, 20], 
+  position = [0, 30, 0], 
   color = 'yellow', 
   shadowMapSize = 4096,   // Default shadow map size
   shadowCamera = {
