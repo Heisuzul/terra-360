@@ -8,7 +8,7 @@ import DirectionalLight from '../lights/directionalLight';
 
 const Scene = () => {
   return (
-    <Canvas shadows camera={{ position: [-28, 5, 20] }}>
+    <Canvas shadows camera={{ position: [-28, 10, 20] }}>
       <ambientLight intensity={0.5} />
       <OrbitControls />
       <AmbientLight intensity={1.5} color="#ffffff" />
