@@ -3,7 +3,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls, ContactShadows, SoftShadows, BakeShadows } from '@react-three/drei';
 import Terrain from '../meshes/Terrain';
 import AmbientLight from '../lights/AmbientLight';
-import DirectionalLight from '../lights/directionalLight';
+import DirectionalLight from '../lights/DirectionalLight';
 
 
 const Scene = () => {
