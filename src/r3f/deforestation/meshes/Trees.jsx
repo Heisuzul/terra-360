@@ -2,24 +2,24 @@ import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { Vector3, Raycaster } from 'three';
 import Tree from "../meshes/Tree";
 
-const Trees = ({ terrain, delta }) => {
+const Trees = ({ terrain, delta, amount_rows, amount_cols, phase_x, phase_z, space}) => {
   const [treePositions, setTreePositions] = useState([]);
   const raycaster = useMemo(() => new Raycaster(), []);
 
   const calculateTreePositions = useCallback(() => {
     if (terrain && terrain.current && terrain.current.geometry.boundingBox) {
       const positions = [];
-      const rows = 10;
-      const cols = 10;
-      const spacing = 7;
+      const rows = amount_rows;
+      const cols = amount_cols;
+      const spacing = space;
       const halfRows = Math.floor(rows / 2);
       const halfCols = Math.floor(cols / 2);
 
       const boundingBox = terrain.current.geometry.boundingBox;
       const startY = boundingBox.max.y + 10;
 
-      for (let x = -halfCols; x <= halfCols; x++) {
-        for (let z = -halfRows; z <= halfRows; z++) {
+      for (let x = -halfCols + phase_x; x <= halfCols+ phase_x; x++) {
+        for (let z = -halfRows + phase_z; z <= halfRows + phase_z; z++) {
           // if (x === 0) continue; // Skip central road
           const xPos = x * spacing + Math.pow(-1, z);
           const zPos = z * spacing + Math.pow(-1, z);
@@ -52,7 +52,7 @@ const Trees = ({ terrain, delta }) => {
   return (
     <>
       {treePositions.map((position, index) => (
-        <Tree key={index} position={position} />
+        <Tree key={index} position={position} scale={1} />
       ))}
       {/* Optional debug spheres */}
       {/* {treePositions.map((position, index) => (

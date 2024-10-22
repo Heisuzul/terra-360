@@ -35,18 +35,17 @@ html, body {
 
 
 .welcome-div {
-    margin: 5px;
-    padding: 20px 20px;
+    margin: 0px;
+    padding: 15px 20px;
     font-size: 16px; 
     cursor: pointer;
     position: absolute;
-    top: 50%;          /* Centra verticalmente */
-    left: 50%;         /* Centra horizontalmente */
+    top: 65%;          /* Centra verticalmente */
+    left: 46%;         /* Centra horizontalmente */
     transform: translate(-50%, -50%); /* Ajusta para centrar completamente */
     z-index: 10; 
     background-color: rgba(255, 255, 255, 0.5);
     border-radius: 10px;
-
 }
 
 .login-container {
@@ -74,20 +73,63 @@ html, body {
     cursor: pointer;
 }
 
-/* .login-button {
-    background-color: #277e0b;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-    border: none;
-    margin: 50px;
-    padding: 10px 20px;
-    font-size: 16px; 
-    cursor: pointer;
-} */
-
 .button-icon {
     width: 3vw; /* Width proportional to viewport width */
     height: 3vw; /* Height proportional to viewport width */
     max-width: 40px; /* Optional: limit maximum size */
     max-height: 40px; /* Optional: limit maximum size */
     margin-right: 1vw; /* Space between the image and text */
+}
+
+.button-group {
+    position: absolute;
+    right: 15vw; /* Adjust as needed */
+    top: 50%; /* Position it vertically in the middle */
+    transform: translateY(-50%); /* Center it exactly */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Align buttons to the right */
+}
+
+.circular-button {
+    width: 13vw;
+    height: 13vw;
+    border-radius: 50%;
+    border: 0.3vw solid #4CAF50; /* Adjust border color as needed */
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 1.4vw;
+    text-align: center;
+    line-height: 8vw;
+    transition: background-color 0.3s;
+    position: relative;
+    margin-top: 2vh; /* Space between buttons */
+    background-size: cover; /* Ensures the image covers the button */
+    background-position: center; /* Centers the image */
+}
+
+.button1 {
+    background-image: url('/images/buttons/deforestation.png'); /* Add your first image URL */
+}
+
+.button2 {
+    background-image: url('/images/buttons/biodiversity.png'); /* Add your second image URL */
+}
+
+.button3 {
+    background-image: url('/images/buttons/erosion.png'); /* Add your third image URL */
+}
+
+.circular-button:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* Stagger the horizontal positions */
+.circular-button:nth-child(odd) {
+    right: 0vw; /* Adjust as needed */
+}
+
+.circular-button:nth-child(even) {
+    left: -6vw; /* Adjust as needed */
 }
