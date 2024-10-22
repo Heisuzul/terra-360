@@ -1,11 +1,9 @@
 import './App.css'
 import Login from './pages/login/Login.jsx'
-import World from './r3f/scenes/World.jsx'
 import Deforestation from './pages/deforestation/Deforestation.jsx';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Biodiversity from './pages/biodiversity/Biodiversity.jsx';
-import World from './r3f/scenes/World.jsx'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 
 
 function App() {

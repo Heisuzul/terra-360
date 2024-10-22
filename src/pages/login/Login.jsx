@@ -1,15 +1,9 @@
 import { useEffect, useCallback } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores/use-auth-store';
-<<<<<<< HEAD
 import UserDAO from '../../DAO/UserDAO';
 import World from '../../r3f/scenes/World.jsx';
 import './Login.css'
-import { Text } from '@react-three/drei'
-=======
-import World from '../../r3f/scenes/World.jsx';
-import './Login.css'
->>>>>>> hmg
 
 function Login() {
 
@@ -20,7 +14,6 @@ function Login() {
         observeAuthState();
     }, [observeAuthState]);
 
-<<<<<<< HEAD
     useEffect(() => {
         if (user) {
             const newUser = {
@@ -37,8 +30,6 @@ function Login() {
         }
     }, [user]);
     
-=======
->>>>>>> hmg
     const handleLogin = useCallback(async () => {
           await loginGoogleWithPopup(); // Espera a que se complete la autenticación
           navigate('/world'); // Navega a "/about" después de la autenticación
@@ -48,19 +39,15 @@ function Login() {
         await logout();
         navigate('/'); // Navega a "/" después de desloguearse
     }, [logout], [navigate]);
-<<<<<<< HEAD
 
-    const handlePage1 = () => navigate('/deforestation'); // Replace '/page1' with your actual route
-    const handlePage2 = () => navigate('/world'); // Replace '/page2' with your actual route
+    const handlePage1 = () => navigate('/deforestation');
+    const handlePage2 = () => navigate('/biodiversity');
     const handlePage3 = () => navigate('/world'); // Replace '/page3' with your actual route
-=======
->>>>>>> hmg
 
     return (
         <div>
             {user ? (
                 <>
-<<<<<<< HEAD
                     <div className='world-container'>
                         <World/>
                         <div className="welcome-div">
@@ -74,17 +61,6 @@ function Login() {
                             <button className="circular-button button2" onClick={handlePage2}></button>
                             <button className="circular-button button3" onClick={handlePage3}></button>
                         </div>
-=======
-                    <div>
-                        <World/>
-                        <div className="welcome-div">
-                        <p className="welcome-text">Welcome, {user.displayName}</p>
-                        <button className="logout-button" onClick={handleLogout}>
-                            Logout
-                        </button>
-                        </div>
-                        
->>>>>>> hmg
                     </div>
                 </>
             ) : (

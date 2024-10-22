@@ -41,7 +41,7 @@ const Scene = () => {
   return (
     <Canvas shadows camera={{ position: [18.23, 22.84, -45.42], fov: 70 }}>
       <Suspense fallback={null}>
-        {/* <CameraLogger /> */}
+        <CameraLogger />
         <Staging/>
         <ambientLight intensity={0.5} />
         <OrbitControls />
