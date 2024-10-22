@@ -18,7 +18,7 @@ const DirectionalLight = ({
   } 
 }) => {
   const dlRef = useRef();
-  // useHelper(dlRef, DirectionalLightHelper);
+  useHelper(dlRef, DirectionalLightHelper);
 
   return (
     <directionalLight 
