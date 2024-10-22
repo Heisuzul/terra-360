@@ -14,47 +14,50 @@ export default function Model(props) {
   const { nodes, materials } = useGLTF('/src/r3f/biodiversity/forest/forest.gltf')
   return (
     <group {...props} dispose={null}>
-      <group scale={0.01}>
-        <mesh geometry={nodes['trunk_������001_0'].geometry} material={materials['.001']} />
-        <mesh geometry={nodes['���������_������001_0'].geometry} material={materials['.001']} />
-        <mesh geometry={nodes['���������001_������001_0'].geometry} material={materials['.001']} />
-        <mesh geometry={nodes.tree_b001_tree_b_m_0.geometry} material={materials.tree_b_m} />
-        <mesh geometry={nodes['tree_a001_������_0'].geometry} material={materials.material} />
-        <mesh geometry={nodes.plant_a001_plant_a_m_0.geometry} material={materials.plant_a_m} />
-        <mesh geometry={nodes['tree_a002_������_0'].geometry} material={materials.material} />
-        <mesh geometry={nodes['tree_a003_������_0'].geometry} material={materials.material} />
-        <mesh geometry={nodes['tree_a004_������_0'].geometry} material={materials.material} />
-        <mesh geometry={nodes['tree_a005_������_0'].geometry} material={materials.material} />
-        <mesh geometry={nodes['tree_a006_������_0'].geometry} material={materials.material} />
-        <mesh geometry={nodes.tree_b002_tree_b_m_0.geometry} material={materials.tree_b_m} />
-        <mesh geometry={nodes.tree_b003_tree_b_m_0.geometry} material={materials.tree_b_m} />
-        <mesh geometry={nodes.tree_b004_tree_b_m_0.geometry} material={materials.tree_b_m} />
-        <mesh geometry={nodes.tree_b005_tree_b_m_0.geometry} material={materials.tree_b_m} />
-        <mesh geometry={nodes['���������002_������001_0'].geometry} material={materials['.001']} />
-        <mesh geometry={nodes['���������003_������001_0'].geometry} material={materials['.001']} />
-        <mesh geometry={nodes['���������004_������001_0'].geometry} material={materials['.001']} />
-        <mesh geometry={nodes['���������005_������001_0'].geometry} material={materials['.001']} />
-        <mesh geometry={nodes['���������006_������001_0'].geometry} material={materials['.001']} />
-        <mesh geometry={nodes['���������007_������001_0'].geometry} material={materials['.001']} />
-        <mesh geometry={nodes['���������008_������001_0'].geometry} material={materials['.001']} />
-        <mesh geometry={nodes['���������009_������001_0'].geometry} material={materials['.001']} />
-        <mesh geometry={nodes['���������010_������001_0'].geometry} material={materials['.001']} />
-        <mesh geometry={nodes['���������011_������001_0'].geometry} material={materials['.001']} />
-        <mesh geometry={nodes['���������012_������001_0'].geometry} material={materials['.001']} />
-        <mesh geometry={nodes.plant_a002_plant_a_m_0.geometry} material={materials.plant_a_m} />
-        <mesh geometry={nodes.plant_a003_plant_a_m_0.geometry} material={materials.plant_a_m} />
-        <mesh geometry={nodes.plant_a004_plant_a_m_0.geometry} material={materials.plant_a_m} />
-        <mesh geometry={nodes.plant_a005_plant_a_m_0.geometry} material={materials.plant_a_m} />
-        <mesh geometry={nodes.plant_a006_plant_a_m_0.geometry} material={materials.plant_a_m} />
-        <mesh geometry={nodes.plant_a007_plant_a_m_0.geometry} material={materials.plant_a_m} />
-        <mesh geometry={nodes['tree_a007_������_0'].geometry} material={materials.material} />
-        <mesh geometry={nodes['tree_b006_������_0'].geometry} material={materials.material} />
-        <mesh geometry={nodes.plant_a008_plant_a_m_0.geometry} material={materials.plant_a_m} />
-        <mesh geometry={nodes['���������014_������001_0'].geometry} material={materials['.001']} />
-        <mesh geometry={nodes['���������013_������001_0'].geometry} material={materials['.001']} />
-        <mesh geometry={nodes['trunk001_������001_0'].geometry} material={materials['.001']} />
-      </group>
+    <group scale={0.01}>
+      <mesh geometry={nodes['trunk_������001_0'].geometry} material={materials['.001']} />
+      <mesh geometry={nodes['���������_������001_0'].geometry} material={materials['.001']} />
+      <mesh geometry={nodes['���������001_������001_0'].geometry} material={materials['.001']} />
+      <mesh geometry={nodes.tree_b001_tree_b_m_0.geometry} material={materials.tree_b_m} />
+      <mesh geometry={nodes['tree_a001_������_0'].geometry} material={materials.material} />
+      <mesh geometry={nodes.plant_a001_plant_a_m_0.geometry} material={materials.plant_a_m} />
+      <mesh geometry={nodes['tree_a002_������_0'].geometry} material={materials.material} /> /* arbol grande */
+      <mesh geometry={nodes['tree_a002_������_0'].geometry} material={materials.material} position={[100, 0, 0]}/>
+      <mesh geometry={nodes['tree_a002_������_0'].geometry} material={materials.material} position={[-300, 0, 0]}/>
+      <mesh geometry={nodes['tree_a003_������_0'].geometry} material={materials.material} />/* arbol pequeño */
+      <mesh geometry={nodes['tree_a004_������_0'].geometry} material={materials.material} /> /* arbol mediano */
+      <mesh geometry={nodes['tree_a005_������_0'].geometry} material={materials.material} />
+      <mesh geometry={nodes['tree_a006_������_0'].geometry} material={materials.material} /> /* arbol mediano-grande */
+      <mesh geometry={nodes['tree_a006_������_0'].geometry} material={materials.material} position={[100, 0, -90]}/> 
+      <mesh geometry={nodes.tree_b002_tree_b_m_0.geometry} material={materials.tree_b_m} />
+      <mesh geometry={nodes.tree_b003_tree_b_m_0.geometry} material={materials.tree_b_m} />
+      <mesh geometry={nodes.tree_b004_tree_b_m_0.geometry} material={materials.tree_b_m} />
+      <mesh geometry={nodes.tree_b005_tree_b_m_0.geometry} material={materials.tree_b_m} />
+      <mesh geometry={nodes['���������002_������001_0'].geometry} material={materials['.001']} />
+      <mesh geometry={nodes['���������003_������001_0'].geometry} material={materials['.001']} />
+      <mesh geometry={nodes['���������004_������001_0'].geometry} material={materials['.001']} />
+      <mesh geometry={nodes['���������005_������001_0'].geometry} material={materials['.001']} />
+      <mesh geometry={nodes['���������006_������001_0'].geometry} material={materials['.001']} />
+      <mesh geometry={nodes['���������007_������001_0'].geometry} material={materials['.001']} />
+      <mesh geometry={nodes['���������008_������001_0'].geometry} material={materials['.001']} />
+      <mesh geometry={nodes['���������009_������001_0'].geometry} material={materials['.001']} />
+      <mesh geometry={nodes['���������010_������001_0'].geometry} material={materials['.001']} />
+      <mesh geometry={nodes['���������011_������001_0'].geometry} material={materials['.001']} />
+      <mesh geometry={nodes['���������012_������001_0'].geometry} material={materials['.001']} />
+      <mesh geometry={nodes.plant_a002_plant_a_m_0.geometry} material={materials.plant_a_m} />
+      <mesh geometry={nodes.plant_a003_plant_a_m_0.geometry} material={materials.plant_a_m} />
+      <mesh geometry={nodes.plant_a004_plant_a_m_0.geometry} material={materials.plant_a_m} />
+      <mesh geometry={nodes.plant_a005_plant_a_m_0.geometry} material={materials.plant_a_m} />
+      <mesh geometry={nodes.plant_a006_plant_a_m_0.geometry} material={materials.plant_a_m} />
+      <mesh geometry={nodes.plant_a007_plant_a_m_0.geometry} material={materials.plant_a_m} />
+      <mesh geometry={nodes['tree_a007_������_0'].geometry} material={materials.material} />
+      <mesh geometry={nodes['tree_b006_������_0'].geometry} material={materials.material} />
+      <mesh geometry={nodes.plant_a008_plant_a_m_0.geometry} material={materials.plant_a_m} />
+      <mesh geometry={nodes['���������014_������001_0'].geometry} material={materials['.001']} />
+      <mesh geometry={nodes['���������013_������001_0'].geometry} material={materials['.001']} />
+      <mesh geometry={nodes['trunk001_������001_0'].geometry} material={materials['.001']} />
     </group>
+  </group>
   )
 }
 
