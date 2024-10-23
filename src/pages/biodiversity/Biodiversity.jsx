@@ -2,8 +2,8 @@ import { useState, Suspense } from 'react'
 import './Biodiversity.css'
 import {Canvas} from '@react-three/fiber'
 import { Environment, OrbitControls } from '@react-three/drei'
-import Forest from '../../r3f/biodiversity/forest/Forest.jsx'
-import Bee from '../../r3f/biodiversity/bee/Bee.jsx'
+import Forest from '../../../public/models-3d/biodiversity/forest/Forest.jsx'
+import Bee from '../../../public/models-3d/biodiversity/bee/Bee.jsx'
 import Navbar from './components/navbar/navbar'
 
 
@@ -13,7 +13,6 @@ function Biodiversity() {
 
   return (
     <>
-    <Navbar />
     <div className='intro'>
       <p>
       La biodiversidad se refiere a la variedad de formas de vida en la Tierra, incluyendo la diversidad de especies.

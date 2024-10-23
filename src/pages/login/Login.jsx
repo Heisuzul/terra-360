@@ -1,6 +1,7 @@
 import { useEffect, useCallback } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores/use-auth-store';
+import UserDAO from '../../DAO/UserDAO';
 import World from '../../r3f/scenes/World.jsx';
 import './Login.css'
 
@@ -13,6 +14,22 @@ function Login() {
         observeAuthState();
     }, [observeAuthState]);
 
+    useEffect(() => {
+        if (user) {
+            const newUser = {
+                email: user.email,
+                name: user.displayName,
+                photo: user.photoURL
+            };
+
+            if (newUser.email && newUser.name && newUser.photo) {
+                UserDAO.createUser(newUser);
+            } else {
+                console.error('Invalid user data:', newUser);
+            }
+        }
+    }, [user]);
+    
     const handleLogin = useCallback(async () => {
           await loginGoogleWithPopup(); // Espera a que se complete la autenticación
           navigate('/world'); // Navega a "/about" después de la autenticación
@@ -23,25 +40,37 @@ function Login() {
         navigate('/'); // Navega a "/" después de desloguearse
     }, [logout], [navigate]);
 
+    const handlePage1 = () => navigate('/deforestation');
+    const handlePage2 = () => navigate('/biodiversity');
+    const handlePage3 = () => navigate('/world'); // Replace '/page3' with your actual route
+
     return (
         <div>
             {user ? (
                 <>
-                    <div>
+                    <div className='world-container'>
                         <World/>
                         <div className="welcome-div">
-                        <p className="welcome-text">Welcome, {user.displayName}</p>
-                        <button className="logout-button" onClick={handleLogout}>
-                            Logout
-                        </button>
+                            <p className="welcome-text">Welcome, {user.displayName}</p>
+                            <button className="logout-button" onClick={handleLogout}>
+                                Logout
+                            </button>
                         </div>
-                        
+                        <div className="button-group">
+                            <button className="circular-button button1" onClick={handlePage1}></button>
+                            <button className="circular-button button2" onClick={handlePage2}></button>
+                            <button className="circular-button button3" onClick={handlePage3}></button>
+                        </div>
                     </div>
                 </>
             ) : (
-                <button className="login-button" onClick={handleLogin}>
-                    Login with Google
-                </button>
+                <div className='login-container'>
+                    <img src="Terra360 Logo-01.svg" alt="Terra Logo" className="login-icon" />
+                    <button className="login-button" onClick={handleLogin}>
+                        <img src="google_icon.svg" alt="Google Logo" className="button-icon" />
+                        Login
+                    </button>
+                </div>
             )}
         </div>
     );

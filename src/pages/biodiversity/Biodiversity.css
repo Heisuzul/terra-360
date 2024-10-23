@@ -16,7 +16,7 @@ body, html {
   }
   
   .background {
-    background-image: url('../../assets/background.jpg'); /* Cambia la ruta según sea necesario */
+    background-image: url('/images/backgrounds/biodiversity-background.jpg'); /* Cambia la ruta según sea necesario */
     background-size: cover; /* Cubre todo el fondo */
     background-position: center; /* Centra la imagen */
     height: 100vh; /* Para que cubra toda la pantalla */
@@ -35,7 +35,7 @@ body, html {
     padding: 0;
 }
 
-canvas {
+.canvas-container canvas {
     position: absolute; /* Asegúrate de que no cubra otros elementos */
     top: 0;
     left: 0;
