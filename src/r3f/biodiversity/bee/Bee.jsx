@@ -14,7 +14,7 @@ import { useFrame } from '@react-three/fiber';
 export default function Model(props) {
   const meshRef = useRef(); // Referencia al objeto 3D
   let time = 0;
-  const { nodes, materials } = useGLTF('/public/models-3d/biodiversity/bee/bee.gltf')
+  const { nodes, materials } = useGLTF('/models-3d/biodiversity/bee/bee.gltf')
 
   useFrame((state, delta) => {
     time += delta;

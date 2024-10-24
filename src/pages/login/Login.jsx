@@ -2,7 +2,7 @@ import { useEffect, useCallback } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores/use-auth-store';
 import UserDAO from '../../DAO/UserDAO';
-import World from '../../r3f/scenes/World.jsx';
+import World from '../../r3f/homepage/scenes/World.jsx';
 import './Login.css'
 
 function Login() {
