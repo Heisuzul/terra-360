@@ -1,14 +1,34 @@
 import { Canvas } from "@react-three/fiber";
-import { PerspectiveCamera, MapControls, FlyControls, FirstPersonControls, PointerLockControls, TrackballControls } from '@react-three/drei'
+import { Text3D } from '@react-three/drei'
 import Tree from "../meshes/Tree";
 import Leaf from "../meshes/Leaf";
 import Floor from "../meshes/Floor";
 import Mountain from "../meshes/Mountain";
+import LittleWorld from "../meshes/LittleWorld";
+import CameraController from "../controllers/CameraController";
 import './World.css'
-import { Text3D } from '@react-three/drei'
+import Staging from '../staging/Staging'
+import { useState, useEffect } from 'react'
 
-const World = () => {
+const World = ( { onSelect } ) => {
   const relativePosition = 25;
+
+  const [target, setTarget] = useState({ x: 0, y: 0, z: 20 });
+  const [cameraPosition, setCameraPosition] = useState({ x: 1, y: 0.7, z: 25 });
+  
+  const handleBoxClick = (newTarget, event) => {
+    setTarget(newTarget);
+    setCameraPosition({ x: newTarget.x + 1, y: newTarget.y + 0.2, z: newTarget.z + 5 });
+    event.stopPropagation();
+  };
+
+  useEffect(() => {
+    if ( target.x === 0 && target.y === 0.5 && target.z === 20 ) {
+      onSelect(true);
+    } else {
+      onSelect(false);
+    }
+  }, [onSelect, target]);
 
   const generateTreePositions = (rows, cols, spacing, roadRow) => {
     const positions = [];
@@ -31,11 +51,9 @@ const World = () => {
 
   return (
     <div className="canvas-container">
-    <Canvas
-      camera={{
-        position: [1, 0.7, relativePosition],
-      }}
-    >
+    <Canvas>
+      <Staging/>
+      <CameraController target={target} position={cameraPosition} />
       <ambientLight intensity={2}/>
       <directionalLight position={[0, 10, 10]}/>
       {/* <FlyControls movementSpeed={10} rollSpeed={0.5} /> */}
@@ -88,6 +106,23 @@ const World = () => {
         SELECT
         <meshStandardMaterial attach="material" color="white" />
       </Text3D>
+      <LittleWorld 
+        position={[0, 10, 0]} 
+        onClick={(event) => {
+          handleBoxClick({
+            x: 0,
+            y: 10,
+            z: 0
+          }, event);
+        }}
+        onPointerMissed={(event) => {
+          handleBoxClick({
+            x: 0,
+            y: 0.5,
+            z: 20
+          }, event);
+        }}
+      />
     </Canvas>
     </div>
   )

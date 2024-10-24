@@ -36,4 +36,4 @@ export default function Model(props) {
   )
 }
 
-useGLTF.preload('/src/r3f/biodiversity/bee/bee.gltf')
+useGLTF.preload('/models-3d/biodiversity/bee/bee.gltf')

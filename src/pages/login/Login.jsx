@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores/use-auth-store';
 import UserDAO from '../../DAO/UserDAO';
@@ -44,23 +44,28 @@ function Login() {
     const handlePage2 = () => navigate('/biodiversity');
     const handlePage3 = () => navigate('/world'); // Replace '/page3' with your actual route
 
+    // State to track button-group visibility
+    const [showButtons, setShowButtons] = useState(false);
+
     return (
         <div>
             {user ? (
                 <>
                     <div className='world-container'>
-                        <World/>
+                        <World onSelect={setShowButtons}/>
                         <div className="welcome-div">
                             <p className="welcome-text">Welcome, {user.displayName}</p>
                             <button className="logout-button" onClick={handleLogout}>
                                 Logout
                             </button>
                         </div>
-                        <div className="button-group">
-                            <button className="circular-button button1" onClick={handlePage1}></button>
-                            <button className="circular-button button2" onClick={handlePage2}></button>
-                            <button className="circular-button button3" onClick={handlePage3}></button>
-                        </div>
+                        {showButtons && (
+                            <div className="button-group"> 
+                                <button className="circular-button button1" onClick={handlePage1}></button>
+                                <button className="circular-button button2" onClick={handlePage2}></button>
+                                <button className="circular-button button3" onClick={handlePage3}></button>
+                            </div>
+                        )}
                     </div>
                 </>
             ) : (

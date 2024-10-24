@@ -14,7 +14,7 @@ export default function Model(props) {
   const { nodes, materials } = useGLTF('/models-3d/biodiversity/forest/forest.gltf')
   return (
     <group {...props} dispose={null}>
-    <group scale={0.01}>
+    <group scale={0.01} position={position}>
       <mesh geometry={nodes['trunk_������001_0'].geometry} material={materials['.001']} />
       <mesh geometry={nodes['���������_������001_0'].geometry} material={materials['.001']} />
       <mesh geometry={nodes['���������001_������001_0'].geometry} material={materials['.001']} />
@@ -61,4 +61,4 @@ export default function Model(props) {
   )
 }
 
-useGLTF.preload('/src/r3f/biodiversity/forest/forest.gltf')
+useGLTF.preload('/models-3d/biodiversity/forest/forest.gltf')
