@@ -2,10 +2,10 @@
 import { useLoader } from '@react-three/fiber';
 import { TextureLoader } from 'three';
 import { Plane } from '@react-three/drei';
-import heightMapImg from '/src/r3f/deforestation/meshes/textures/terrain-heightmap1.png';
-import ambientOcclusionMapImg from '/src/r3f/deforestation/meshes/textures/terrain-aomap.png';
-import normalMapImg from '/src/r3f/deforestation/meshes/textures/terrain-normal.png';
-import specularMapImg from '/src/r3f/deforestation/meshes/textures/terrain-specular.png';
+import heightMapImg from '/materials/deforestation/terrain-heightmap1.png';
+import ambientOcclusionMapImg from '/materials/deforestation/terrain-aomap.png';
+import normalMapImg from '/materials/deforestation/terrain-normal.png';
+import specularMapImg from '/materials/deforestation/terrain-specular.png';
 import { useRef, useEffect } from 'react';
 
 const Terrain = ({ onTerrainLoad }) => {
