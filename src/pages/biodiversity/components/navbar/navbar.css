@@ -1,0 +1,45 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 20px;
+  position: absolute; /* Posicionamos la navbar de forma absoluta */
+  top: 0;
+  margin-right: 900px;
+  width: 100%; /* Hacemos que ocupe todo el ancho */
+  z-index: 10; /* Aseguramos que esté sobre el fondo */
+  color: white;
+}
+
+
+.nav-menu {
+  margin: 20px;
+  margin-right: 600px;
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 60px;
+  font-size: 20px;
+  white-space: nowrap;
+}
+
+.navbar li:hover {
+  color: #a3e093;
+  cursor: pointer;
+}
+
+.nav-connect {
+  padding: 20px 40px;
+  border-radius: 50px;
+  background: linear-gradient(267deg, #579135 0.36%, #79d345 102.06%);
+  font-size: 22px;
+  cursor: pointer;
+  transition: 0.5s;
+  text-align: center;
+  box-shadow: 0 0 10px #579135;
+}
+
+.nav-connect:hover {
+  transform: scale(1.05);
+}
+

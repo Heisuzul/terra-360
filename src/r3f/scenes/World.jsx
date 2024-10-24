@@ -5,6 +5,7 @@ import Leaf from "../meshes/Leaf";
 import Floor from "../meshes/Floor";
 import Mountain from "../meshes/Mountain";
 import './World.css'
+import { Text3D } from '@react-three/drei'
 
 const World = () => {
   const relativePosition = 25;
@@ -37,7 +38,7 @@ const World = () => {
     >
       <ambientLight intensity={2}/>
       <directionalLight position={[0, 10, 10]}/>
-      <FlyControls movementSpeed={10} rollSpeed={0.5} />
+      {/* <FlyControls movementSpeed={10} rollSpeed={0.5} /> */}
 
       <Floor color={"#9ACD32"}/>
       <Floor color={"#CD853F"} width={4} height={-0.4}/>
@@ -79,6 +80,14 @@ const World = () => {
       <Mountain size={22} color={"#98FB98"} distance={-120} gap={20} />
       <Mountain size={25} color={"#98FB98"} distance={-140} gap={30} />
       <Mountain size={25} color={"#98FB98"} distance={-140} gap={-30} />
+
+      <Text3D
+          position={[-2, 0.5, 20]}
+          font="/fonts/TiltWarp-Regular.json"
+      >
+        SELECT
+        <meshStandardMaterial attach="material" color="white" />
+      </Text3D>
     </Canvas>
     </div>
   )

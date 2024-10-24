@@ -1,0 +1,72 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    height: 100%; /* Asegúrate de que el body y html ocupen el 100% de la altura */
+    overflow: hidden; /* Evita el desplazamiento */
+    font-family: 'Outfit', sans-serif;
+    background-color: #446d37;
+  }
+  
+  .forest {
+    height: 170vh !important;
+    display: block;
+    position: relative;
+    bottom: 50px;
+  }
+  
+  .background {
+    background-image: url('/images/backgrounds/biodiversity-background.jpg'); /* Cambia la ruta según sea necesario */
+    background-size: cover; /* Cubre todo el fondo */
+    background-position: center; /* Centra la imagen */
+    height: 100vh; /* Para que cubra toda la pantalla */
+    position: relative;
+  }
+
+
+.canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Asegúrate de que no haya barras de desplazamiento */
+    margin: 0;
+    padding: 0;
+}
+
+.canvas-container canvas {
+    position: absolute; /* Asegúrate de que no cubra otros elementos */
+    top: 0;
+    left: 0;
+    width: 100%; /* O un tamaño específico */
+    height: 100%; /* O un tamaño específico */
+    z-index: -1; /* Coloca el canvas detrás de otros elementos */
+}
+  
+.intro {
+    position: absolute; /* Posicionamiento absoluto */
+    top: 40%; /* Centrar verticalmente */
+    left: 50%; /* Centrar horizontalmente */
+    transform: translate(-50%, -50%); /* Ajustar el centro del contenedor */
+    z-index: 1; /* Asegurarse de que esté por encima del canvas */
+    pointer-events: none; /* Permitir interacciones con el canvas debajo */
+  }
+  
+@keyframes desvanecer {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+  }
+  
+.intro p {
+    font-family: 'Poppins', sans-serif; /* Fuente personalizada */
+    font-size: 20px; /* Tamaño del texto */
+    text-align: center; /* Centrar el texto */
+    color: white;
+    animation: desvanecer 4s forwards; /* Duración de la animación: 4 segundos */
+    animation-delay: 6s; /* Esperar 3 segundos antes de comenzar a desvanecer */
+  }
