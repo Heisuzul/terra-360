@@ -1,15 +1,13 @@
 import React from 'react'
-import './navbar.css'
+import styles from './navbar.module.css'
 
 const navbar = () => {
   return (
-    <div className='navbar'>
-        <ul className='nav-menu'>
+    <div className={styles.navbar}>
+        <ul className={styles.navMenu}>
             <li>Biodiversidad</li>
             <li>Consecuencias</li>
         </ul>   
-
-
     </div> 
   )
 }

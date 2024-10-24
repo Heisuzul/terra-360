@@ -1,4 +1,3 @@
-import './App.css'
 import Login from './pages/login/Login.jsx'
 import Deforestation from './pages/deforestation/Deforestation.jsx';
 import Biodiversity from './pages/biodiversity/Biodiversity.jsx';

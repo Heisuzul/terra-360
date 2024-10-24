@@ -12,7 +12,7 @@
 }
 
 
-.nav-menu {
+.navMenu {
   margin: 20px;
   margin-right: 600px;
   display: flex;
@@ -30,7 +30,7 @@
 
 
 
-.nav-connect:hover {
+.navConnect:hover {
   transform: scale(1.05);
 }
 

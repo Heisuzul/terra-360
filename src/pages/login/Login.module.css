@@ -1,12 +1,15 @@
-html, body {
+.pageContainer :global(html),
+.pageContainer :global(body),
+.pageContainer :global(#root) {
     height: 100%; /* Asegúrate de que el body ocupe toda la altura */
     margin: 0;    /* Elimina márgenes por defecto */
     display: flex; /* Usar Flexbox */
     justify-content: center; /* Centra horizontalmente */
     align-items: center; /* Centra verticalmente */
+    background-color: #bbeaff;
 }
 
-.login-button {
+.loginButton {
     background-color: #277e0b;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
     border: none;
@@ -18,7 +21,7 @@ html, body {
     justify-content: center;
 }
 
-.logout-button {
+.logoutButton {
     background-color: #277e0b;
     border: none;
     padding: 10px 20px;
@@ -28,13 +31,13 @@ html, body {
 
 }
 
-.welcome-text {
+.welcomeText {
     color: #277e0b;
     font-weight: 600;
 }
 
 
-.welcome-div {
+.welcomeDiv {
     margin: 0px;
     padding: 15px 20px;
     font-size: 16px; 
@@ -48,7 +51,7 @@ html, body {
     border-radius: 10px;
 }
 
-.login-container {
+.loginContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -57,13 +60,13 @@ html, body {
     text-align: center;
 }
 
-.login-icon {
+.loginIcon {
     margin-bottom: 5vh; /* Space between the logo and button, proportional to viewport height */
     width: 20vw; /* Width proportional to viewport width */
     max-width: 400px; /* Optional: limit maximum size */
 }
 
-.login-button {
+.loginButton {
     display: flex;
     align-items: center;
     padding: 1vw 2vw; /* Padding proportional to viewport width */
@@ -73,7 +76,7 @@ html, body {
     cursor: pointer;
 }
 
-.button-icon {
+.buttonIcon {
     width: 3vw; /* Width proportional to viewport width */
     height: 3vw; /* Height proportional to viewport width */
     max-width: 40px; /* Optional: limit maximum size */
@@ -81,7 +84,7 @@ html, body {
     margin-right: 1vw; /* Space between the image and text */
 }
 
-.button-group {
+.buttonGroup {
     position: absolute;
     right: 15vw; /* Adjust as needed */
     top: 50%; /* Position it vertically in the middle */
@@ -91,7 +94,7 @@ html, body {
     align-items: flex-end; /* Align buttons to the right */
 }
 
-.circular-button {
+.circularButton {
     width: 13vw;
     height: 13vw;
     border-radius: 50%;
@@ -120,16 +123,16 @@ html, body {
     background-image: url('/images/buttons/erosion.png'); /* Add your third image URL */
 }
 
-.circular-button:hover {
+.circularButton:hover {
     background-color: #4CAF50;
     color: white;
 }
 
 /* Stagger the horizontal positions */
-.circular-button:nth-child(odd) {
+.circularButton:nth-child(odd) {
     right: 0vw; /* Adjust as needed */
 }
 
-.circular-button:nth-child(even) {
+.circularButton:nth-child(even) {
     left: -6vw; /* Adjust as needed */
 }

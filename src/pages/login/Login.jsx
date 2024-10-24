@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-route
 import { useAuthStore } from '../../stores/use-auth-store';
 import UserDAO from '../../DAO/UserDAO';
 import World from '../../r3f/homepage/scenes/World.jsx';
-import './Login.css'
+import styles from './Login.module.css'
 
 function Login() {
 
@@ -48,31 +48,31 @@ function Login() {
     const [showButtons, setShowButtons] = useState(false);
 
     return (
-        <div>
+        <div className={styles.pageContainer}>
             {user ? (
                 <>
-                    <div className='world-container'>
+                    <div className={styles.worldContainer}>
                         <World onSelect={setShowButtons}/>
-                        <div className="welcome-div">
-                            <p className="welcome-text">Welcome, {user.displayName}</p>
-                            <button className="logout-button" onClick={handleLogout}>
+                        <div className={styles.welcomeDiv}>
+                            <p className={styles.welcomeText}>Welcome, {user.displayName}</p>
+                            <button className={styles.logoutButton} onClick={handleLogout}>
                                 Logout
                             </button>
                         </div>
                         {showButtons && (
-                            <div className="button-group"> 
-                                <button className="circular-button button1" onClick={handlePage1}></button>
-                                <button className="circular-button button2" onClick={handlePage2}></button>
-                                <button className="circular-button button3" onClick={handlePage3}></button>
+                            <div className={styles.buttonGroup}> 
+                                <button className={`${styles.circularButton} ${styles.button1}`} onClick={handlePage1}></button>
+                                <button className={`${styles.circularButton} ${styles.button2}`} onClick={handlePage2}></button>
+                                <button className={`${styles.circularButton} ${styles.button3}`} onClick={handlePage3}></button>
                             </div>
                         )}
                     </div>
                 </>
             ) : (
-                <div className='login-container'>
-                    <img src="Terra360 Logo-01.svg" alt="Terra Logo" className="login-icon" />
-                    <button className="login-button" onClick={handleLogin}>
-                        <img src="google_icon.svg" alt="Google Logo" className="button-icon" />
+                <div className={styles.loginContainer}>
+                    <img src="Terra360 Logo-01.svg" alt="Terra Logo" className={styles.loginIcon} />
+                    <button className={styles.loginButton} onClick={handleLogin}>
+                        <img src="google_icon.svg" alt="Google Logo" className={styles.buttonIcon} />
                         Login
                     </button>
                 </div>
