@@ -45,7 +45,7 @@ function Login() {
     const handlePage3 = () => navigate('/world'); // Replace '/page3' with your actual route
 
     // State to track button-group visibility
-    const [showButtons, setShowButtons] = useState(false);
+    const [showButtons, setShowButtons] = useState(true);
 
     return (
         <div className={styles.pageContainer}>
@@ -53,12 +53,12 @@ function Login() {
                 <>
                     <div className={styles.worldContainer}>
                         <World onSelect={setShowButtons}/>
-                        <div className={styles.welcomeDiv}>
+                        {showButtons && <div className={styles.welcomeDiv}>
                             <p className={styles.welcomeText}>Welcome, {user.displayName}</p>
                             <button className={styles.logoutButton} onClick={handleLogout}>
                                 Logout
                             </button>
-                        </div>
+                        </div>}
                         {showButtons && (
                             <div className={styles.buttonGroup}> 
                                 <button className={`${styles.circularButton} ${styles.button1}`} onClick={handlePage1}></button>

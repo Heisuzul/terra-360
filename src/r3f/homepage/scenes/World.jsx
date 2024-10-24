@@ -18,12 +18,12 @@ const World = ( { onSelect } ) => {
   
   const handleBoxClick = (newTarget, event) => {
     setTarget(newTarget);
-    setCameraPosition({ x: newTarget.x + 1, y: newTarget.y + 0.2, z: newTarget.z + 5 });
+    setCameraPosition({ x: newTarget.x + 1, y: newTarget.y + 0.7, z: newTarget.z + 5 });
     event.stopPropagation();
   };
 
   useEffect(() => {
-    if ( target.x === 0 && target.y === 0.5 && target.z === 20 ) {
+    if ( target.x === 0 && target.y === 0 && target.z === 20 ) {
       onSelect(true);
     } else {
       onSelect(false);
@@ -119,7 +119,7 @@ const World = ( { onSelect } ) => {
           onPointerMissed={(event) => {
             handleBoxClick({
               x: 0,
-              y: 0.5,
+              y: 0,
               z: 20
             }, event);
           }}
