@@ -11,7 +11,7 @@ import React from 'react'
 import { useGLTF } from '@react-three/drei'
 
 export default function Model(props) {
-  const { nodes, materials } = useGLTF('/src/r3f/biodiversity/forest/forest.gltf')
+  const { nodes, materials } = useGLTF('/public/models-3d/biodiversity/forest/forest.gltf')
   return (
     <group {...props} dispose={null}>
     <group scale={0.01}>
