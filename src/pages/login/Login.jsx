@@ -66,6 +66,13 @@ function Login() {
                                 <button className={`${styles.circularButton} ${styles.button3}`} onClick={handlePage3}></button>
                             </div>
                         )}
+                        {!showButtons && (
+                            <div className={styles.introductionDiv}> 
+                                <p className={styles.introductionText}>
+                                Earth faces critical environmental issues that threaten life and sustainability. Deforestation removes vital forests, impacting climate and habitats. Soil erosion depletes land of nutrients, reducing food security. Biodiversity loss disrupts ecosystems, endangering countless species and our own well-being. Together, we can take action to protect and preserve our planet.
+                                </p>
+                            </div>
+                        )}
                     </div>
                 </>
             ) : (

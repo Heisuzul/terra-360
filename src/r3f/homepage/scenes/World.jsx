@@ -13,8 +13,10 @@ import { useState, useEffect } from 'react'
 const World = ( { onSelect } ) => {
   const relativePosition = 25;
 
-  const [target, setTarget] = useState({ x: 0, y: 0, z: 20 });
-  const [cameraPosition, setCameraPosition] = useState({ x: 1, y: 0.7, z: 25 });
+  // const [target, setTarget] = useState({ x: 0, y: 0, z: 20 });
+  const [target, setTarget] = useState({ x: 0, y: 10, z: 0 });
+  // const [cameraPosition, setCameraPosition] = useState({ x: 1, y: 0.7, z: 25 });
+  const [cameraPosition, setCameraPosition] = useState({ x: 1, y: 10.7, z: 5 });
   
   const handleBoxClick = (newTarget, event) => {
     setTarget(newTarget);
