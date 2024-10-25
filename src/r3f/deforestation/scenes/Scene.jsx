@@ -5,8 +5,12 @@ import Staging from '../staging/Staging';
 import Terrain from '../meshes/Terrain';
 import AmbientLight from '../lights/AmbientLight';
 import DirectionalLight from '../lights/DirectionalLight';
+import PathsSign from '../meshes/PathsSign';
 import Trees from '../meshes/Trees';
 import styles from './Scene.module.css';
+import OneWoodSign from '../meshes/OneWoodSign';
+import BigIrregularSign from '../meshes/BigIrregularSign';
+import BackNextArrows from '../meshes/BackNextArrows';
 
 function CameraLogger() {
   const { camera } = useThree();
@@ -38,11 +42,19 @@ const Scene = () => {
     console.log("Terrain loaded", terrain);
   };
 
+  const handleNext = () => {
+    console.log("Next clicked");
+  };
+
+  const handleBack = () => {
+    console.log("Back clicked");
+  };
+
   return (
     <div className={styles.pageContainer}>
       <Canvas shadows camera={{ position: [18.23, 22.84, -45.42], fov: 70 }}>
         <Suspense fallback={null}>
-          <CameraLogger />
+          {/* <CameraLogger /> */}
           <Staging/>
           <ambientLight intensity={0.5} />
           <OrbitControls />
@@ -54,6 +66,11 @@ const Scene = () => {
           </mesh>
           <Terrain onTerrainLoad={handleTerrainLoad} />
           <Trees terrain={terrainRef} amount_rows={12} amount_cols={16} phase_x={0} phase_z={0} space={6}/>
+          <BackNextArrows position={[15,18.48,-42]} rotation={[0,Math.PI*(11/12),0]} onNextClick={handleNext} onBackClick={handleBack}/>
+          <OneWoodSign position={[42,2.9,-26]} rotation={[0,Math.PI*(8/12),0]}/>
+          <BackNextArrows position={[43,2.9,-25]} rotation={[0,Math.PI*(8/12),0]} onNextClick={handleNext} onBackClick={handleBack}/>
+          <BigIrregularSign position={[30, 18.9, 40]} rotation={[0,Math.PI*(2.5/12),0]}/>
+          <BackNextArrows position={[28.5, 18.6, 41.5]} rotation={[0,Math.PI*(2.5/12),0]} onNextClick={handleNext} onBackClick={handleBack}/>
         </Suspense>
       </Canvas>
     </div>

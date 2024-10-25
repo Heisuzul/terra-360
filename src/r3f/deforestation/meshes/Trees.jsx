@@ -29,9 +29,10 @@ const Trees = ({ terrain, delta, amount_rows, amount_cols, phase_x, phase_z, spa
 
           const yPosition = intersects.length > 0 ? intersects[0].point.y : 0;
           positions.push(new Vector3(xPos, yPosition, zPos));
+          
         }
       }
-
+      // console.log(positions);
       setTreePositions(positions);
     }
   }, [terrain, raycaster]);
