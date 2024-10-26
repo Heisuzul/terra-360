@@ -11,19 +11,28 @@ import BigIrregularSign from '../meshes/BigIrregularSign';
 import BackNextArrows from '../meshes/BackNextArrows';
 import CameraController from '../controllers/CameraController';
 import CameraLogger from '../../utils/CameraLogger';
+import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../../../stores/use-auth-store';
 
 const Scene = () => {
   const terrainRef = useRef();
+  const { logout } = useAuthStore();
+  const navigate = useNavigate();
 
   const handleTerrainLoad = useCallback((terrain) => {
     terrainRef.current = terrain;
     console.log("Terrain loaded", terrain);
   }, []);
 
+  const handleLogout = useCallback(async() => {
+      await logout();
+      navigate('/'); // Navega a "/" después de desloguearse
+  }, [logout], [navigate]);
+
   const cameraStates = [
     {
-      position: { x: 18.23, y: 22.84, z: -45.42 },
-      // target: { x: 17.5, y: 20, z: -42.42 },
+      // position: { x: 18.23, y: 22.84, z: -45.42 },
+      position: { x: 17.79, y: 21.1, z: -43.44},
       target: { x: 0, y: 0, z: 0 },
     },
     {
@@ -56,7 +65,11 @@ const Scene = () => {
 
   return (
     <div className={styles.pageContainer}>
-      <Canvas shadows camera={{ position: [18.23, 22.84, -45.42], fov: 70 }}>
+      <Canvas shadows camera={{ 
+        // position: [18.23, 22.84, -45.42],
+        position: [17.79, 21.1, -43.44], 
+        fov: 70 }}
+      >
         <Suspense fallback={null}>
           <CameraLogger />
           <CameraController 
@@ -65,7 +78,6 @@ const Scene = () => {
           />
           <Staging/>
           <ambientLight intensity={0.5} />
-          {/* <OrbitControls /> */}
           <AmbientLight intensity={1.5} color="#ffffff" />
           <DirectionalLight intensity={2} position={[30, 50, 20]}/>
           <mesh name="ball" position={[-2, 10, 0]} scale={2} metallness={0.1} castShadow>
@@ -74,11 +86,40 @@ const Scene = () => {
           </mesh>
           <Terrain onTerrainLoad={handleTerrainLoad} />
           <Trees terrain={terrainRef} amount_rows={12} amount_cols={16} phase_x={0} phase_z={0} space={6}/>
-          <BackNextArrows position={[15,18.48,-42]} rotation={[0,Math.PI*(11/12),0]} onNextClick={handleNext} onBackClick={handleBack}/>
-          <OneWoodSign position={[42,2.9,-26]} rotation={[0,Math.PI*(8/12),0]}/>
-          <BackNextArrows position={[43,2.9,-25]} rotation={[0,Math.PI*(8/12),0]} onNextClick={handleNext} onBackClick={handleBack}/>
-          <BigIrregularSign position={[30, 18.9, 40]} rotation={[0,Math.PI*(2.5/12),0]}/>
-          <BackNextArrows position={[28.5, 18.6, 41.5]} rotation={[0,Math.PI*(2.5/12),0]} onNextClick={handleNext} onBackClick={handleBack}/>
+          <BackNextArrows 
+            position={[15,18.48,-42]} 
+            rotation={[0,Math.PI*(11/12),0]} 
+            onNextClick={handleNext} 
+            onBackClick={handleLogout}
+            textNext={"Explore the forest"}
+            textBack={"Sign Out"}
+          />
+          <OneWoodSign 
+            position={[42,2.9,-26]} 
+            rotation={[0,Math.PI*(8/12),0]} 
+            text={"Deforestation is a global challenge, but together, we can make a difference. Discover how to protect our forests!"}
+          />
+          <BackNextArrows 
+            position={[43,2.9,-25]} 
+            rotation={[0,Math.PI*(8/12),0]} 
+            onNextClick={handleNext} 
+            onBackClick={handleBack}
+            textNext={"Continue"}
+            textBack={"Back"}
+          />
+          <BigIrregularSign 
+            position={[30, 18.9, 40]} 
+            rotation={[0,Math.PI*(2.5/12),0]}
+            text={"Forests are essential for a balanced planet, providing clean air, habitats, and climate stability. While deforestation poses a serious threat, every action counts. Join this quiz to learn how you can help protect our forests and play a part in restoring Earth's natural balance!"}
+          />
+          <BackNextArrows 
+            position={[28.5, 18.6, 41.5]} 
+            rotation={[0,Math.PI*(2.5/12),0]} 
+            onNextClick={handleNext} 
+            onBackClick={handleBack}
+            textNext={"Start Quiz"}
+            textBack={"Back"}
+          />
         </Suspense>
       </Canvas>
     </div>
