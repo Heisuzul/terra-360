@@ -1,84 +1,97 @@
-// Terrain.jsx
+import React, { useRef, useEffect, useMemo } from 'react';
 import { useLoader } from '@react-three/fiber';
 import { TextureLoader } from 'three';
 import { Plane } from '@react-three/drei';
+import * as THREE from 'three';
 import heightMapImg from '/materials/deforestation/terrain-heightmap1.png';
 import ambientOcclusionMapImg from '/materials/deforestation/terrain-aomap.png';
 import normalMapImg from '/materials/deforestation/terrain-normal.png';
 import specularMapImg from '/materials/deforestation/terrain-specular.png';
-import { useRef, useEffect } from 'react';
 
-const Terrain = ({ onTerrainLoad }) => {
+const Terrain = React.memo(({ onTerrainLoad }) => {
   const terrainRef = useRef();
-  const heightMap = useLoader(TextureLoader, heightMapImg);
-  const aoMap = useLoader(TextureLoader, ambientOcclusionMapImg);
-  const normalMap = useLoader(TextureLoader, normalMapImg);
-  const specularMap = useLoader(TextureLoader, specularMapImg);
+  const hasInitialized = useRef(false);
+  
+  // Memoize texture loading
+  const textures = useMemo(() => ({
+    heightMap: useLoader(TextureLoader, heightMapImg),
+    aoMap: useLoader(TextureLoader, ambientOcclusionMapImg),
+    normalMap: useLoader(TextureLoader, normalMapImg),
+    specularMap: useLoader(TextureLoader, specularMapImg)
+  }), []); // Empty dependency array means textures are loaded once
 
-  useEffect(() => {
-    if (terrainRef.current && heightMap.image) {
-      const geometry = terrainRef.current.geometry;
-
+  // Memoize geometry creation and displacement
+  const geometry = useMemo(() => {
+    const geo = new THREE.PlaneGeometry(100, 100, 256, 256);
+    
+    if (textures.heightMap.image) {
       // Create a canvas to extract pixel data from the height map
       const canvas = document.createElement('canvas');
-      canvas.width = heightMap.image.width;
-      canvas.height = heightMap.image.height;
+      canvas.width = textures.heightMap.image.width;
+      canvas.height = textures.heightMap.image.height;
       const context = canvas.getContext('2d');
-      context.drawImage(heightMap.image, 0, 0);
+      context.drawImage(textures.heightMap.image, 0, 0);
       const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
       const pixelData = imageData.data;
 
-      const positions = geometry.attributes.position.array;
-      const uvs = geometry.attributes.uv.array;
-      const displacementScale = 20; // Same as in your material
+      const positions = geo.attributes.position.array;
+      const uvs = geo.attributes.uv.array;
+      const displacementScale = 20;
 
       // Adjust vertex positions based on height map
       for (let i = 0; i < positions.length / 3; i++) {
         const u = uvs[i * 2];
         const v = uvs[i * 2 + 1];
 
-        // Map UV coordinates to pixel positions
         const x = Math.floor(u * (canvas.width - 1));
         const y = Math.floor(v * (canvas.height - 1));
-        const pixelIndex = (y * canvas.width + x) * 4; // 4 for RGBA
+        const pixelIndex = (y * canvas.width + x) * 4;
 
-        // Get the grayscale value (assuming height map is grayscale)
-        const height = (1 - pixelData[pixelIndex] / 255); // Normalize between 0 and 1
-
-        // Displace the vertex along the Y-axis
-        positions[i * 3 + 2] += height * displacementScale; // Adjust Z if terrain is rotated
+        const height = (1 - pixelData[pixelIndex] / 255);
+        positions[i * 3 + 2] += height * displacementScale;
       }
 
-      // Update the geometry
-      geometry.attributes.position.needsUpdate = true;
-      geometry.computeVertexNormals();
-      geometry.computeBoundingBox();
-      geometry.computeBoundingSphere();
+      geo.attributes.position.needsUpdate = true;
+      geo.computeVertexNormals();
+      geo.computeBoundingBox();
+      geo.computeBoundingSphere();
+    }
 
-      console.log("Terrain geometry updated with displacement");
+    return geo;
+  }, [textures.heightMap]); // Only recreate if heightMap changes
+
+  // Memoize material creation
+  const material = useMemo(() => {
+    return new THREE.MeshStandardMaterial({
+      aoMap: textures.aoMap,
+      // normalMap: textures.normalMap,
+      // roughnessMap: textures.specularMap,
+      color: "#7dba0b",
+      roughness: 0.8,
+      metalness: 0,
+      // wireframe: false
+    });
+  }, [textures]); // Only recreate if textures change
+
+  // Handle initial load notification
+  useEffect(() => {
+    if (terrainRef.current && !hasInitialized.current) {
+      hasInitialized.current = true;
       onTerrainLoad(terrainRef.current);
     }
-  }, [heightMap, onTerrainLoad]);
+  }, [onTerrainLoad]);
 
   return (
-    <Plane
+    <mesh
       ref={terrainRef}
-      args={[100, 100, 256, 256]}
+      geometry={geometry}
+      material={material}
       rotation={[-Math.PI / 2, 0, 0]}
       receiveShadow
-    >
-      <meshStandardMaterial
-        // Remove displacementMap since we're manually displacing geometry
-        aoMap={aoMap}
-        // normalMap={normalMap}
-        // roughnessMap={specularMap}
-        color="#7dba0b"
-        roughness={0.8}
-        metalness={0}
-        // wireframe={true}
-      />
-    </Plane>
+    />
   );
-};
+});
+
+Terrain.displayName = 'Terrain';
 
 export default Terrain;
