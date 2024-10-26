@@ -1,4 +1,4 @@
-import React, { Suspense, useRef, useState, useCallback } from 'react';
+import React, { Suspense, useRef, useState, useCallback, useEffect } from 'react';
 import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import Staging from '../staging/Staging';
 import Terrain from '../meshes/Terrain';
@@ -63,6 +63,18 @@ const Scene = () => {
     });
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setStateIndex(0); // Reset to initial camera state
+        console.log('Reset camera state');
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [stateIndex]);
+
   return (
     <div className={styles.pageContainer}>
       <Canvas shadows camera={{ 
@@ -70,57 +82,55 @@ const Scene = () => {
         position: [17.79, 21.1, -43.44], 
         fov: 70 }}
       >
-        <Suspense fallback={null}>
-          <CameraLogger />
-          <CameraController 
-            target={currentState.target}
-            position={currentState.position}
-          />
-          <Staging/>
-          <ambientLight intensity={0.5} />
-          <AmbientLight intensity={1.5} color="#ffffff" />
-          <DirectionalLight intensity={2} position={[30, 50, 20]}/>
-          <mesh name="ball" position={[-2, 10, 0]} scale={2} metallness={0.1} castShadow>
-            <sphereGeometry args={[1, 16, 32]} />
-            <meshStandardMaterial color="hotpink" />
-          </mesh>
-          <Terrain onTerrainLoad={handleTerrainLoad} />
-          <Trees terrain={terrainRef} amount_rows={12} amount_cols={16} phase_x={0} phase_z={0} space={6}/>
-          <BackNextArrows 
-            position={[15,18.48,-42]} 
-            rotation={[0,Math.PI*(11/12),0]} 
-            onNextClick={handleNext} 
-            onBackClick={handleLogout}
-            textNext={"Explore the forest"}
-            textBack={"Sign Out"}
-          />
-          <OneWoodSign 
-            position={[42,2.9,-26]} 
-            rotation={[0,Math.PI*(8/12),0]} 
-            text={"Deforestation is a global challenge, but together, we can make a difference. Discover how to protect our forests!"}
-          />
-          <BackNextArrows 
-            position={[43,2.9,-25]} 
-            rotation={[0,Math.PI*(8/12),0]} 
-            onNextClick={handleNext} 
-            onBackClick={handleBack}
-            textNext={"Continue"}
-            textBack={"Back"}
-          />
-          <BigIrregularSign 
-            position={[30, 18.9, 40]} 
-            rotation={[0,Math.PI*(2.5/12),0]}
-            text={"Forests are essential for a balanced planet, providing clean air, habitats, and climate stability. While deforestation poses a serious threat, every action counts. Join this quiz to learn how you can help protect our forests and play a part in restoring Earth's natural balance!"}
-          />
-          <BackNextArrows 
-            position={[28.5, 18.6, 41.5]} 
-            rotation={[0,Math.PI*(2.5/12),0]} 
-            onNextClick={handleNext} 
-            onBackClick={handleBack}
-            textNext={"Start Quiz"}
-            textBack={"Back"}
-          />
-        </Suspense>
+        {/* <CameraLogger /> */}
+        <CameraController 
+          target={currentState.target}
+          position={currentState.position}
+        />
+        <Staging/>
+        <ambientLight intensity={0.5} />
+        <AmbientLight intensity={1.5} color="#ffffff" />
+        <DirectionalLight intensity={2} position={[30, 50, 20]}/>
+        <mesh name="ball" position={[-2, 10, 0]} scale={2} metallness={0.1} castShadow>
+          <sphereGeometry args={[1, 16, 32]} />
+          <meshStandardMaterial color="hotpink" />
+        </mesh>
+        <Terrain onTerrainLoad={handleTerrainLoad} />
+        <Trees terrain={terrainRef} amount_rows={12} amount_cols={16} phase_x={0} phase_z={0} space={6}/>
+        <BackNextArrows 
+          position={[15,18.48,-42]} 
+          rotation={[0,Math.PI*(11/12),0]} 
+          onNextClick={handleNext} 
+          onBackClick={handleLogout}
+          textNext={"Explore the forest"}
+          textBack={"Sign Out"}
+        />
+        <OneWoodSign 
+          position={[42,2.9,-26]} 
+          rotation={[0,Math.PI*(8/12),0]} 
+          text={"Deforestation is a global challenge, but together, we can make a difference. Discover how to protect our forests!"}
+        />
+        <BackNextArrows 
+          position={[43,2.9,-25]} 
+          rotation={[0,Math.PI*(8/12),0]} 
+          onNextClick={handleNext} 
+          onBackClick={handleBack}
+          textNext={"Continue"}
+          textBack={"Back"}
+        />
+        <BigIrregularSign 
+          position={[30, 18.9, 40]} 
+          rotation={[0,Math.PI*(2.5/12),0]}
+          text={"Forests are essential for a balanced planet, providing clean air, habitats, and climate stability. While deforestation poses a serious threat, every action counts. Join this quiz to learn how you can help protect our forests and play a part in restoring Earth's natural balance!"}
+        />
+        <BackNextArrows 
+          position={[28.5, 18.6, 41.5]} 
+          rotation={[0,Math.PI*(2.5/12),0]} 
+          onNextClick={handleNext} 
+          onBackClick={handleBack}
+          textNext={"Start Quiz"}
+          textBack={"Back"}
+        />
       </Canvas>
     </div>
   );
