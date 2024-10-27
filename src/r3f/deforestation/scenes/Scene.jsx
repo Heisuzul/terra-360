@@ -31,17 +31,16 @@ const Scene = () => {
 
   const cameraStates = [
     {
-      // position: { x: 18.23, y: 22.84, z: -45.42 },
-      position: { x: 17.79, y: 21.1, z: -43.44},
+      position: { x: 17.895, y: 22.621, z: -45.858},
       target: { x: 0, y: 0, z: 0 },
     },
     {
       position: { x: 46.12, y: 4.94, z: -28.44 },
-      target: { x: 42, y: 4.5, z: -26 },
+      target: { x: 42.6, y: 4.5, z: -25.8 },
     },
     {
-      position: { x: 32.69, y: 20.98, z: 44.07 },
-      target: { x: 30, y: 19.9, z: 40 },
+      position: { x: 33.476, y: 21.296, z: 45.260 },
+      target: { x: 29.1, y: 19.9, z: 40 },
     }
   ];
 
@@ -78,11 +77,10 @@ const Scene = () => {
   return (
     <div className={styles.pageContainer}>
       <Canvas shadows camera={{ 
-        // position: [18.23, 22.84, -45.42],
         position: [17.79, 21.1, -43.44], 
         fov: 70 }}
       >
-        {/* <CameraLogger /> */}
+        <CameraLogger />
         <CameraController 
           target={currentState.target}
           position={currentState.position}
