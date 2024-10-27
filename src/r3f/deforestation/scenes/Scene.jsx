@@ -76,10 +76,7 @@ const Scene = () => {
 
   return (
     <div className={styles.pageContainer}>
-      <Canvas shadows camera={{ 
-        position: [currentState.position.x,currentState.position.y,currentState.position.z],
-        fov: 70 }}
-      >
+      <Canvas shadows>
         {/* <CameraLogger /> */}
         <CameraController 
           target={currentState.target}
@@ -89,10 +86,6 @@ const Scene = () => {
         <ambientLight intensity={0.5} />
         <AmbientLight intensity={1.5} color="#ffffff" />
         <DirectionalLight intensity={2} position={[30, 50, 20]}/>
-        <mesh name="ball" position={[-2, 10, 0]} scale={2} metallness={0.1} castShadow>
-          <sphereGeometry args={[1, 16, 32]} />
-          <meshStandardMaterial color="hotpink" />
-        </mesh>
         <Terrain onTerrainLoad={handleTerrainLoad} />
         <Trees terrain={terrainRef} amount_rows={12} amount_cols={16} phase_x={0} phase_z={0} space={6}/>
         <BackNextArrows 
