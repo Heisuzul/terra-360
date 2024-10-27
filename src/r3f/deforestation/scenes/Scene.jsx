@@ -32,7 +32,7 @@ const Scene = () => {
   const cameraStates = [
     {
       position: { x: 17.895, y: 21, z: -45.858},
-      target: { x:-3, y: 20, z: 0}
+      target: { x:-3, y: 20, z: 0},
     },
     {
       position: { x: 46.12, y: 4.94, z: -28.44 },
@@ -69,23 +69,18 @@ const Scene = () => {
         console.log('Reset camera state');
       }
     };
-  
+
     window.addEventListener('keydown', handleKeyDown);
-    
-    // Cleanup the event listener on component unmount
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [stateIndex]);
 
   return (
     <div className={styles.pageContainer}>
       <Canvas shadows camera={{ 
         position: [currentState.position.x,currentState.position.y,currentState.position.z],
-        target: [currentState.target.x,currentState.target.y,currentState.target.z],
         fov: 70 }}
       >
-        <CameraLogger />
+        {/* <CameraLogger /> */}
         <CameraController 
           target={currentState.target}
           position={currentState.position}
