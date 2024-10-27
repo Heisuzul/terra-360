@@ -60,7 +60,7 @@ const CameraController = ({ target, position, transitionDuration = 1000 }) => {
       enablePan={true}
       enableRotate={true}
       minDistance={3}
-      maxDistance={100}
+      maxDistance={55}
       minPolarAngle={0}
       maxPolarAngle={Math.PI / 2} // Limit vertical rotation to prevent going below ground
     />
