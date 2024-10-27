@@ -77,7 +77,7 @@ const Scene = () => {
   return (
     <div className={styles.pageContainer}>
       <Canvas shadows camera={{ 
-        position: [17.79, 21.1, -43.44], 
+        position: [17.895,22.621,-45.858], 
         fov: 70 }}
       >
         <CameraLogger />
