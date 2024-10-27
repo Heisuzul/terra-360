@@ -61,9 +61,9 @@ function Login() {
                         </div>}
                         {showButtons && (
                             <div className={styles.buttonGroup}> 
-                                <button className={`${styles.circularButton} ${styles.button1}`} onClick={handlePage1}></button>
-                                <button className={`${styles.circularButton} ${styles.button2}`} onClick={handlePage2}></button>
-                                <button className={`${styles.circularButton} ${styles.button3}`} onClick={handlePage3}></button>
+                                <button className={`${styles.circularButton} ${styles.button1}`} data-hover="Deforestation" onClick={handlePage1}></button>
+                                <button className={`${styles.circularButton} ${styles.button2}`} data-hover="Biodiversity" onClick={handlePage2}></button>
+                                <button className={`${styles.circularButton} ${styles.button3}`} data-hover="Erosion" onClick={handlePage3}></button>
                             </div>
                         )}
                         {!showButtons && (

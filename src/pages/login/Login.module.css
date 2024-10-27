@@ -153,6 +153,14 @@
     background-image: url('/images/buttons/erosion.png'); /* Add your third image URL */
 }
 
+.circularButton:hover::after {
+    content: attr(data-hover);
+    /* color: #1f1a17; */
+    color: white;
+    text-shadow: black 0px 0px 10px;
+    /* mix-blend-mode: ; */
+}
+
 .circularButton:hover {
     background-color: #4CAF50;
     color: white;
