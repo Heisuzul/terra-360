@@ -76,7 +76,10 @@ const Scene = () => {
 
   return (
     <div className={styles.pageContainer}>
-      <Canvas shadows>
+      <Canvas shadows camera={{ 
+        position: [currentState.position.x,currentState.position.y-3.5,currentState.position.z-1],
+        fov: 70 }}
+      >
         {/* <CameraLogger /> */}
         <CameraController 
           target={currentState.target}

@@ -57,7 +57,7 @@ const CameraController = ({ target, position, transitionDuration = 1000 }) => {
       dampingFactor={0.05}
       enabled={!isTransitioning} // Disable controls during transition
       enableZoom={true}
-      enablePan={true}
+      enablePan={false}
       enableRotate={true}
       minDistance={3}
       maxDistance={55}
