@@ -173,7 +173,7 @@
 }
 
 /* Switch to vertical layout when width is less than height */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 100vh) {
     .circularButton {
         width: 25vw;
         height: 25vw;
