@@ -11,7 +11,7 @@
 
 .loginButton {
     display: flex;
-    padding: 1vh 1vw;
+    padding: 1vh 1.2vw;
     background-color: #8a3c0f;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
     border: 1px solid #ccc;
