@@ -11,7 +11,7 @@
 
 .loginButton {
     display: flex;
-    padding: 1.2vh 1.0vw;
+    padding: 1.2vh 1.4vw;
     background-color: #8a3c0f;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
     border: 1px solid #ccc;
@@ -96,8 +96,7 @@
 
 .loginIcon {
     margin-bottom: 1vh; /* Space between the logo and button, proportional to viewport height */
-    width: 30vh; /* Width proportional to viewport width */
-    max-width: 512px; /* Optional: limit maximum size */
+    width: min(45vh, 512px) /* Width proportional to viewport width */
 }
 
 .buttonIcon {
