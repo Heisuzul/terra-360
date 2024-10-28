@@ -157,7 +157,7 @@
     border: 0.3vw solid #4CAF50; /* Adjust border color as needed */
     background-color: #fff;
     cursor: pointer;
-    font-size: 1.4vw;
+    font-size: clamp(1.2vw, 1vw, 100%);
     text-align: center;
     line-height: 8vw;
     transition: background-color 0.3s;
@@ -176,7 +176,7 @@
         border: 0.3vw solid #4CAF50; /* Adjust border color as needed */
         background-color: #fff;
         cursor: pointer;
-        font-size: 1.4vw;
+        font-size: clamp(1.4vw, 4vw, 2.4vw);
         text-align: center;
         line-height: 8vw;
         transition: background-color 0.3s;
@@ -206,7 +206,6 @@
     color: white;
     text-shadow: black 0px 0px 10px;
     /* mix-blend-mode: ; */
-    font-size: min(2.5vw, 24px);
 }
 
 .circularButton:hover {
