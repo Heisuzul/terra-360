@@ -25,7 +25,7 @@
     background-color: #277e0b;
     border: none;
     padding: 10px 20px;
-    font-size: 16px; 
+    font-size: min(2.5vw, 16px);
     cursor: pointer;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 
@@ -34,6 +34,7 @@
 .welcomeText {
     color: #277e0b;
     font-weight: 600;
+    font-size: min(2.5vw, 16px);
 }
 
 .introductionText {
@@ -57,6 +58,8 @@
     flex-direction: column;
     align-items: center;
     gap: 10px; 
+    max-width: 24vw;
+    text-align: center;
 }
 
 .introductionDiv {
@@ -92,8 +95,8 @@
 
 .loginIcon {
     margin-bottom: 1vh; /* Space between the logo and button, proportional to viewport height */
-    width: 20vw; /* Width proportional to viewport width */
-    max-width: 400px; /* Optional: limit maximum size */
+    width: 30vh; /* Width proportional to viewport width */
+    max-width: 512px; /* Optional: limit maximum size */
 }
 
 .loginButton {
@@ -116,7 +119,7 @@
 
 .buttonGroup {
     position: absolute;
-    right: 15vw; /* Adjust as needed */
+    right: 10vw; /* Adjust as needed */
     top: 50%; /* Position it vertically in the middle */
     transform: translateY(-50%); /* Center it exactly */
     display: flex;
@@ -125,7 +128,7 @@
 }
 
 /* Switch to vertical layout when width is less than height */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 100vh) {
     .buttonGroup {
         position: absolute;
         left: 50%; /* Adjust as needed */
@@ -151,7 +154,9 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 10px; 
+        text-align: center;
+        gap: 10px;
+        max-width: 40vh;
     }
 }
 
@@ -210,8 +215,8 @@
     /* color: #1f1a17; */
     color: white;
     text-shadow: black 0px 0px 10px;
-    size: 100%;
     /* mix-blend-mode: ; */
+    font-size: min(2.5vw, 24px);
 }
 
 .circularButton:hover {
@@ -228,7 +233,7 @@
     left: -6vw; /* Adjust as needed */
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 100vh) {
     /* Stagger the horizontal positions */
     .circularButton:nth-child(odd) {
         right: 0vw; /* Adjust as needed */
