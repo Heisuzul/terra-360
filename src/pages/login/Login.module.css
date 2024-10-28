@@ -10,12 +10,14 @@
 }
 
 .loginButton {
-    background-color: #277e0b;
+    display: flex;
+    padding: 1vh 1.5vh;
+    background-color: #8a3c0f;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-    border: none;
+    border: 1px solid #ccc;
+    border-radius: 7px;
     margin: 50px;
-    padding: 10px 20px;
-    font-size: 16px; 
+    font-size: min(2.5vw, 22px);
     cursor: pointer;
     align-items: center;
     justify-content: center;
@@ -28,7 +30,6 @@
     font-size: min(2.5vw, 16px);
     cursor: pointer;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-
 }
 
 .welcomeText {
@@ -97,16 +98,6 @@
     margin-bottom: 1vh; /* Space between the logo and button, proportional to viewport height */
     width: 30vh; /* Width proportional to viewport width */
     max-width: 512px; /* Optional: limit maximum size */
-}
-
-.loginButton {
-    display: flex;
-    align-items: center;
-    padding: 1vw 2vw; /* Padding proportional to viewport width */
-    background-color: #277e0b;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    cursor: pointer;
 }
 
 .buttonIcon {
