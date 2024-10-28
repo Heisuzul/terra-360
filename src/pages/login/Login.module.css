@@ -47,8 +47,8 @@
     font-size: 16px; 
     cursor: pointer;
     position: absolute;
-    top: 65%;          /* Centra verticalmente */
-    left: 46%;         /* Centra horizontalmente */
+    top: 75%;          /* Centra verticalmente */
+    left: 50%;         /* Centra horizontalmente */
     transform: translate(-50%, -50%); /* Ajusta para centrar completamente */
     z-index: 10; 
     background-color: rgba(255, 255, 255, 0.5);
@@ -124,9 +124,40 @@
     align-items: flex-end; /* Align buttons to the right */
 }
 
+/* Switch to vertical layout when width is less than height */
+@media screen and (max-width: 768px) {
+    .buttonGroup {
+        position: absolute;
+        left: 50%; /* Adjust as needed */
+        right: auto; /* Reset right position */
+        top: 55%; /* Position it vertically in the middle */
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end; /* Align buttons to the right */
+        transform: translate(-50%, -50%); /* Center it exactly */
+    }
+    .welcomeDiv {
+        margin: 0px;
+        padding: 15px 20px;
+        font-size: 16px; 
+        cursor: pointer;
+        position: absolute;
+        top: 85%;          /* Centra verticalmente */
+        left: 50%;         /* Centra horizontalmente */
+        transform: translate(-50%, -50%); /* Ajusta para centrar completamente */
+        z-index: 10; 
+        background-color: rgba(255, 255, 255, 0.5);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px; 
+    }
+}
+
 .circularButton {
-    width: 13vw;
-    height: 13vw;
+    width: 25vh;
+    height: 25vh;
     border-radius: 50%;
     border: 0.3vw solid #4CAF50; /* Adjust border color as needed */
     background-color: #fff;
@@ -139,6 +170,27 @@
     margin-top: 2vh; /* Space between buttons */
     background-size: cover; /* Ensures the image covers the button */
     background-position: center; /* Centers the image */
+}
+
+/* Switch to vertical layout when width is less than height */
+@media screen and (max-width: 768px) {
+    .circularButton {
+        width: 25vw;
+        height: 25vw;
+        border-radius: 50%;
+        border: 0.3vw solid #4CAF50; /* Adjust border color as needed */
+        background-color: #fff;
+        cursor: pointer;
+        font-size: 1.4vw;
+        text-align: center;
+        line-height: 8vw;
+        transition: background-color 0.3s;
+        position: relative;
+        margin-left: 1vw; /* Space between buttons */
+        margin-right: 1vw;  
+        background-size: cover; /* Ensures the image covers the button */
+        background-position: center; /* Centers the image */
+    }
 }
 
 .button1 {
@@ -158,6 +210,7 @@
     /* color: #1f1a17; */
     color: white;
     text-shadow: black 0px 0px 10px;
+    size: 100%;
     /* mix-blend-mode: ; */
 }
 
@@ -173,4 +226,17 @@
 
 .circularButton:nth-child(even) {
     left: -6vw; /* Adjust as needed */
+}
+
+@media screen and (max-width: 768px) {
+    /* Stagger the horizontal positions */
+    .circularButton:nth-child(odd) {
+        right: 0vw; /* Adjust as needed */
+        bottom: 0vh; /* Adjust as needed */
+    }
+
+    .circularButton:nth-child(even) {
+        left: 0vw; /* Adjust as needed */
+        bottom: -10vh; /* Adjust as needed */
+    }
 }

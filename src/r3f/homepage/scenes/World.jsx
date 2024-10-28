@@ -16,16 +16,16 @@ const World = ( { onSelect } ) => {
   // const [target, setTarget] = useState({ x: 0, y: 0, z: 20 });
   const [target, setTarget] = useState({ x: 0, y: 10, z: 0 });
   // const [cameraPosition, setCameraPosition] = useState({ x: 1, y: 0.7, z: 25 });
-  const [cameraPosition, setCameraPosition] = useState({ x: 1, y: 10.7, z: 5 });
+  const [cameraPosition, setCameraPosition] = useState({ x: 1, y: 10.7, z: 6 });
   
   const handleBoxClick = (newTarget, event) => {
     setTarget(newTarget);
-    setCameraPosition({ x: newTarget.x + 1, y: newTarget.y + 0.7, z: newTarget.z + 5 });
+    setCameraPosition({ x: newTarget.x + 1, y: newTarget.y + 0.7, z: newTarget.z + 6 });
     event.stopPropagation();
   };
 
   useEffect(() => {
-    if ( target.x === 0 && target.y === 0 && target.z === 20 ) {
+    if ( target.x === 0.2 && target.y === 0 && target.z === 20 ) {
       onSelect(true);
     } else {
       onSelect(false);
@@ -120,7 +120,7 @@ const World = ( { onSelect } ) => {
           }}
           onPointerMissed={(event) => {
             handleBoxClick({
-              x: 0,
+              x: 0.2,
               y: 0,
               z: 20
             }, event);
