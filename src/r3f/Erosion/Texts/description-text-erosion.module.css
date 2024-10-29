@@ -1,16 +1,17 @@
-
+/* Container styling for the introduction text overlay */
 .introductionDiv {
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.8); 
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 400px; 
-    max-width: 80%; 
-    text-align: center;
+    padding: 20px; /* Adds space within the container */
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background for readability */
+    border-radius: 8px; /* Smooths the edges for a rounded look */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Creates a subtle shadow for depth */
+    width: 400px; /* Sets a default width for the container */
+    max-width: 80%; /* Ensures the container fits smaller screens */
+    text-align: center; /* Centers text inside the container */
 }
 
+/* Styling for the text inside the introduction container */
 .introductionText {
-    font-size: 16px;
-    color: #333;
-    font-weight: 500;
+    font-size: 16px; /* Standard font size for readability */
+    color: #333; /* Dark text color for contrast */
+    font-weight: 500; /* Medium weight for emphasis */
 }

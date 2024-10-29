@@ -2,14 +2,19 @@ import React from 'react';
 import { Html } from '@react-three/drei';
 import styles from './description-text-erosion.module.css';
 
+/**
+ * DescriptionTextErosion component displays an informational text overlay in the 3D scene.
+ * - Uses drei's Html component to render HTML content in 3D space.
+ * - Positioned at a fixed location within the 3D scene to provide context or details.
+ * - Styles are applied using CSS modules for custom appearance.
+ */
 const DescriptionTextErosion = () => {
     return (
         <Html position={[0.5, 0.4, 0.2]} center>
-            <div className={styles.introductionDiv}> 
+            <div className={styles.introductionDiv}>
                 <p className={styles.introductionText}>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis repellat consequatur soluta, sapiente aut, fugit velit ipsum autem incidunt dolorum atque veritatis. Itaque enim quisquam accusamus at sunt, libero reiciendis.
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quasi, natus porro accusamus doloremque quis culpa officiis alias esse modi, suscipit explicabo inventore? Possimus, in. Quam inventore eveniet illum magnam voluptas.
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consectetur, esse porro illum tempora aut optio laborum quisquam facere rerum suscipit, itaque dolorum et est impedit doloribus? Illum ut laborum doloremque?
+                    {/* Sample text content providing information on erosion */}
+                    Soil erosion is a critical environmental issue that occurs when natural forces, like wind and water, wear away topsoil—the fertile upper layer essential for plant growth. This process can strip land of nutrients, reduce agricultural productivity, and lead to habitat destruction. Factors such as deforestation, overgrazing, and poor land management practices accelerate erosion, impacting food security and contributing to climate change. Addressing soil erosion is essential for sustaining ecosystems, supporting agriculture, and protecting our planet’s resources for future generations.
                 </p>
             </div>
         </Html>
