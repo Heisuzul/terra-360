@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './navbar.module.css'
+import styles from './Navbar.module.css'
 
 const navbar = () => {
   return (
@@ -8,6 +8,7 @@ const navbar = () => {
             <li>Biodiversidad</li>
             <li>Consecuencias</li>
         </ul>   
+        <div className={styles.navQuiz}>Quiz</div>
     </div> 
   )
 }

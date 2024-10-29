@@ -1,36 +1,95 @@
-import { useState, Suspense } from 'react'
+import { useState, Suspense, useEffect, useRef } from 'react'
 import styles from './Biodiversity.module.css'
 import {Canvas} from '@react-three/fiber'
-import { Environment, OrbitControls } from '@react-three/drei'
-import Forest from '../../r3f/biodiversity/forest/Forest.jsx'
-import Bee from '../../r3f/biodiversity/bee/Bee.jsx'
-
-
+import { Environment, OrbitControls, PerspectiveCamera } from '@react-three/drei'
+import { EffectComposer} from '@react-three/postprocessing'
+import Forest from '../../r3f/biodiversity/forest/Forest'
+import Bee from '../../r3f/biodiversity/bee/Bee'
+import Orchid from '../../r3f/biodiversity/orchid/Orchid'
+import Wolf from '../../r3f/biodiversity/wolf/Wolf'
+import Navbar from './components/navbar/Navbar'
 
 function Biodiversity() {
   const [count, setCount] = useState(0)
+  const [isIntroVisible, setIsIntroVisible] = useState(true);
+  const [isFading, setIsFading] = useState(false);
+  const [isBeeHovered, setIsBeeHovered] = useState(false);
+  const [isOrchidHovered, setIsOrchidHovered] = useState(false);
+  const [isWolfHovered, setIsWolfHovered] = useState(false);
+  const introRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (introRef.current && !introRef.current.contains(event.target)) {
+        setIsFading(true); 
+        setTimeout(() => setIsVisible(false), 500); 
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {document.removeEventListener("mousedown", handleClickOutside);};
+  }, []);
 
   return (
-    <div className={styles.pageContainer}>
-      <div className={styles.intro}>
-        <p>
-        La biodiversidad se refiere a la variedad de formas de vida en la Tierra, incluyendo la diversidad de especies.
-        Se considera fundamental para el equilibrio de los ecosistemas, ya que cada especie desempeña un papel específico en su hábitat.
-        La biodiversidad contribuye a la estabilidad de los ecosistemas, a la provisión de recursos y a los servicios ambientales que sustentan la vida en el planeta.
-        </p>
+    <>
+    <Navbar/>
+    {isBeeHovered && (
+        <div className={styles.speciesInfo}>
+          Bees are essential for biodiversity and the balance of ecosystems due to their role in pollination.
+          Without this work, many plants would not be able to produce fruits or seeds, affecting the food chain and biodiversity in general.
+        </div>
+    )}
+    {isOrchidHovered && (
+        <div className={styles.speciesInfo}>
+          Orchids are essential for biodiversity and ecological balance due to their unique adaptations to attract pollinators, such as insects. 
+          Their study in biotechnology helps preserve threatened species and improve the quality of cultivated plants.
+        </div>
+    )}
+    {isWolfHovered && (
+      <div className={styles.speciesInfo}>
+        The Mexican wolf plays an essential role in controlling populations of herbivores, such as deer and rabbits. This helps maintain balance in ecosystems, 
+        avoiding overpopulation and degradation of vegetation.
       </div>
+    )}
+    <div className={styles.pageContainer}>
+       {isIntroVisible && (
+        <div ref={introRef} className={`${styles.intro} ${isFading ? styles.fadeOut : ''}`}>
+          <p>
+            The loss of biodiversity is one of the most critical environmental problems of our time. It refers to the decrease in the variety of life on Earth,
+            encompassing animal and plant species, and entire ecosystems. This phenomenon is being accelerated by human activity, mainly due to the destruction of habitats,
+            climate change, pollution, overexploitation of natural resources, and the introduction of invasive species.
+          </p>
+        </div>
+      )}
       <div className={`${styles.canvasContainer} ${styles.background}`}>
-      <Canvas className={styles.forest} camera={ {position: [0, 3, 6], fov:50 }}>
-          <ambientLight />
-          <OrbitControls enableDamping={true} />
+      <Canvas>
+        <EffectComposer>
+        <PerspectiveCamera makeDefault fov={70} position={[10, -20, 150]} rotation={[-Math.PI / 6, 0, 0]} />
+          <ambientLight intensity={0.9} color="#ffc199"/>
+          <OrbitControls minDistance={2} maxDistance={170} maxPolarAngle={Math.PI * 0.55} minPolarAngle={-100} />
           <Suspense fallback={null}>
-            <Bee />
-            <Forest />
+            <Forest color='hotpink'/>
+            <Bee 
+            position={[10, -23, 110]}
+            onPointerOver={() => setIsBeeHovered(true)} 
+            onPointerOut={() => setIsBeeHovered(false)} 
+            />
+            <Orchid 
+            position={[1, -28, 123]}
+            onPointerOver={() => setIsOrchidHovered(true)} // Muestra el div
+            onPointerOut={() => setIsOrchidHovered(false)}  // Oculta el div
+            />
+            <Wolf 
+            position={[-11, -28, 126]}
+            onPointerOver={() => setIsWolfHovered(true)} // Muestra el div
+            onPointerOut={() => setIsWolfHovered(false)}
+            />
           </Suspense>
           <Environment preset='sunset' />
-        </Canvas>
+        </EffectComposer>
+      </Canvas>
       </div>
     </div>
+    </>
     
   )
 }
