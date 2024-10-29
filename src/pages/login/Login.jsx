@@ -72,7 +72,7 @@ function Login() {
                         {!showButtons && (
                             <div className={styles.introductionDiv}> 
                                 <p className={styles.introductionText}>
-                                Earth faces critical environmental issues that threaten life and sustainability. Deforestation removes vital forests, impacting climate and habitats. Soil erosion depletes land of nutrients, reducing food security. Biodiversity loss disrupts ecosystems, endangering countless species and our own well-being. Together, we can take action to protect and preserve our planet.
+                                Earth faces critical environmental issues that threaten life and sustainability. <b>Deforestation</b> removes vital forests, impacting climate and habitats. <b>Soil erosion</b> depletes land of nutrients, reducing food security. <b>Biodiversity loss</b> disrupts ecosystems, endangering countless species and our own well-being. Together, we can take action to protect and preserve our planet.
                                 </p>
                             </div>
                         )}
