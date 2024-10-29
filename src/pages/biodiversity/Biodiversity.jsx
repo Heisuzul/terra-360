@@ -5,6 +5,8 @@ import { Environment, OrbitControls, PerspectiveCamera } from '@react-three/drei
 import { EffectComposer} from '@react-three/postprocessing'
 import Forest from '../../r3f/biodiversity/forest/Forest'
 import Bee from '../../r3f/biodiversity/bee/Bee'
+import Orchid from '../../r3f/biodiversity/orchid/Orchid'
+import Wolf from '../../r3f/biodiversity/wolf/Wolf'
 import Navbar from './components/navbar/Navbar'
 
 function Biodiversity() {
@@ -12,6 +14,8 @@ function Biodiversity() {
   const [isIntroVisible, setIsIntroVisible] = useState(true);
   const [isFading, setIsFading] = useState(false);
   const [isBeeHovered, setIsBeeHovered] = useState(false);
+  const [isOrchidHovered, setIsOrchidHovered] = useState(false);
+  const [isWolfHovered, setIsWolfHovered] = useState(false);
   const introRef = useRef(null);
 
   useEffect(() => {
@@ -33,7 +37,19 @@ function Biodiversity() {
           Bees are essential for biodiversity and the balance of ecosystems due to their role in pollination.
           Without this work, many plants would not be able to produce fruits or seeds, affecting the food chain and biodiversity in general.
         </div>
-      )}
+    )}
+    {isOrchidHovered && (
+        <div className={styles.speciesInfo}>
+          Orchids are essential for biodiversity and ecological balance due to their unique adaptations to attract pollinators, such as insects. 
+          Their study in biotechnology helps preserve threatened species and improve the quality of cultivated plants.
+        </div>
+    )}
+    {isWolfHovered && (
+      <div className={styles.speciesInfo}>
+        The Mexican wolf plays an essential role in controlling populations of herbivores, such as deer and rabbits. This helps maintain balance in ecosystems, 
+        avoiding overpopulation and degradation of vegetation.
+      </div>
+    )}
     <div className={styles.pageContainer}>
        {isIntroVisible && (
         <div ref={introRef} className={`${styles.intro} ${isFading ? styles.fadeOut : ''}`}>
@@ -56,6 +72,16 @@ function Biodiversity() {
             position={[10, -23, 110]}
             onPointerOver={() => setIsBeeHovered(true)} 
             onPointerOut={() => setIsBeeHovered(false)} 
+            />
+            <Orchid 
+            position={[1, -28, 123]}
+            onPointerOver={() => setIsOrchidHovered(true)} // Muestra el div
+            onPointerOut={() => setIsOrchidHovered(false)}  // Oculta el div
+            />
+            <Wolf 
+            position={[-11, -28, 126]}
+            onPointerOver={() => setIsWolfHovered(true)} // Muestra el div
+            onPointerOut={() => setIsWolfHovered(false)}
             />
           </Suspense>
           <Environment preset='sunset' />
