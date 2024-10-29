@@ -1,0 +1,46 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute; /* Posicionamos la navbar de forma absoluta */
+  top: 30px;
+  width: 100%; /* Hacemos que ocupe todo el ancho */
+  z-index: 10; /* Aseguramos que esté sobre el fondo */
+  color: rgb(255, 255, 255);
+}
+
+
+.navMenu {
+  margin: 20px;
+  margin-right: 600px;
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 60px;
+  font-size: 20px;
+  white-space: nowrap;
+  font-weight: 500;
+  color:#579135;
+}
+
+.navbar li:hover {
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.navQuiz {
+  padding: 20px 40px;
+  border-radius: 50px;
+  background: linear-gradient(267deg, #579135 0.36%, #79d345 102.06%);
+  font-size: 22px;
+  cursor: pointer;
+  transition: 0.5s;
+  text-align: center;
+  box-shadow: 0 0 10px #579135;
+  font-weight: 500;
+}
+
+.navQuiz:hover {
+  transform: scale(1.05);
+}
+

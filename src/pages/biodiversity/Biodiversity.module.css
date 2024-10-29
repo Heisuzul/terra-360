@@ -1,0 +1,97 @@
+/* Biodiversity.module.css */
+.pageContainer {
+  width: 100%;
+  height: 100%;
+}
+
+.pageContainer :global(body),
+.pageContainer :global(html) {
+  margin: 0;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background-color: rgb(178, 246, 255);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  overflow: hidden;
+}
+
+.forest {
+  display: block;
+}
+
+.background {
+  background-image: url('/images/backgrounds/biodiversity-background.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.canvasContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.canvasContainer canvas {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+
+.intro {
+  margin: 0px;
+  padding: 15px 20px;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;          /* Centra verticalmente */
+  left: 50%;         /* Centra horizontalmente */
+  transform: translate(-50%, -50%); /* Ajusta para centrar completamente */
+  z-index: 10; 
+  background-color: rgba(255, 255, 255, 0.68);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  color:#377c0e;
+  font-weight: 500;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.fadeOut {
+  opacity: 0;
+  pointer-events: none; /* Opcional, para evitar clics en el div oculto */
+}
+
+.speciesInfo {
+  margin: 0px;
+  padding: 15px 20px;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;          /* Centra verticalmente */
+  left: 50%;         /* Centra horizontalmente */
+  transform: translate(-50%, -50%); /* Ajusta para centrar completamente */
+  z-index: 10; 
+  background-color: rgba(255, 255, 255, 0.68);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  color:#377c0e;
+  font-weight: 500;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}

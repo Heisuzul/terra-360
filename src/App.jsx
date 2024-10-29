@@ -1,8 +1,11 @@
-import './App.css'
 import Login from './pages/login/Login.jsx'
-import World from './r3f/scenes/World.jsx'
+
+import Deforestation from './pages/deforestation/Deforestation.jsx';
+import Biodiversity from './pages/biodiversity/Biodiversity.jsx';
 import Erosion from './pages/Erosion/erosion.jsx';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+
 
 function App() {
   return (
@@ -10,7 +13,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/world" element={<Login />} />
+
         <Route path="/Erosion" element={<Erosion />} />
+        <Route path="/deforestation" element={<Deforestation />} />
+        <Route path="/biodiversity" element={<Biodiversity />} />
+
       </Routes>
     </Router>
   )
