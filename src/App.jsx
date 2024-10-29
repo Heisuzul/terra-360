@@ -1,7 +1,7 @@
 import './App.css'
 import Login from './pages/login/Login.jsx'
 import World from './r3f/scenes/World.jsx'
-import Erosion from './r3f/Erosion/scenes/scene.jsx';
+import Erosion from './pages/Erosion/erosion.jsx';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
