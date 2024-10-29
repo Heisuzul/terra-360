@@ -50,7 +50,7 @@ export default function BigIrregularSign(props) {
           />
         </group>
       </group>
-      <Text
+      {dimensions && (<Text
         position={[0.0, 1.81, .1]} // Slight offset from surface
         fontSize={dimensions.height * 0.06} // Scale font size relative to sign height
         maxWidth={dimensions.width * 1.1} // Keep text within sign bounds
@@ -60,7 +60,7 @@ export default function BigIrregularSign(props) {
         color="#261000"
       >
         {props.text}
-      </Text>
+      </Text>)}
     </group>
   )
 }
