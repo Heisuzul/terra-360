@@ -7,7 +7,8 @@ import Forest from '../../r3f/biodiversity/forest/Forest'
 import Bee from '../../r3f/biodiversity/bee/Bee'
 import Orchid from '../../r3f/biodiversity/orchid/Orchid'
 import Wolf from '../../r3f/biodiversity/wolf/Wolf'
-import Navbar from './components/navbar/Navbar'
+import Navbar from './components/navbar/navbar'
+
 
 function Biodiversity() {
   const [count, setCount] = useState(0)
