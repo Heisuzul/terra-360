@@ -44,7 +44,7 @@ function Login() {
 
     const handlePage1 = () => navigate('/deforestation');
     const handlePage2 = () => navigate('/biodiversity');
-    const handlePage3 = () => navigate('/world'); // Replace '/page3' with your actual route
+    const handlePage3 = () => navigate('/erosion'); 
 
     // State to track button-group visibility
     const [showButtons, setShowButtons] = useState(true);
