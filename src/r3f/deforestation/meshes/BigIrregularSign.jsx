@@ -11,7 +11,7 @@ export default function BigIrregularSign(props) {
 
   const meshRef = useRef()
 
-  const [dimensions, setDimensions] = useState({ width: 1, height: 1 })
+  const [dimensions, setDimensions] = useState(null)
 
   useEffect(() => {
     if (meshRef.current) {
