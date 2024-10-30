@@ -128,13 +128,13 @@ const Scene = ({ ready, setReady }) => {
           textBack={"Back"}
         />
         {ready && (
-          <group position={[0, 20, 0]}>
+          <group position={[0, 25, 0]}>
             <PositionalAudio
               ref={audioRef}
               autoplay
               loop
-              url="/sounds/waves.mp3"
-              distance={5}
+              url="/sounds/nature.mp3"
+              distance={6}
             />
           </group>
         )}
