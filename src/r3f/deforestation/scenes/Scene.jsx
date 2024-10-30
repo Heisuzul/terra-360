@@ -128,15 +128,26 @@ const Scene = ({ ready, setReady }) => {
           textBack={"Back"}
         />
         {ready && (
-          <group position={[0, 25, 0]}>
-            <PositionalAudio
-              ref={audioRef}
-              autoplay
-              loop
-              url="/sounds/nature.mp3"
-              distance={6}
-            />
-          </group>
+          <>
+            <group position={[25, 25, 10]}>
+              <PositionalAudio
+                ref={audioRef}
+                autoplay
+                loop
+                url="/sounds/nature.mp3"
+                distance={5}
+              />
+            </group>
+            <group position={[-25, 25, -10]}>
+              <PositionalAudio
+                ref={audioRef}
+                autoplay
+                loop
+                url="/sounds/nature2.mp3"
+                distance={5}
+              />
+            </group>
+          </>
         )}
       </Canvas>
       <Loader />
