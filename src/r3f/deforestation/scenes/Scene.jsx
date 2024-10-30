@@ -13,11 +13,13 @@ import CameraController from '../controllers/CameraController';
 import CameraLogger from '../../utils/CameraLogger';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../stores/use-auth-store';
+import { Loader, PositionalAudio } from '@react-three/drei';
 
-const Scene = () => {
+const Scene = ({ ready, setReady }) => {
   const terrainRef = useRef();
   const { logout } = useAuthStore();
   const navigate = useNavigate();
+  const audioRef = useRef();
 
   const handleTerrainLoad = useCallback((terrain) => {
     terrainRef.current = terrain;
@@ -90,7 +92,7 @@ const Scene = () => {
         <AmbientLight intensity={1.5} color="#ffffff" />
         <DirectionalLight intensity={2} position={[30, 50, 20]}/>
         <Terrain onTerrainLoad={handleTerrainLoad} />
-        <Trees terrain={terrainRef} amount_rows={12} amount_cols={16} phase_x={0} phase_z={0} space={6}/>
+        <Trees terrain={terrainRef} setReady={setReady} amount_rows={12} amount_cols={16} phase_x={0} phase_z={0} space={6}/>
         <BackNextArrows 
           position={[15,18.48,-42]} 
           rotation={[0,Math.PI*(11/12),0]} 
@@ -125,7 +127,19 @@ const Scene = () => {
           textNext={"Start Quiz"}
           textBack={"Back"}
         />
+        {ready && (
+          <group position={[0, 20, 0]}>
+            <PositionalAudio
+              ref={audioRef}
+              autoplay
+              loop
+              url="/sounds/waves.mp3"
+              distance={5}
+            />
+          </group>
+        )}
       </Canvas>
+      <Loader />
     </div>
   );
 };

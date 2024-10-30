@@ -2,11 +2,11 @@
 import React from 'react';
 import Scene from '../../r3f/deforestation/scenes/Scene';
 
-const Deforestation = () => {
+const Deforestation = ({ ready, setReady }) => {
   return (
     <div className="deforestation-container">
       {/* <h1>Deforestation Awareness</h1> */}
-      <Scene />
+      <Scene ready={ready} setReady={setReady}/>
     </div>
   );
 };

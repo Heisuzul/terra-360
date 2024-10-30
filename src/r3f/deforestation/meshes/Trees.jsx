@@ -13,7 +13,8 @@ const Trees = ({
   phase_x, 
   phase_z, 
   space,
-  terrainId = 'default' // Add an ID to identify different terrains
+  terrainId = 'default', // Add an ID to identify different terrains
+  setReady
 }) => {
   const [treePositions, setTreePositions] = useState([]);
   const raycaster = useMemo(() => new Raycaster(), []);
@@ -125,6 +126,7 @@ const Trees = ({
       } else {
         console.log("Waiting for terrain to be fully ready...");
       }
+      setReady(true);
     }, 10 * delta);
 
     return () => clearTimeout(delay);

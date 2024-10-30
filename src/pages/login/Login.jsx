@@ -12,6 +12,8 @@ function Login() {
     const { user, observeAuthState, loginGoogleWithPopup, logout } = useAuthStore();
     const navigate = useNavigate();
 
+    const [readyDeforestation, setReadyDeforestation] = useState(false);
+
     useEffect(() => {
         observeAuthState();
     }, [observeAuthState]);
@@ -42,7 +44,10 @@ function Login() {
         navigate('/'); // Navega a "/" después de desloguearse
     }, [logout], [navigate]);
 
-    const handlePage1 = () => navigate('/deforestation');
+    const handlePage1 = () => {
+        setReadyDeforestation(true);
+        navigate('/deforestation');
+    }
     const handlePage2 = () => navigate('/biodiversity');
     const handlePage3 = () => navigate('/erosion'); 
 
