@@ -144,7 +144,7 @@ const Scene = ({ ready, setReady }) => {
                 autoplay
                 loop
                 url="/sounds/nature2.mp3"
-                distance={5}
+                distance={6}
               />
             </group>
           </>
