@@ -2,6 +2,7 @@ import React, { Suspense, useRef, useState, useCallback, useEffect } from 'react
 import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import Staging from '../staging/Staging';
 import Terrain from '../meshes/Terrain';
+import Platform from '../meshes/Platform';
 import AmbientLight from '../lights/AmbientLight';
 import DirectionalLight from '../lights/DirectionalLight';
 import Trees from '../meshes/Trees';
@@ -14,6 +15,7 @@ import CameraLogger from '../../utils/CameraLogger';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../stores/use-auth-store';
 import { Loader, PositionalAudio } from '@react-three/drei';
+
 
 const Scene = ({ ready}) => {
   const terrainRef = useRef();
@@ -33,6 +35,10 @@ const Scene = ({ ready}) => {
 
   const cameraStates = [
     {
+      position: { x: 17.895, y: 21, z: -48.858},
+      target: { x: 17.895, y: 20, z: -45.858},
+    },
+    {
       position: { x: 17.895, y: 21, z: -45.858},
       target: { x:-3, y: 20, z: 0},
     },
@@ -43,7 +49,11 @@ const Scene = ({ ready}) => {
     {
       position: { x: 33.476, y: 21.296, z: 45.260 },
       target: { x: 29.1, y: 19.9, z: 40 },
-    }
+    },
+    {
+      position: { x: 17.895, y: 21, z: -48.858},
+      target: { x: 17.895, y: 20, z: -45.858},
+    },
   ];
 
   const [stateIndex, setStateIndex] = useState(0);
@@ -149,6 +159,7 @@ const Scene = ({ ready}) => {
             </group>
           </>
         )}
+        <Platform position={[16.895, 19, -45.858]}/>
       </Canvas>
       <Loader />
     </div>
