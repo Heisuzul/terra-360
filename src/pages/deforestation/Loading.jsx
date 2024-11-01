@@ -26,9 +26,13 @@ export default function Loading({ children }) {
           <Ready setReady={setReady} />
           <div className={`fullscreen bg ${ready ? 'ready' : 'not ready'}`}>
             <div className="stack">
+              {!ready? <button disabled onClick={() => setClicked(true)}>
+                {'Cargando...'}
+              </button> :
               <button onClick={() => setClicked(true)}>
-                {!ready ? 'Cargando...' : 'Click para continuar'}
+                {'Click para continuar'}
               </button>
+              }
             </div>
           </div>
         </>

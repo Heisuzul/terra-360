@@ -40,7 +40,7 @@
   }
   
   button:disabled {
-    background-color: #bbb; /* Greyed out when disabled */
+    background-color: #313131; /* Greyed out when disabled */
     cursor: not-allowed;
   }
   
