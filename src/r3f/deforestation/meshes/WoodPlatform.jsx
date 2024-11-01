@@ -19,8 +19,9 @@ export default function Model(props) {
           castShadow
           receiveShadow
           geometry={nodes['Cylinder001_Material_#25_0'].geometry}
-          material={materials.Material_25}
-        />
+        >
+          <meshStandardMaterial color="#9e6a3a" />
+        </mesh>
       </group>
     </group>
   )

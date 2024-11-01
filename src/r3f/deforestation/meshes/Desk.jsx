@@ -10,9 +10,10 @@ export default function Model(props) {
         castShadow
         receiveShadow
         geometry={nodes.Cube001.geometry}
-        material={materials.DESK}
         position={[0.211, 0.749, -0.172]}
-      />
+      >
+        <meshStandardMaterial attach="material" color="#917e6d"/>
+      </mesh>
       <mesh
         name="Cube002"
         castShadow

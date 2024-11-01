@@ -3,6 +3,9 @@ import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import Staging from '../staging/Staging';
 import Terrain from '../meshes/Terrain';
 import Platform from '../meshes/Platform';
+import Desk from '../meshes/Desk';
+import Laptop from '../meshes/Laptop';
+import Printer from '../meshes/Printer';
 import AmbientLight from '../lights/AmbientLight';
 import DirectionalLight from '../lights/DirectionalLight';
 import Trees from '../meshes/Trees';
@@ -160,6 +163,9 @@ const Scene = ({ ready}) => {
           </>
         )}
         <Platform position={[16.895, 19, -45.858]}/>
+        <Desk position={[19.7, 19.2, -46.2]} rotation={[0,Math.PI,0]}/>
+        <Laptop position={[20, 19.95, -45.75]} rotation={[0,Math.PI,0]}/>
+        <Printer position={[18.98, 20.14, -45.65]} rotation={[0,Math.PI*3/4,0]}/>
       </Canvas>
       <Loader />
     </div>
