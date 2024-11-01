@@ -1,13 +1,16 @@
 import { cloneElement, useEffect, useState } from 'react';
+import { useProgress } from '@react-three/drei';
 import './Loading.css';
 
 function Ready({ setReady }) {
+  const { progress } = useProgress();
+
   useEffect(() => {
-    const timer = setTimeout(() => {
+    if (progress === 100) {
       setReady(true);
-    }, 2000); 
-    return () => clearTimeout(timer);
-  }, [setReady]);
+    }
+  }, [progress, setReady]);
+
   return null;
 }
 
@@ -17,11 +20,10 @@ export default function Loading({ children }) {
 
   return (
     <>
-      {clicked && cloneElement(children, { ready: clicked, setReady: setReady })}
+      {clicked && cloneElement(children, { ready: clicked, setReady })}
       {!clicked && (
         <>
           <Ready setReady={setReady} />
-
           <div className={`fullscreen bg ${ready ? 'ready' : 'not ready'}`}>
             <div className="stack">
               <button onClick={() => setClicked(true)}>

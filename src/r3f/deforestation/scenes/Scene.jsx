@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../stores/use-auth-store';
 import { Loader, PositionalAudio } from '@react-three/drei';
 
-const Scene = ({ ready, setReady }) => {
+const Scene = ({ ready}) => {
   const terrainRef = useRef();
   const { logout } = useAuthStore();
   const navigate = useNavigate();
@@ -92,7 +92,7 @@ const Scene = ({ ready, setReady }) => {
         <AmbientLight intensity={1.5} color="#ffffff" />
         <DirectionalLight intensity={2} position={[30, 50, 20]}/>
         <Terrain onTerrainLoad={handleTerrainLoad} />
-        <Trees terrain={terrainRef} setReady={setReady} amount_rows={12} amount_cols={16} phase_x={0} phase_z={0} space={6}/>
+        <Trees terrain={terrainRef} amount_rows={12} amount_cols={16} phase_x={0} phase_z={0} space={6}/>
         <BackNextArrows 
           position={[15,18.48,-42]} 
           rotation={[0,Math.PI*(11/12),0]} 
