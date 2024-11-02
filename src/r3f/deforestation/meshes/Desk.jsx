@@ -12,7 +12,17 @@ export default function Model(props) {
         geometry={nodes.Cube001.geometry}
         position={[0.211, 0.749, -0.172]}
       >
-        <meshStandardMaterial attach="material" color="#917e6d"/>
+        <meshPhysicalMaterial
+          attach="material"
+          color="#66411f"
+          transparent={true}
+          opacity={0.5}
+          roughness={0}
+          metalness={0.1}
+          reflectivity={0.9}         // Increase for more glassy reflection
+          transmission={0.0}         // Enable light transmission for glass-like transparency
+          ior={1.5}                  // Set index of refraction, typical glass is around 1.5
+        />
       </mesh>
       <mesh
         name="Cube002"
@@ -62,7 +72,7 @@ export default function Model(props) {
         material={materials.DESK}
         position={[0.857, 0.387, 0.771]}
       />
-      <mesh
+      {/* <mesh
         name="Cube008"
         castShadow
         receiveShadow
@@ -70,8 +80,8 @@ export default function Model(props) {
         material={materials.DESK}
         position={[0.003, 0.549, -0.708]}
         rotation={[Math.PI / 2, 0, 0]}
-      />
-      <mesh
+      /> */}
+      {/* <mesh
         name="Cube009"
         castShadow
         receiveShadow
@@ -79,16 +89,16 @@ export default function Model(props) {
         material={materials.DESK}
         position={[0.866, 0.549, 0.123]}
         rotation={[Math.PI / 2, 0, Math.PI / 2]}
-      />
-      <mesh
+      /> */}
+      {/* <mesh
         name="Cube011"
         castShadow
         receiveShadow
         geometry={nodes.Cube011.geometry}
         material={materials.DESK}
         position={[0.591, 0.403, 0.355]}
-      />
-      <mesh
+      /> */}
+      {/* <mesh
         name="Cube012"
         castShadow
         receiveShadow
@@ -96,8 +106,8 @@ export default function Model(props) {
         material={materials.DESK}
         position={[0.591, 0.142, 0.544]}
         rotation={[Math.PI / 2, 0, 0]}
-      />
-      <mesh
+      /> */}
+      {/* <mesh
         name="Cube013"
         castShadow
         receiveShadow
@@ -105,16 +115,16 @@ export default function Model(props) {
         material={materials.DESK}
         position={[0.591, 0.664, 0.544]}
         rotation={[Math.PI / 2, 0, 0]}
-      />
-      <mesh
+      /> */}
+      {/* <mesh
         name="Cube010"
         castShadow
         receiveShadow
         geometry={nodes.Cube010.geometry}
         material={materials.DESK}
         position={[0.591, 0.403, 0.733]}
-      />
-      <mesh
+      /> */}
+      {/* <mesh
         name="Cube014"
         castShadow
         receiveShadow
@@ -122,8 +132,8 @@ export default function Model(props) {
         material={materials.DESK}
         position={[0.86, 0.403, 0.544]}
         rotation={[Math.PI / 2, -Math.PI / 2, 0]}
-      />
-      <mesh
+      /> */}
+      {/* <mesh
         name="Cube015"
         castShadow
         receiveShadow
@@ -131,8 +141,8 @@ export default function Model(props) {
         material={materials.DESK}
         position={[0.348, 0.403, 0.547]}
         rotation={[Math.PI / 2, -Math.PI / 2, 0]}
-      />
-      <mesh
+      /> */}
+      {/* <mesh
         name="Plane"
         castShadow
         receiveShadow
@@ -140,8 +150,8 @@ export default function Model(props) {
         material={materials.DESK}
         position={[0.341, 0.337, 0.41]}
         rotation={[0, 0, Math.PI / 2]}
-      />
-      <mesh
+      /> */}
+      {/* <mesh
         name="Plane001"
         castShadow
         receiveShadow
@@ -149,8 +159,8 @@ export default function Model(props) {
         material={materials.DESK}
         position={[0.341, 0.592, 0.547]}
         rotation={[Math.PI / 2, 0, Math.PI / 2]}
-      />
-      <mesh
+      /> */}
+      {/* <mesh
         name="Cube016"
         castShadow
         receiveShadow
@@ -158,7 +168,7 @@ export default function Model(props) {
         material={materials.DESK}
         position={[-0.871, 0.549, -0.457]}
         rotation={[Math.PI / 2, 0, Math.PI / 2]}
-      />
+      /> */}
     </group>
   )
 }
