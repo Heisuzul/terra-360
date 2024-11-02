@@ -40,10 +40,6 @@ const Scene = ({ ready}) => {
 
   const cameraStates = [
     {
-      position: { x: 17.895, y: 21, z: -48.858},
-      target: { x: 17.895, y: 20, z: -45.858},
-    },
-    {
       position: { x: 17.895, y: 21, z: -45.858},
       target: { x:-3, y: 20, z: 0},
     },
@@ -84,12 +80,16 @@ const Scene = ({ ready}) => {
       if (event.key === 'Escape') {
         setStateIndex(0); // Reset to initial camera state
         console.log('Reset camera state');
+      } else if (event.key === 'ArrowRight') {
+        handleBack();
+      } else if (event.key === 'ArrowLeft') {
+        handleNext();
       }
     };
-
+  
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [stateIndex]);
+  }, [handleNext, handleBack]);
 
   return (
     <div className={styles.pageContainer}>
