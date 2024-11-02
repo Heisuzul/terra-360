@@ -4,7 +4,7 @@ import { TextureLoader } from 'three';
 import { Plane } from '@react-three/drei';
 import * as THREE from 'three';
 import heightMapImg from '/materials/deforestation/terrain-heightmap1.png';
-import ambientOcclusionMapImg from '/materials/deforestation/terrain-aomap.png';
+import ambientOcclusionMapImg from '/materials/deforestation/terrain-aomap1.png';
 import normalMapImg from '/materials/deforestation/terrain-normal.png';
 import specularMapImg from '/materials/deforestation/terrain-specular.png';
 

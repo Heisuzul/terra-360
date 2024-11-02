@@ -101,7 +101,7 @@ const Scene = ({ ready}) => {
           position={currentState.position}
         />
         <Staging/>
-        <ambientLight intensity={0.5} />
+        {/* <ambientLight intensity={0.5} /> */}
         <AmbientLight intensity={1.5} color="#ffffff" />
         <DirectionalLight intensity={2} position={[30, 50, 20]}/>
         <Terrain onTerrainLoad={handleTerrainLoad} />
@@ -128,12 +128,12 @@ const Scene = ({ ready}) => {
           textBack={"Back"}
         />
         <BigIrregularSign 
-          position={[30, 18.9, 40]} 
+          position={[30, 18.65, 40]} 
           rotation={[0,Math.PI*(2.5/12),0]}
           text={"Forests are essential for a balanced planet, providing clean air, habitats, and climate stability. While deforestation poses a serious threat, every action counts. Join this quiz to learn how you can help protect our forests and play a part in restoring Earth's natural balance!"}
         />
         <BackNextArrows 
-          position={[28.5, 18.6, 41.5]} 
+          position={[28.5, 18.550, 41.5]} 
           rotation={[0,Math.PI*(2.5/12),0]} 
           onNextClick={handleNext} 
           onBackClick={handleBack}
