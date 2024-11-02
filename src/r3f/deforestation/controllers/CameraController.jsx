@@ -4,7 +4,7 @@ import { useRef, useEffect } from "react";
 import * as THREE from "three";
 import { useState } from "react";
 
-const CameraController = ({ target, position, transitionDuration = 1000 }) => {
+const CameraController = ({ target, position, minDistance = 3, maxDistance = 55, transitionDuration = 1000 }) => {
   const { camera } = useThree();
   const controlsRef = useRef();
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -59,8 +59,8 @@ const CameraController = ({ target, position, transitionDuration = 1000 }) => {
       enableZoom={true}
       enablePan={false}
       enableRotate={true}
-      minDistance={3}
-      maxDistance={55}
+      minDistance={minDistance}
+      maxDistance={maxDistance}
       minPolarAngle={0}
       maxPolarAngle={Math.PI / 2} // Limit vertical rotation to prevent going below ground
     />

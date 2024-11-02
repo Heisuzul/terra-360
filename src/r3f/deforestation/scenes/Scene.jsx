@@ -38,58 +38,107 @@ const Scene = ({ ready}) => {
       navigate('/'); // Navega a "/" después de desloguearse
   }, [logout], [navigate]);
 
-  const cameraStates = [
+  const cameraStatesSet1 = [
     {
       position: { x: 17.895, y: 21, z: -45.858},
-      target: { x:-3, y: 20, z: 0},
+      target: { x: 16.1, y: 21, z: -42},
+      // target: { x:-3, y: 20, z: 0},
+      minDistance: 3,
+      maxDistance: 10,
     },
     {
       position: { x: 46.12, y: 4.94, z: -28.44 },
       target: { x: 42.6, y: 4.5, z: -25.8 },
+      minDistance: 3,
+      maxDistance: 5,
     },
     {
-      position: { x: 33.476, y: 21.296, z: 45.260 },
-      target: { x: 29.1, y: 19.9, z: 40 },
-    },
-    {
-      position: { x: 17.895, y: 21, z: -48.858},
-      target: { x: 17.895, y: 20, z: -45.858},
+      position: { x: 32.842379721055174, y: 20.361752278322804, z: 44.614349325416484 },
+      target: { x: 30.05, y: 21.0, z: 41 },
+      minDistance: 2,
+      maxDistance: 8,
     },
   ];
 
-  const [stateIndex, setStateIndex] = useState(0);
+  const cameraStatesSet2 = [
+    {
+      position: { x: 17.895, y: 21, z: -48.858},
+      target: { x: 17.895, y: 20, z: -45.858},
+      minDistance: 2,
+      maxDistance: 8,
+    },
+    {
+      position: { x: 20.097741955824603, y: 20.2, z: -46.2096748619},
+      target: { x: 20.01, y: 20.05, z: -45.75},
+      minDistance: 0.5,
+      maxDistance: 2,
+    },
+    {
+      position: { x: 19.594912373471416, y: 20.266932236068055, z: -46.529617574715886},
+      target: { x: 19.05, y: 20.14, z: -45.65},
+      minDistance: 0.5,
+      maxDistance: 2,
+    },
+    {
+      position: { x: 19.47957256085322, y: 20.28159496741572, z: -47.28132092043356},
+      target: { x: 19.1, y: 19.95, z: -46.7},
+      minDistance: 0.5,
+      maxDistance: 2,
+    },
+  ];
 
-  const currentState = cameraStates[stateIndex];
-  
+  // State to control the active set and index within the set
+  const [stateIndex, setStateIndex] = useState(0);
+  const [activeSet, setActiveSet] = useState(1); // 1 for set 1, 2 for set 2
+
+  // Determine the current set based on activeSet
+  const currentCameraStates = activeSet === 1 ? cameraStatesSet1 : cameraStatesSet2;
+  const currentState = currentCameraStates[stateIndex];
+
+  // Handlers for switching camera states within the active set
   const handleNext = useCallback(() => {
-    setStateIndex((prevIndex) => {
-      const nextIndex = prevIndex + 1;
-      return nextIndex >= cameraStates.length ? 0 : nextIndex;
-    });
-  }, []);
+    setStateIndex((prevIndex) => (prevIndex + 1) % currentCameraStates.length);
+  }, [currentCameraStates.length]);
 
   const handleBack = useCallback(() => {
-    setStateIndex((prevIndex) => {
-      const nextIndex = prevIndex - 1;
-      return nextIndex < 0 ? cameraStates.length - 1 : nextIndex;
-    });
+    setStateIndex((prevIndex) => (prevIndex - 1 + currentCameraStates.length) % currentCameraStates.length);
+  }, [currentCameraStates.length]);
+
+  const handleStartQuiz = useCallback(() => {
+    toggleCameraSet();
   }, []);
+
+  // Function to toggle between the two sets
+  const toggleCameraSet = () => {
+    setActiveSet((prevSet) => (prevSet === 1 ? 2 : 1));
+    setStateIndex(0); // Reset to the first state in the new set
+  };
 
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') {
-        setStateIndex(0); // Reset to initial camera state
-        console.log('Reset camera state');
-      } else if (event.key === 'ArrowRight') {
+        setStateIndex(0); // Reset to initial state
+      } else if (event.key === 'ArrowRight' && activeSet === 1) {
+        // handleNext();
         handleBack();
-      } else if (event.key === 'ArrowLeft') {
+      } else if (event.key === 'ArrowLeft' && activeSet === 1) {
+        // handleBack();
         handleNext();
+      } else if (event.key === 'ArrowRight' && activeSet === 2) {
+        handleNext();
+        // handleBack();
+      } else if (event.key === 'ArrowLeft' && activeSet === 2) {
+        handleBack();
+        // handleNext();
+      } else if (event.key === 'Enter') {
+         // Switch between sets on Enter key
+         toggleCameraSet();
       }
     };
-  
+
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleNext, handleBack]);
+  }, [handleNext, handleBack, toggleCameraSet]);
 
   return (
     <div className={styles.pageContainer}>
@@ -97,10 +146,12 @@ const Scene = ({ ready}) => {
         position: [currentState.position.x,currentState.position.y-3.5,currentState.position.z-1],
         fov: 70 }}
       >
-        {/* <CameraLogger /> */}
+        <CameraLogger />
         <CameraController 
           target={currentState.target}
           position={currentState.position}
+          minDistance={currentState.minDistance}
+          maxDistance={currentState.maxDistance}
         />
         <Staging/>
         {/* <ambientLight intensity={0.5} /> */}
@@ -135,9 +186,9 @@ const Scene = ({ ready}) => {
           text={"Forests are essential for a balanced planet, providing clean air, habitats, and climate stability. While deforestation poses a serious threat, every action counts. Join this quiz to learn how you can help protect our forests and play a part in restoring Earth's natural balance!"}
         />
         <BackNextArrows 
-          position={[28.5, 18.550, 41.5]} 
+          position={[29.0, 18.550, 41.5]} 
           rotation={[0,Math.PI*(2.5/12),0]} 
-          onNextClick={handleNext} 
+          onNextClick={handleStartQuiz} 
           onBackClick={handleBack}
           textNext={"Start Quiz"}
           textBack={"Back"}
