@@ -64,26 +64,26 @@ const Scene = ({ ready}) => {
     {
       position: { x: 17.895, y: 21, z: -48.858},
       target: { x: 17.895, y: 20, z: -45.858},
-      minDistance: 2,
+      minDistance: 1,
       maxDistance: 8,
     },
     {
       position: { x: 20.097741955824603, y: 20.2, z: -46.2096748619},
-      target: { x: 20.01, y: 20.05, z: -45.75},
-      minDistance: 0.5,
+      target: { x: 19.95, y: 20.05, z: -45.30},
+      minDistance: 1,
       maxDistance: 2,
     },
     {
       position: { x: 19.594912373471416, y: 20.266932236068055, z: -46.529617574715886},
       target: { x: 19.05, y: 20.14, z: -45.65},
-      minDistance: 0.5,
+      minDistance: 1,
       maxDistance: 2,
     },
     {
       position: { x: 19.47957256085322, y: 20.28159496741572, z: -47.28132092043356},
       target: { x: 19.1, y: 19.95, z: -46.7},
-      minDistance: 0.5,
-      maxDistance: 2,
+      minDistance: 1,
+      maxDistance: 5,
     },
   ];
 
