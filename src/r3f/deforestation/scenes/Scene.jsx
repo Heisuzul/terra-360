@@ -71,7 +71,7 @@ const Scene = ({ ready}) => {
       position: { x: 20.097741955824603, y: 20.2, z: -46.2096748619},
       target: { x: 19.95, y: 20.05, z: -45.30},
       minDistance: 1,
-      maxDistance: 2,
+      maxDistance: 4,
     },
     {
       position: { x: 19.594912373471416, y: 20.266932236068055, z: -46.529617574715886},
@@ -83,7 +83,7 @@ const Scene = ({ ready}) => {
       position: { x: 19.47957256085322, y: 20.28159496741572, z: -47.28132092043356},
       target: { x: 19.1, y: 19.95, z: -46.7},
       minDistance: 1,
-      maxDistance: 5,
+      maxDistance: 4,
     },
   ];
 
