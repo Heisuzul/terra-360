@@ -146,7 +146,7 @@ const Scene = ({ ready}) => {
     let endX = 0;
     let endY = 0;
     let startTime = 0;
-    const SWIPE_THRESHOLD = 100;
+    const SWIPE_THRESHOLD = 75;
     const SWIPE_DURATION_THRESHOLD = 300;
   
     const handleTouchStart = (event) => {
