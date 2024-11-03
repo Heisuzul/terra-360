@@ -140,6 +140,83 @@ const Scene = ({ ready}) => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleNext, handleBack, toggleCameraSet]);
 
+  useEffect(() => {
+    let startX = 0;
+    let startY = 0;
+    let endX = 0;
+    let endY = 0;
+    let startTime = 0;
+    const SWIPE_THRESHOLD = 100;
+    const SWIPE_DURATION_THRESHOLD = 300;
+  
+    const handleTouchStart = (event) => {
+      startX = event.touches[0].clientX;
+      startY = event.touches[0].clientY;
+      startTime = Date.now();
+    };
+  
+    const handleTouchMove = (event) => {
+      endX = event.touches[0].clientX;
+      endY = event.touches[0].clientY;
+    };
+  
+    const handleTouchEnd = () => {
+      const deltaX = startX - endX;
+      const deltaY = startY - endY;
+      const duration = Date.now() - startTime;
+  
+      // Check if swipe is primarily horizontal and exceeds the threshold
+      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > SWIPE_THRESHOLD && activeSet === 1 &&
+      duration < SWIPE_DURATION_THRESHOLD) {
+        if (deltaX > 0) {
+          // Swipe left for next camera state
+          // handleNext();
+          handleBack();
+        } else {
+          // Swipe right for previous camera state
+          // handleBack();
+          handleNext();
+        }
+      }
+
+      // Check if swipe is primarily horizontal and exceeds the threshold
+      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > SWIPE_THRESHOLD && activeSet === 2 &&
+      duration < SWIPE_DURATION_THRESHOLD) {
+        if (deltaX > 0) {
+          // Swipe left for next camera state
+          handleNext();
+          // handleBack();
+        } else {
+          // Swipe right for previous camera state
+          handleBack();
+          // handleNext();
+        }
+      }
+      // Reset start and end positions
+      startX = 0;
+      startY = 0;
+      endX = 0;
+      endY = 0;
+      startTime = 0;
+    };
+  
+    // Attach touch listeners to the Canvas or a specific div to avoid conflicts
+    const canvasElement = document.querySelector('canvas');
+    if (canvasElement) {
+      canvasElement.addEventListener("touchstart", handleTouchStart);
+      canvasElement.addEventListener("touchmove", handleTouchMove);
+      canvasElement.addEventListener("touchend", handleTouchEnd);
+    }
+  
+    return () => {
+      if (canvasElement) {
+        canvasElement.removeEventListener("touchstart", handleTouchStart);
+        canvasElement.removeEventListener("touchmove", handleTouchMove);
+        canvasElement.removeEventListener("touchend", handleTouchEnd);
+      }
+    };
+  }, [handleNext, handleBack]);
+
   return (
     <div className={styles.pageContainer}>
       <Canvas shadows camera={{ 
