@@ -44,7 +44,7 @@ const Scene = ({ ready}) => {
       target: { x: 16.1, y: 21, z: -42},
       // target: { x:-3, y: 20, z: 0},
       minDistance: 3,
-      maxDistance: 10,
+      maxDistance: 55,
     },
     {
       position: { x: 46.12, y: 4.94, z: -28.44 },
