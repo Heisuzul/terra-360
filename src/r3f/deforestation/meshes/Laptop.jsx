@@ -1,8 +1,17 @@
 import React, { useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
+import { useGLTF, Html } from '@react-three/drei'
+import { useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function Model(props) {
   const { nodes, materials } = useGLTF('/models-3d/deforestation/laptop.glb')
+  const displayRef = useRef()
+  const navigate = useNavigate();
+
+  const handleButtonLogin = useCallback(() => {
+    navigate('/world'); // Navega a "/about" después de la autenticación
+}, []);
+
   return (
     <group {...props} dispose={null}>
       <group name="Silver_colour_Cover" position={[0, 0.001, 0]} scale={[0.19, 0.146, 0.121]}>
@@ -54,11 +63,70 @@ export default function Model(props) {
         />
         <mesh
           name="Display_Plane_1"
+          ref={displayRef}
           castShadow
           receiveShadow
           geometry={nodes.Display_Plane_1.geometry}
-          material={materials['Display Glass']}
-        />
+          material={materials['Display Glass']}>
+          <Html
+            transform
+            occlude={[displayRef]}
+            distanceFactor={1.0}
+            position={[-0.01, -0.07, -0.80]}
+            rotation={[Math.PI * 17.625/ 12, 0, 0]}
+            scale={[1.15, 1.8, 1]}
+            style={{
+              width: '690px',
+              height: '420px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: '#bbeaff',
+            }}
+          >
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '0.1rem',
+              // padding: '2rem',
+            }}>
+              <img 
+                src="Terra360 Logo-01.svg" 
+                alt="Terra Logo" 
+                style={{
+                  width: '280px',
+                  height: '280px',
+                }}
+              />
+              <button
+                onClick={handleButtonLogin}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  padding: '0.5rem 1rem',
+                  border: 'none',
+                  borderRadius: '4px',
+                  backgroundColor: '#8a3c0f',
+                  color: 'white',
+                  cursor: 'pointer',
+                }}
+              >
+                <img 
+                  src="google_icon.svg" 
+                  alt="Google Logo" 
+                  style={{
+                    width: '20px',
+                    height: '20px',
+                  }}
+                />
+                Login
+              </button>
+            </div>
+          </Html>
+        </mesh>
       </group>
     </group>
   )

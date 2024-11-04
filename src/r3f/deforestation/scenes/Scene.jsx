@@ -297,7 +297,7 @@ const Scene = ({ ready}) => {
             </group>
           </>
         )}
-        <Platform onClick={handlePlatformClick} position={[16.895, 19, -45.858]}/>
+        <Platform onDoubleClick={handlePlatformClick} position={[16.895, 19, -45.858]}/>
         <Desk position={[19.7, 19.2, -46.2]} rotation={[0,Math.PI,0]}/>
         <Laptop position={[20, 19.95, -45.75]} rotation={[0,Math.PI,0]}/>
         <Printer position={[18.98, 20.14, -45.65]} rotation={[0,Math.PI*3/4,0]}/>
