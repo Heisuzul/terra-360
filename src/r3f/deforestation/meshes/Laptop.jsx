@@ -1,12 +1,17 @@
-import React, { useRef } from 'react'
+import React, { useRef, useCallback, useMemo } from 'react'
 import { useGLTF, Html } from '@react-three/drei'
-import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-export default function Model(props) {
+export default function Model({ externalRefs = [], ...props }) {
   const { nodes, materials } = useGLTF('/models-3d/deforestation/laptop.glb')
   const displayRef = useRef()
   const navigate = useNavigate();
+
+   // Filter and validate refs - only include refs that have a current value
+  const validOccludeRefs = useMemo(() => {
+    const allRefs = [displayRef, ...(Array.isArray(externalRefs) ? externalRefs : [])]
+    return allRefs.filter(ref => ref && ref.current)
+  }, [externalRefs])
 
   const handleButtonLogin = useCallback(() => {
     navigate('/world'); // Navega a "/about" después de la autenticación
@@ -70,7 +75,7 @@ export default function Model(props) {
           material={materials['Display Glass']}>
           <Html
             transform
-            occlude={[displayRef]}
+            occlude={validOccludeRefs.length > 0 ? validOccludeRefs : undefined}
             distanceFactor={1.0}
             position={[-0.01, -0.07, -0.80]}
             rotation={[Math.PI * 17.625/ 12, 0, 0]}
