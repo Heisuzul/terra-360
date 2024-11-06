@@ -35,9 +35,10 @@ function Login() {
     }, [user]);
     
     const handleLogin = useCallback(async () => {
-          await loginGoogleWithPopup(); // Espera a que se complete la autenticación
-          navigate('/world'); // Navega a "/about" después de la autenticación
-      }, [loginGoogleWithPopup, navigate]);
+        localStorage.clear();
+        await loginGoogleWithPopup(); // Espera a que se complete la autenticación
+        navigate('/world'); // Navega a "/about" después de la autenticación
+    }, [loginGoogleWithPopup, navigate]);
  
     const handleLogout = useCallback(async() => {
         await logout();
@@ -78,6 +79,9 @@ function Login() {
                             <div className={styles.introductionDiv}> 
                                 <p className={styles.introductionText}>
                                 Earth faces critical environmental issues that threaten life and sustainability. <b>Deforestation</b> removes vital forests, impacting climate and habitats. <b>Soil erosion</b> depletes land of nutrients, reducing food security. <b>Biodiversity loss</b> disrupts ecosystems, endangering countless species and our own well-being. Together, we can take action to protect and preserve our planet.
+                                </p>
+                                <p id={styles.continueText}>
+                                    <em>Click <b>outside</b> to continue...</em>
                                 </p>
                             </div>
                         )}

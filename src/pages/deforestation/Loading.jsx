@@ -20,17 +20,17 @@ export default function Loading({ children }) {
 
   return (
     <>
-      {clicked && cloneElement(children, { ready: clicked, setReady })}
+      {clicked && cloneElement(children, { ready: clicked })}
       {!clicked && (
         <>
           <Ready setReady={setReady} />
           <div className={`fullscreen bg ${ready ? 'ready' : 'not ready'}`}>
             <div className="stack">
               {!ready? <button disabled onClick={() => setClicked(true)}>
-                {'Cargando...'}
+                {'Loading...'}
               </button> :
               <button onClick={() => setClicked(true)}>
-                {'Click para continuar'}
+                {'Click to continue'}
               </button>
               }
             </div>

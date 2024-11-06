@@ -5,13 +5,13 @@ import { useRef } from "react";
 
 const Tree = ({position}) => {
   const boxRef = useRef();
-  console.log(boxRef);
+  // console.log(boxRef);
   const coneRef = useRef();
-  console.log(coneRef);
+  // console.log(coneRef);
   const coneRef1 = useRef();
-  console.log(coneRef1);
+  // console.log(coneRef1);
   const coneRef2 = useRef();
-  console.log(coneRef2);
+  // console.log(coneRef2);
 
   // useFrame((state, delta) => {
   //   boxRef.current.rotation.y += 1 * delta;

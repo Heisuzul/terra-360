@@ -39,8 +39,13 @@
 }
 
 .introductionText {
-    color: #9e5b2b;
+    color: #8f4816;
     font-weight: 600;
+    text-align: center;
+}
+
+.introductionText b {
+    color: #277e0b;
 }
 
 .welcomeDiv {
@@ -76,9 +81,15 @@
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    /* align-items: center; */
     gap: 10px;
-    text-align: center;
+}
+
+#continueText {
+    color: #9e5b2b;
+    font-size: small;
+    font-weight: 500;
+    text-align: right;
 }
 
 .loginContainer {

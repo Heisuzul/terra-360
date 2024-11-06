@@ -22,7 +22,7 @@ import { useAuthStore } from '../../../stores/use-auth-store';
 import { Loader, PositionalAudio } from '@react-three/drei';
 
 
-const Scene = ({ ready}) => {
+const Scene = ({ ready }) => {
   const terrainRef = useRef();
   const { logout } = useAuthStore();
   const navigate = useNavigate();
@@ -35,6 +35,7 @@ const Scene = ({ ready}) => {
   }, []);
 
   const handleLogout = useCallback(async() => {
+      localStorage.clear();
       await logout();
       navigate('/'); // Navega a "/" después de desloguearse
   }, [logout], [navigate]);
@@ -229,7 +230,7 @@ const Scene = ({ ready}) => {
         position: [currentState.position.x,currentState.position.y-3.5,currentState.position.z-1],
         fov: 70 }}
       >
-        <CameraLogger />
+        {/* <CameraLogger /> */}
         <CameraController 
           target={currentState.target}
           position={currentState.position}
