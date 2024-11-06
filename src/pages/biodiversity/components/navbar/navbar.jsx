@@ -1,9 +1,12 @@
 import React from 'react'
 import styles from './navbar.module.css'
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
+  const navigate = useNavigate();
   return (
     <div className={styles.navbar}>
+      <button className={styles.backButton} onClick={() => navigate(-1)}> ← Go Back</button>
         <ul className={styles.navMenu}>
             <li>Biodiversity</li>
             <li>Consequences</li>
