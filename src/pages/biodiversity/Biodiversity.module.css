@@ -74,6 +74,13 @@
   pointer-events: none; /* Opcional, para evitar clics en el div oculto */
 }
 
+.continueText {
+  color: #9e5b2b;
+  font-size: small;
+  font-weight: 500;
+  text-align: right;
+}
+
 .speciesInfo {
   margin: 0px;
   padding: 15px 20px;
