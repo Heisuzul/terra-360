@@ -105,12 +105,12 @@ function Biodiversity() {
     <div className={styles.pageContainer}>
        {isIntroVisible && (
         <div ref={introRef} className={`${styles.intro} ${isFading ? styles.fadeOut : ''}`}>
-          <p>
+          <p >
             The loss of biodiversity is one of the most critical environmental problems of our time. It refers to the decrease in the variety of life on Earth,
             encompassing animal and plant species, and entire ecosystems. This phenomenon is being accelerated by human activity, mainly due to the destruction of habitats,
             climate change, pollution, overexploitation of natural resources, and the introduction of invasive species.
           </p>
-          <p id={styles.continueText}>
+          <p className={styles.continueText}>
             <em>Click <b>outside</b> to continue...</em>
           </p>
         </div>
