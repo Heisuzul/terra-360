@@ -14,6 +14,17 @@ const Deforestation = ({ ready }) => {
   };
 
   useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 't') {
+        setShowInstructions(true);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  useEffect(() => {
     const handleLocalStorageChange = () => {
       const hideInstructions = localStorage.getItem('hideInstructions');
       setShowInstructions(hideInstructions !== 'true');

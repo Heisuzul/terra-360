@@ -26,7 +26,8 @@ const Scene = ({ ready }) => {
   const terrainRef = useRef();
   const { logout } = useAuthStore();
   const navigate = useNavigate();
-  const audioRef = useRef();
+  const audioBackgroundRef1 = useRef();
+  const audioBackgroundRef2 = useRef();
   const printerRef = useRef();
 
   const handleTerrainLoad = useCallback((terrain) => {
@@ -116,10 +117,23 @@ const Scene = ({ ready }) => {
     setStateIndex(0); // Reset to the first state in the new set
   };
 
+  const [isAudioPlaying, setIsAudioPlaying] = useState(true);
+
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') {
         setStateIndex(0); // Reset to initial state
+      } else if (event.key === 'm') {
+        if (audioBackgroundRef1.current && audioBackgroundRef2.current) {
+          if (isAudioPlaying) {
+            audioBackgroundRef1.current.pause();
+            audioBackgroundRef2.current.pause();
+          } else {
+            audioBackgroundRef1.current.play();
+            audioBackgroundRef2.current.play();
+          }
+        }
+        setIsAudioPlaying(!isAudioPlaying);
       } else if (event.key === 'ArrowRight' && activeSet === 1) {
         // handleNext();
         handleBack();
@@ -140,7 +154,7 @@ const Scene = ({ ready }) => {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleNext, handleBack, toggleCameraSet]);
+  }, [handleNext, handleBack, toggleCameraSet, setIsAudioPlaying, isAudioPlaying]);
 
   useEffect(() => {
     let startX = 0;
@@ -281,7 +295,7 @@ const Scene = ({ ready }) => {
           <>
             <group position={[25, 25, 10]}>
               <PositionalAudio
-                ref={audioRef}
+                ref={audioBackgroundRef1}
                 autoplay
                 loop
                 url="/sounds/nature.mp3"
@@ -290,7 +304,7 @@ const Scene = ({ ready }) => {
             </group>
             <group position={[-25, 25, -10]}>
               <PositionalAudio
-                ref={audioRef}
+                ref={audioBackgroundRef2}
                 autoplay
                 loop
                 url="/sounds/nature2.mp3"
