@@ -18,6 +18,7 @@ function Biodiversity() {
   const [isOrchidHovered, setIsOrchidHovered] = useState(false);
   const [isWolfHovered, setIsWolfHovered] = useState(false);
   const introRef = useRef(null);
+  const cameraRef = useRef();
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -29,6 +30,56 @@ function Biodiversity() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {document.removeEventListener("mousedown", handleClickOutside);};
   }, []);
+
+  const keys = {
+    ArrowUp: false,
+    ArrowDown: false,
+    ArrowLeft: false,
+    ArrowRight: false,
+  };
+
+  function onKeyDown(event) {
+    if (keys.hasOwnProperty(event.key)) {
+      keys[event.key] = true;
+    }
+  }
+
+  function onKeyUp(event) {
+    if (keys.hasOwnProperty(event.key)) {
+      keys[event.key] = false;
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('keydown', onKeyDown);
+    window.addEventListener('keyup', onKeyUp);
+
+    // Actualizar la cámara cuando las teclas estén presionadas
+    const moveCamera = () => {
+      if (cameraRef.current) {
+        const camera = cameraRef.current;
+
+        // Movimiento de la cámara en función de las teclas de flecha
+        if (keys.ArrowUp) camera.position.z -= 1.7;  // Movimiento hacia adelante
+        if (keys.ArrowDown) camera.position.z += 1.7; // Movimiento hacia atrás
+        if (keys.ArrowLeft) camera.position.x -= 1.7; // Movimiento hacia la izquierda
+        if (keys.ArrowRight) camera.position.x += 1.7; // Movimiento hacia la derecha
+      }
+    };
+
+    // Animación continua usando requestAnimationFrame
+    const animate = () => {
+      moveCamera();
+      requestAnimationFrame(animate); // Llama a la función de nuevo en el siguiente frame
+    };
+
+    animate(); // Iniciar la animación
+
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener('keyup', onKeyUp);
+    };
+  }, [keys]);
 
   return (
     <>
@@ -54,18 +105,22 @@ function Biodiversity() {
     <div className={styles.pageContainer}>
        {isIntroVisible && (
         <div ref={introRef} className={`${styles.intro} ${isFading ? styles.fadeOut : ''}`}>
-          <p>
+          <p >
             The loss of biodiversity is one of the most critical environmental problems of our time. It refers to the decrease in the variety of life on Earth,
             encompassing animal and plant species, and entire ecosystems. This phenomenon is being accelerated by human activity, mainly due to the destruction of habitats,
             climate change, pollution, overexploitation of natural resources, and the introduction of invasive species.
           </p>
+          <p className={styles.continueText}>
+            <em>Click <b>outside</b> to continue...</em>
+          </p>
         </div>
       )}
       <div className={`${styles.canvasContainer} ${styles.background}`}>
-      <Canvas>
+      <Canvas shadowMap>
         <EffectComposer>
-        <PerspectiveCamera makeDefault fov={70} position={[10, -20, 150]} rotation={[-Math.PI / 6, 0, 0]} />
+        <PerspectiveCamera ref={cameraRef} makeDefault fov={70} position={[10, -20, 150]} rotation={[-Math.PI / 6, 0, 0]} />
           <ambientLight intensity={0.9} color="#ffc199"/>
+          <directionalLight position={[10, 20, 100]} intensity={0.5} castShadow shadow-camera-far={50}/>
           <OrbitControls minDistance={2} maxDistance={170} maxPolarAngle={Math.PI * 0.55} minPolarAngle={-100} />
           <Suspense fallback={null}>
             <Forest color='hotpink'/>
