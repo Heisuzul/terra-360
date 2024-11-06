@@ -44,3 +44,15 @@
   transform: scale(1.05);
 }
 
+.backButton {
+  margin: 0px 40px;
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #579135;
+  background-color: #579135;
+  transition: 0.5s;
+}
+
+.backButton:hover {
+  transform: scale(1.05);
+}

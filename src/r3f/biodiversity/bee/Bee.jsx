@@ -31,7 +31,7 @@ export default function Model(props) {
     <>
     <group  ref={groupRef} {...props} dispose={null}  >
       <group scale={0.01}>
-        <group position={[0,0, 0]} rotation={[-Math.PI / 2, 0, -1]} scale={80}>
+        <group position={[0,800, 1009]} rotation={[-Math.PI / 2.5, 0, -1]} scale={80}>
           <mesh geometry={nodes.beehive006_Atlas_Alpha_0.geometry} material={materials.Atlas_Alpha} />
           <mesh geometry={nodes.beehive006_Atlas_0.geometry} material={materials.Atlas} />
           <mesh geometry={nodes.beehive006_Atlas_Shiny_0.geometry} material={materials.Atlas_Shiny} />
