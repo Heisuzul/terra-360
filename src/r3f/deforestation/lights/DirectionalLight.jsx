@@ -11,10 +11,10 @@ const DirectionalLight = ({
   shadowCamera = {
     near: 0.5,
     far: 1000,            // Increase far value to encompass larger scenes
-    left: -512,          // Half of the plane size
-    right: 512,
-    top: 512,
-    bottom: -512
+    left: -64,          // Half of the plane size
+    right: 64,
+    top: 64,
+    bottom: -64
   } 
 }) => {
   const dlRef = useRef();
@@ -27,7 +27,7 @@ const DirectionalLight = ({
       intensity={intensity} 
       position={position} 
       color={color}
-      shadow-bias={-0.001}
+      shadow-bias={-0.0001}
       shadow-mapSize-width={shadowMapSize} // Set shadow map size
       shadow-mapSize-height={shadowMapSize}
       shadow-camera-near={shadowCamera.near} // Configure shadow camera

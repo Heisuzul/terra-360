@@ -1,0 +1,56 @@
+.fullscreen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0; /* Light grey background */
+    transition: background-color 0.5s ease;
+  }
+  
+  .bg.ready {
+    background-color: #e0ffe0; /* Light green when ready */
+  }
+  
+  .bg.not.ready {
+    background-color: #f0c0c0; /* Light red before ready */
+  }
+  
+  .stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem; /* Space between elements */
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Soft shadow for modern depth */
+    background-color: #ffffff; /* White container */
+  }
+  
+  button {
+    background-color: #007bff; /* Bright blue background */
+    color: white;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2); /* Subtle blue shadow */
+  }
+  
+  button:disabled {
+    background-color: #313131; /* Greyed out when disabled */
+    cursor: not-allowed;
+  }
+  
+  button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+  }
+  
+  button:active {
+    background-color: #004494; /* Darker blue when clicked */
+    transform: translateY(0); /* Pressed effect */
+  }
+  
