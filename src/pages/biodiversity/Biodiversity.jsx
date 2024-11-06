@@ -110,6 +110,9 @@ function Biodiversity() {
             encompassing animal and plant species, and entire ecosystems. This phenomenon is being accelerated by human activity, mainly due to the destruction of habitats,
             climate change, pollution, overexploitation of natural resources, and the introduction of invasive species.
           </p>
+          <p id={styles.continueText}>
+            <em>Click <b>outside</b> to continue...</em>
+          </p>
         </div>
       )}
       <div className={`${styles.canvasContainer} ${styles.background}`}>
