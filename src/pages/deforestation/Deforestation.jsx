@@ -60,22 +60,22 @@ const Deforestation = ({ ready }) => {
       }, 5000);
     };
 
-    const handleMouseDown = (e) => {
-      if (!e.target.closest('.instructions-overlay')) {
-        isDraggingRef.current = true;
-        handleInteraction(e);
-      }
-    };
+    // const handleMouseDown = (e) => {
+    //   if (!e.target.closest('.instructions-overlay')) {
+    //     isDraggingRef.current = true;
+    //     handleInteraction(e);
+    //   }
+    // };
 
-    const handleMouseUp = () => {
-      isDraggingRef.current = false;
-    };
+    // const handleMouseUp = () => {
+    //   isDraggingRef.current = false;
+    // };
 
-    const handleMouseMove = (e) => {
-      if (isDraggingRef.current) {
-        handleInteraction(e);
-      }
-    };
+    // const handleMouseMove = (e) => {
+    //   if (isDraggingRef.current) {
+    //     handleInteraction(e);
+    //   }
+    // };
 
     let touchStartX = 0;
     let touchStartY = 0;
@@ -117,9 +117,9 @@ const Deforestation = ({ ready }) => {
       }
     };
 
-    window.addEventListener('mousedown', handleMouseDown);
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
+    // window.addEventListener('mousedown', handleMouseDown);
+    // window.addEventListener('mousemove', handleMouseMove);
+    // window.addEventListener('mouseup', handleMouseUp);
     window.addEventListener('click', handleClick);
     window.addEventListener('dblclick', handleDblClick);
     window.addEventListener('touchstart', handleTouchStart);
@@ -132,9 +132,9 @@ const Deforestation = ({ ready }) => {
     }, 5000);
 
     return () => {
-      window.removeEventListener('mousedown', handleMouseDown);
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
+      // window.removeEventListener('mousedown', handleMouseDown);
+      // window.removeEventListener('mousemove', handleMouseMove);
+      // window.removeEventListener('mouseup', handleMouseUp);
       window.removeEventListener('click', handleClick);
       window.removeEventListener('dblclick', handleDblClick);
       window.removeEventListener('touchstart', handleTouchStart);
