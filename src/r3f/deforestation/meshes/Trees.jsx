@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useEffect, useState, useMemo, useCallback, forwardRef, useImperativeHandle } from 'react';
 import { Vector3, Raycaster } from 'three';
 import Tree from "../meshes/Tree";
+import { originalTreePositions } from '../data/treePositions';
 
 // This will store our cached positions for different terrain configurations
 const positionCache = new Map();
 
-const Trees = ({ 
+const Trees = forwardRef(({ 
   terrain, 
   delta, 
   amount_rows, 
@@ -14,7 +15,7 @@ const Trees = ({
   phase_z, 
   space,
   terrainId = 'default' // Add an ID to identify different terrains
-}) => {
+}, ref) => {
   const [treePositions, setTreePositions] = useState([]);
   const raycaster = useMemo(() => new Raycaster(), []);
 
@@ -38,7 +39,7 @@ const Trees = ({
   };
 
   const calculateTreePositions = useCallback(() => {
-    if (terrain && terrain.current && terrain.current.geometry.boundingBox) {
+     if (terrain && terrain.current && terrain.current.geometry.boundingBox) {
       const positions = [];
       const rows = amount_rows;
       const cols = amount_cols;
@@ -115,7 +116,13 @@ const Trees = ({
   };
 
   useEffect(() => {
-    const delay = setTimeout(() => {
+    if (originalTreePositions.length > 0) {
+      setTreePositions(originalTreePositions.map(pos => new Vector3(pos.x, pos.y, pos.z)));
+      console.log('Tree positions loaded from originalTreePositions');
+      return;
+    }
+
+    const delay = setTimeout(() => { 
       if (terrain?.current?.geometry?.boundingBox) {
         // Try to load cached positions first
         if (!loadCachedPositions()) {
@@ -130,6 +137,11 @@ const Trees = ({
     return () => clearTimeout(delay);
   }, [terrain, calculateTreePositions, loadCachedPositions, delta]);
 
+  // Use `useImperativeHandle` to expose `exportPositions`
+  useImperativeHandle(ref, () => ({
+    exportPositions
+  }));
+
   return (
     <>
       {treePositions.map((position, index) => (
@@ -137,6 +149,6 @@ const Trees = ({
       ))}
     </>
   );
-};
+});
 
 export default Trees;

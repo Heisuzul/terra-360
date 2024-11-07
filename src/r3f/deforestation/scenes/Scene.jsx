@@ -29,6 +29,7 @@ const Scene = ({ ready }) => {
   const audioBackgroundRef1 = useRef();
   const audioBackgroundRef2 = useRef();
   const printerRef = useRef();
+  const treesRef = useRef(null);
 
   const handleTerrainLoad = useCallback((terrain) => {
     terrainRef.current = terrain;
@@ -115,6 +116,12 @@ const Scene = ({ ready }) => {
   const toggleCameraSet = () => {
     setActiveSet((prevSet) => (prevSet === 1 ? 2 : 1));
     setStateIndex(0); // Reset to the first state in the new set
+
+    // Enable to export tree positions
+    // if (treesRef.current) {
+    //   const positions = treesRef.current.exportPositions();
+    //   console.log(positions);
+    // }
   };
 
   const [isAudioPlaying, setIsAudioPlaying] = useState(true);
@@ -256,7 +263,7 @@ const Scene = ({ ready }) => {
         <AmbientLight intensity={1.5} color="#ffffff" />
         <DirectionalLight intensity={2} position={[30, 50, 20]}/>
         <Terrain onTerrainLoad={handleTerrainLoad} />
-        <Trees terrain={terrainRef} amount_rows={12} amount_cols={16} phase_x={0} phase_z={0} space={6}/>
+        <Trees ref={treesRef} terrain={terrainRef} amount_rows={12} amount_cols={16} phase_x={0} phase_z={0} space={6}/>
         <BackNextArrows 
           position={[15,18.48,-42]} 
           rotation={[0,Math.PI*(11/12),0]} 
