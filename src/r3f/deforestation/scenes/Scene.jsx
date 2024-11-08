@@ -243,7 +243,12 @@ const Scene = ({ ready }) => {
   const handlePlatformClick = useCallback((event) => {
     event.stopPropagation();
     toggleCameraSet();
-  })
+  });
+
+  const handleDoubleClick = useCallback((targetIndex) => (event) => {
+    event.stopPropagation();
+    setStateIndex(targetIndex);
+  });
 
   return (
     <div className={styles.pageContainer}>
@@ -269,6 +274,7 @@ const Scene = ({ ready }) => {
           rotation={[0,Math.PI*(11/12),0]} 
           onNextClick={handleNext} 
           onBackClick={handleLogout}
+          onDoubleClick={handlePlatformClick}
           textNext={"Explore the forest"}
           textBack={"Sign Out"}
         />
@@ -320,12 +326,12 @@ const Scene = ({ ready }) => {
             </group>
           </>
         )}
-        <Platform onDoubleClick={handlePlatformClick} position={[16.895, 19, -45.858]}/>
+        <Platform onDoubleClick={handleDoubleClick(0)} position={[16.895, 19, -45.858]}/>
         <Desk position={[19.7, 19.2, -46.2]} rotation={[0,Math.PI,0]}/>
-        <Laptop externalRefs={[printerRef]} position={[20, 19.95, -45.75]} rotation={[0,Math.PI,0]}/>
-        <Printer ref={printerRef} position={[18.98, 20.14, -45.65]} rotation={[0,Math.PI*3/4,0]}/>
-        <PhoneBody position={[19.1, 19.95, -46.7]} rotation={[0,Math.PI*2/4,0]}/>
-        <PhoneHandle position={[19.1, 19.95, -46.7]} rotation={[0,Math.PI*2/4,0]}/>
+        <Laptop onDoubleClick={handleDoubleClick(1)} externalRefs={[printerRef]} position={[20, 19.95, -45.75]} rotation={[0,Math.PI,0]}/>
+        <Printer onDoubleClick={handleDoubleClick(2)} ref={printerRef} position={[18.98, 20.14, -45.65]} rotation={[0,Math.PI*3/4,0]}/>
+        <PhoneBody onDoubleClick={handleDoubleClick(3)} position={[19.1, 19.95, -46.7]} rotation={[0,Math.PI*2/4,0]}/>
+        <PhoneHandle onDoubleClick={handleDoubleClick(3)} position={[19.1, 19.95, -46.7]} rotation={[0,Math.PI*2/4,0]}/>
       </Canvas>
       <Loader />
     </div>

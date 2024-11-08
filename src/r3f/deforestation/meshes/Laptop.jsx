@@ -88,6 +88,7 @@ export default function Model({ externalRefs = [], ...props }) {
               alignItems: 'center',
               justifyContent: 'center',
               background: '#bbeaff',
+              userSelect: 'none',
             }}
           >
             <div style={{
