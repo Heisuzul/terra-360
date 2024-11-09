@@ -1,0 +1,22 @@
+/* Button styles */
+.tutorial-button,
+.mute-button {
+    width: 32px;
+    height: 32px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+    pointer-events: auto;
+}
+
+.tutorial-buttons {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    z-index: 999; /* Ensure the buttons are on top of other elements */
+}

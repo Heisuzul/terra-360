@@ -22,7 +22,7 @@ import { useAuthStore } from '../../../stores/use-auth-store';
 import { Loader, PositionalAudio } from '@react-three/drei';
 
 
-const Scene = ({ ready }) => {
+const Scene = ({ ready, isMuted }) => {
   const terrainRef = useRef();
   const { logout } = useAuthStore();
   const navigate = useNavigate();
@@ -249,6 +249,19 @@ const Scene = ({ ready }) => {
     event.stopPropagation();
     setStateIndex(targetIndex);
   });
+
+  useEffect(() => {
+    if (audioBackgroundRef1.current && audioBackgroundRef2.current) {
+      if (isMuted) {
+        audioBackgroundRef1.current.pause();
+        audioBackgroundRef2.current.pause();
+      } else {
+        audioBackgroundRef1.current.play();
+        audioBackgroundRef2.current.play();
+      }
+    }
+    setIsAudioPlaying(!isAudioPlaying);
+  }, [isMuted]);
 
   return (
     <div className={styles.pageContainer}>
