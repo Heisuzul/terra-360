@@ -30,6 +30,7 @@ const Scene = ({ ready, isMuted }) => {
   const audioBackgroundRef2 = useRef();
   const printerRef = useRef();
   const treesRef = useRef(null);
+  const [isControlsEnabled, setIsControlsEnabled] = useState(true);
 
   const handleTerrainLoad = useCallback((terrain) => {
     terrainRef.current = terrain;
@@ -112,6 +113,15 @@ const Scene = ({ ready, isMuted }) => {
     }
   }, [currentCameraStates.length]);
 
+    // Handlers for switching camera states within the active set
+    const handleKeyboardNext = useCallback(() => {
+      setStateIndex((prevIndex) => (prevIndex + 1) % currentCameraStates.length);
+    }, [currentCameraStates.length]);
+  
+    const handleKeyboardBack = useCallback(() => {
+      setStateIndex((prevIndex) => (prevIndex - 1 + currentCameraStates.length) % currentCameraStates.length);
+    }, [currentCameraStates.length]);
+
   const handleStartQuiz = useCallback(() => {
     toggleCameraSet();
   }, []);
@@ -146,16 +156,16 @@ const Scene = ({ ready, isMuted }) => {
         }
         setIsAudioPlaying(!isAudioPlaying);
       } else if (event.key === 'ArrowRight' && activeSet === 1) {
-        // handleNext();
-        handleBack();
+        // handleKeyboardNext();
+        handleKeyboardBack();
       } else if (event.key === 'ArrowLeft' && activeSet === 1) {
-        // handleBack();
-        handleNext();
+        // handleKeyboardBack();
+        handleKeyboardNext();
       } else if (event.key === 'ArrowRight' && activeSet === 2) {
-        handleNext();
-        // handleBack();
+        handleKeyboardNext();
+        // handleKeyboardBack();
       } else if (event.key === 'ArrowLeft' && activeSet === 2) {
-        handleBack();
+        handleKeyboardBack();
         // handleNext();
       } else if (event.key === 'Enter') {
          // Switch between sets on Enter key
@@ -278,11 +288,12 @@ const Scene = ({ ready, isMuted }) => {
         fov: 70 }}
       >
         {/* <CameraLogger /> */}
-        <CameraController 
+        <CameraController
           target={currentState.target}
           position={currentState.position}
           minDistance={currentState.minDistance}
           maxDistance={currentState.maxDistance}
+          isControlsEnabled={isControlsEnabled}
         />
         <Staging/>
         {/* <ambientLight intensity={0.5} /> */}
@@ -352,7 +363,14 @@ const Scene = ({ ready, isMuted }) => {
         <Laptop onDoubleClick={handleDoubleClick(1)} externalRefs={[printerRef]} position={[20, 19.95, -45.75]} rotation={[0,Math.PI,0]}/>
         <Printer onDoubleClick={handleDoubleClick(2)} ref={printerRef} position={[18.98, 20.14, -45.65]} rotation={[0,Math.PI*3/4,0]}/>
         <PhoneBody onDoubleClick={handleDoubleClick(3)} position={[19.1, 19.95, -46.7]} rotation={[0,Math.PI*2/4,0]}/>
-        <PhoneHandle onDoubleClick={handleDoubleClick(3)} position={[19.1, 19.95, -46.7]} rotation={[0,Math.PI*2/4,0]}/>
+        <PhoneHandle 
+          position={[19.1, 19.95, -46.7]} 
+          rotation={[0, Math.PI*2/4, 0]}
+          onDragStart={() => setIsControlsEnabled(false)}
+          onDragEnd={() => setIsControlsEnabled(true)}
+          onDoubleClick={handleDoubleClick(3)}
+          sceneIndex={stateIndex}
+        />
         <Sparkles
           position={[25, 10, -25]}
           count= { 256 }

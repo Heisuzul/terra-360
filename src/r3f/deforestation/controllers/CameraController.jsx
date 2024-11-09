@@ -4,20 +4,27 @@ import { useRef, useEffect } from "react";
 import * as THREE from "three";
 import { useState } from "react";
 
-const CameraController = ({ target, position, minDistance = 3, maxDistance = 55, transitionDuration = 1000 }) => {
+const CameraController = ({ 
+  target, 
+  position, 
+  minDistance = 3, 
+  maxDistance = 55, 
+  transitionDuration = 1000,
+  isControlsEnabled = true 
+}) => {
   const { camera } = useThree();
   const controlsRef = useRef();
   const [isTransitioning, setIsTransitioning] = useState(false);
   const startTime = useRef(0);
   
-  // Create refs for start and end positions/targets
   const startPosition = useRef(new THREE.Vector3());
   const startTarget = useRef(new THREE.Vector3());
   const endPosition = useRef(new THREE.Vector3(position.x, position.y, position.z));
   const endTarget = useRef(new THREE.Vector3(target.x, target.y, target.z));
 
   useEffect(() => {
-    // When target or position props change, start a new transition
+    if (!controlsRef.current) return;
+    
     startPosition.current.copy(camera.position);
     startTarget.current.copy(controlsRef.current.target);
     
@@ -29,22 +36,17 @@ const CameraController = ({ target, position, minDistance = 3, maxDistance = 55,
   }, [target, position]);
 
   useFrame(() => {
-    if (!isTransitioning) return;
+    if (!isTransitioning || !controlsRef.current) return;
 
     const elapsed = performance.now() - startTime.current;
     const progress = Math.min(elapsed / transitionDuration, 1);
-    
-    // Use easing function for smooth acceleration and deceleration
     const eased = easeInOutCubic(progress);
 
-    // Interpolate position and target
     camera.position.lerpVectors(startPosition.current, endPosition.current, eased);
     controlsRef.current.target.lerpVectors(startTarget.current, endTarget.current, eased);
     
-    // Update controls
     controlsRef.current.update();
 
-    // Check if transition is complete
     if (progress === 1) {
       setIsTransitioning(false);
     }
@@ -55,23 +57,22 @@ const CameraController = ({ target, position, minDistance = 3, maxDistance = 55,
       ref={controlsRef}
       enableDamping={true}
       dampingFactor={0.05}
-      enabled={!isTransitioning} // Disable controls during transition
+      enabled={!isTransitioning /*&& isControlsEnabled*/}
       enableZoom={true}
       enablePan={false}
-      enableRotate={true}
+      enableRotate={isControlsEnabled}
       minDistance={minDistance}
       maxDistance={maxDistance}
       minPolarAngle={0}
-      maxPolarAngle={Math.PI / 2} // Limit vertical rotation to prevent going below ground
+      maxPolarAngle={Math.PI / 2}
     />
   );
 };
 
-// Cubic easing function for smooth acceleration and deceleration
 const easeInOutCubic = (t) => {
   return t < 0.5
     ? 4 * t * t * t
     : 1 - Math.pow(-2 * t + 2, 3) / 2;
 };
 
-export default CameraController;  
+export default CameraController;
