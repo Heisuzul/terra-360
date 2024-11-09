@@ -19,7 +19,7 @@ import CameraController from '../controllers/CameraController';
 import CameraLogger from '../../utils/CameraLogger';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../stores/use-auth-store';
-import { Loader, PositionalAudio } from '@react-three/drei';
+import { Loader, PositionalAudio, Sparkles } from '@react-three/drei';
 
 
 const Scene = ({ ready, isMuted }) => {
@@ -345,6 +345,36 @@ const Scene = ({ ready, isMuted }) => {
         <Printer onDoubleClick={handleDoubleClick(2)} ref={printerRef} position={[18.98, 20.14, -45.65]} rotation={[0,Math.PI*3/4,0]}/>
         <PhoneBody onDoubleClick={handleDoubleClick(3)} position={[19.1, 19.95, -46.7]} rotation={[0,Math.PI*2/4,0]}/>
         <PhoneHandle onDoubleClick={handleDoubleClick(3)} position={[19.1, 19.95, -46.7]} rotation={[0,Math.PI*2/4,0]}/>
+        <Sparkles
+          position={[25, 10, -25]}
+          count= { 256 }
+          speed= { 1 }
+          opacity= { 0.5 }
+          color= { "#e0bf46"}
+          size= { 10 }
+          scale= { [50, 30, 50]}
+          noise= { 1}
+        />
+        <Sparkles
+          position={[25, 15, 25]}
+          count= { 256 }
+          speed= { 1 }
+          opacity= { 0.5 }
+          color= { "#e0bf46"}
+          size= { 10 }
+          scale= { [50, 20, 50]}
+          noise= { 1}
+        />
+        <Sparkles
+          position={[-25, 15, -25]}
+          count= { 256 }
+          speed= { 1 }
+          opacity= { 0.5 }
+          color= { "#e0bf46"}
+          size= { 10 }
+          scale= { [50, 20, 50]}
+          noise= { 1}
+        />
       </Canvas>
       <Loader />
     </div>
