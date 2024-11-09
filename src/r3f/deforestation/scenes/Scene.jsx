@@ -207,12 +207,12 @@ const Scene = ({ ready, isMuted }) => {
       duration < SWIPE_DURATION_THRESHOLD) {
         if (deltaX > 0) {
           // Swipe left for next camera state
-          // handleNext();
-          handleBack();
+          // handleKeyboardNext();
+          handleKeyboardBack();
         } else {
           // Swipe right for previous camera state
-          // handleBack();
-          handleNext();
+          // handleKeyboardBack();
+          handleKeyboardNext();
         }
       }
 
@@ -221,12 +221,12 @@ const Scene = ({ ready, isMuted }) => {
       duration < SWIPE_DURATION_THRESHOLD) {
         if (deltaX > 0) {
           // Swipe left for next camera state
-          handleNext();
-          // handleBack();
+          handleKeyboardNext();
+          // handleKeyboardBack();
         } else {
           // Swipe right for previous camera state
-          handleBack();
-          // handleNext();
+          handleKeyboardBack();
+          // handleKeyboardNext();
         }
       }
       // Reset start and end positions
