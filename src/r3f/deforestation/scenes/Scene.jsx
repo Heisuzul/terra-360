@@ -101,11 +101,15 @@ const Scene = ({ ready, isMuted }) => {
 
   // Handlers for switching camera states within the active set
   const handleNext = useCallback(() => {
-    setStateIndex((prevIndex) => (prevIndex + 1) % currentCameraStates.length);
+    if(activeSet === 1){
+      setStateIndex((prevIndex) => (prevIndex + 1) % currentCameraStates.length);
+    }
   }, [currentCameraStates.length]);
 
   const handleBack = useCallback(() => {
-    setStateIndex((prevIndex) => (prevIndex - 1 + currentCameraStates.length) % currentCameraStates.length);
+    if(activeSet === 1){
+      setStateIndex((prevIndex) => (prevIndex - 1 + currentCameraStates.length) % currentCameraStates.length);
+    }
   }, [currentCameraStates.length]);
 
   const handleStartQuiz = useCallback(() => {
@@ -246,8 +250,12 @@ const Scene = ({ ready, isMuted }) => {
   });
 
   const handleDoubleClick = useCallback((targetIndex) => (event) => {
+    if (activeSet === 2) {
     event.stopPropagation();
     setStateIndex(targetIndex);
+    } else {
+      event.stopPropagation();
+    }
   });
 
   useEffect(() => {
@@ -349,8 +357,8 @@ const Scene = ({ ready, isMuted }) => {
           position={[25, 10, -25]}
           count= { 256 }
           speed= { 1 }
-          opacity= { 0.5 }
-          color= { "#e0bf46"}
+          opacity= { 0.7 }
+          color= { "#ffd45e"}
           size= { 10 }
           scale= { [50, 30, 50]}
           noise= { 1}
@@ -359,8 +367,8 @@ const Scene = ({ ready, isMuted }) => {
           position={[25, 15, 25]}
           count= { 256 }
           speed= { 1 }
-          opacity= { 0.5 }
-          color= { "#e0bf46"}
+          opacity= { 0.7 }
+          color= { "#ffd45e"}
           size= { 10 }
           scale= { [50, 20, 50]}
           noise= { 1}
@@ -369,8 +377,8 @@ const Scene = ({ ready, isMuted }) => {
           position={[-25, 15, -25]}
           count= { 256 }
           speed= { 1 }
-          opacity= { 0.5 }
-          color= { "#e0bf46"}
+          opacity= { 0.7 }
+          color= { "#ffd45e"}
           size= { 10 }
           scale= { [50, 20, 50]}
           noise= { 1}
