@@ -15,7 +15,6 @@ const CameraControl = () => {
   const maxScroll = 1000; 
 
   useEffect(() => {
-    
     const handleWheel = (event) => {
       event.preventDefault(); 
 
@@ -32,11 +31,26 @@ const CameraControl = () => {
   }, []);
 
   useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'ArrowRight') {
+        
+        setScrollPosition(maxScroll);
+      } else if (event.key === 'ArrowLeft') {
+        
+        setScrollPosition(0);
+      }
+    };
 
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+  useEffect(() => {
     const animateCamera = () => {
-
       const scrollFactor = scrollPosition / maxScroll;
-
 
       camera.position.lerpVectors(initialPosition, targetPosition, scrollFactor);
 
@@ -46,10 +60,8 @@ const CameraControl = () => {
         initialRotation.z + (targetRotation.z - initialRotation.z) * scrollFactor
       );
 
-
       requestAnimationFrame(animateCamera);
     };
-
 
     animateCamera();
   }, [scrollPosition, camera]);
