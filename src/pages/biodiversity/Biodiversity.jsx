@@ -8,17 +8,23 @@ import Bee from '../../r3f/biodiversity/bee/Bee'
 import Orchid from '../../r3f/biodiversity/orchid/Orchid'
 import Wolf from '../../r3f/biodiversity/wolf/Wolf'
 import Navbar from './components/navbar/navbar'
+import * as THREE from 'three'
+import keyboardControls from './components/controllers/keyboardControls';
+import { handleBeeClick, handleWolfClick,  handlePointerBeeMissed, handlePointerWolfMissed } from './components/controllers/cameraController';
 
 
 function Biodiversity() {
   const [count, setCount] = useState(0)
-  const [isIntroVisible, setIsIntroVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(true);
   const [isFading, setIsFading] = useState(false);
   const [isBeeHovered, setIsBeeHovered] = useState(false);
   const [isOrchidHovered, setIsOrchidHovered] = useState(false);
   const [isWolfHovered, setIsWolfHovered] = useState(false);
+  const [isBeeClicked, setIsBeeClicked] = useState(false);
+  const [isWolfClicked, setIsWolfClicked] = useState(false);
   const introRef = useRef(null);
   const cameraRef = useRef();
+  const [keys] = keyboardControls(cameraRef);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -31,79 +37,27 @@ function Biodiversity() {
     return () => {document.removeEventListener("mousedown", handleClickOutside);};
   }, []);
 
-  const keys = {
-    ArrowUp: false,
-    ArrowDown: false,
-    ArrowLeft: false,
-    ArrowRight: false,
-  };
-
-  function onKeyDown(event) {
-    if (keys.hasOwnProperty(event.key)) {
-      keys[event.key] = true;
-    }
-  }
-
-  function onKeyUp(event) {
-    if (keys.hasOwnProperty(event.key)) {
-      keys[event.key] = false;
-    }
-  }
-
-  useEffect(() => {
-    window.addEventListener('keydown', onKeyDown);
-    window.addEventListener('keyup', onKeyUp);
-
-    // Actualizar la cámara cuando las teclas estén presionadas
-    const moveCamera = () => {
-      if (cameraRef.current) {
-        const camera = cameraRef.current;
-
-        // Movimiento de la cámara en función de las teclas de flecha
-        if (keys.ArrowUp) camera.position.z -= 1.7;  // Movimiento hacia adelante
-        if (keys.ArrowDown) camera.position.z += 1.7; // Movimiento hacia atrás
-        if (keys.ArrowLeft) camera.position.x -= 1.7; // Movimiento hacia la izquierda
-        if (keys.ArrowRight) camera.position.x += 1.7; // Movimiento hacia la derecha
-      }
-    };
-
-    // Animación continua usando requestAnimationFrame
-    const animate = () => {
-      moveCamera();
-      requestAnimationFrame(animate); // Llama a la función de nuevo en el siguiente frame
-    };
-
-    animate(); // Iniciar la animación
-
-    return () => {
-      window.removeEventListener('keydown', onKeyDown);
-      window.removeEventListener('keyup', onKeyUp);
-    };
-  }, [keys]);
-
   return (
     <>
     <Navbar/>
     {isBeeHovered && (
-        <div className={styles.speciesInfo}>
-          Bees are essential for biodiversity and the balance of ecosystems due to their role in pollination.
-          Without this work, many plants would not be able to produce fruits or seeds, affecting the food chain and biodiversity in general.
+        <div className={styles.speciesLabel}>
+          Bees
         </div>
     )}
     {isOrchidHovered && (
-        <div className={styles.speciesInfo}>
+        <div className={styles.speciesLabel}>
           Orchids are essential for biodiversity and ecological balance due to their unique adaptations to attract pollinators, such as insects. 
           Their study in biotechnology helps preserve threatened species and improve the quality of cultivated plants.
         </div>
     )}
     {isWolfHovered && (
-      <div className={styles.speciesInfo}>
-        The Mexican wolf plays an essential role in controlling populations of herbivores, such as deer and rabbits. This helps maintain balance in ecosystems, 
-        avoiding overpopulation and degradation of vegetation.
+      <div className={styles.speciesLabel}>
+          Mexican Wolf
       </div>
     )}
     <div className={styles.pageContainer}>
-       {isIntroVisible && (
+       {isVisible && (
         <div ref={introRef} className={`${styles.intro} ${isFading ? styles.fadeOut : ''}`}>
           <p >
             The loss of biodiversity is one of the most critical environmental problems of our time. It refers to the decrease in the variety of life on Earth,
@@ -128,16 +82,20 @@ function Biodiversity() {
             position={[10, -23, 110]}
             onPointerOver={() => setIsBeeHovered(true)} 
             onPointerOut={() => setIsBeeHovered(false)} 
+            onClick={() => handleBeeClick(cameraRef, setIsBeeClicked)}
+            onPointerMissed={() => handlePointerBeeMissed(cameraRef, setIsBeeClicked)}
             />
             <Orchid 
             position={[1, -28, 123]}
-            onPointerOver={() => setIsOrchidHovered(true)} // Muestra el div
-            onPointerOut={() => setIsOrchidHovered(false)}  // Oculta el div
+            onPointerOver={() => setIsOrchidHovered(true)}
+            onPointerOut={() => setIsOrchidHovered(false)}
             />
             <Wolf 
             position={[-11, -28, 126]}
-            onPointerOver={() => setIsWolfHovered(true)} // Muestra el div
+            onPointerOver={() => setIsWolfHovered(true)} 
             onPointerOut={() => setIsWolfHovered(false)}
+            onClick={() => handleWolfClick(cameraRef, setIsWolfClicked)}
+            onPointerMissed={() => handlePointerWolfMissed(cameraRef, setIsWolfClicked)}
             />
           </Suspense>
           <Environment preset='sunset' />
@@ -145,6 +103,25 @@ function Biodiversity() {
       </Canvas>
       </div>
     </div>
+
+    {isBeeClicked && (
+        <div className={`${styles.speciesInfo} ${isFading ? styles.fadeOut : ''}`}>
+          <p>
+          Bees are essential for biodiversity and the balance of ecosystems due to their role in pollination.
+          Without this work, many plants would not be able to produce fruits or seeds, affecting the food chain and biodiversity in general.
+          </p>
+        </div>
+      )}
+
+    {isWolfClicked && (
+        <div className={`${styles.speciesInfo} ${isFading ? styles.fadeOut : ''}`}>
+          <p>
+          The Mexican wolf plays an essential role in controlling populations of herbivores, such as deer and rabbits. This helps maintain balance in ecosystems, 
+          avoiding overpopulation and degradation of vegetation.
+          </p>
+        </div>
+      )}
+      
     </>
     
   )
