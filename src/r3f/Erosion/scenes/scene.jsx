@@ -9,6 +9,7 @@ import Rocks from '/src/r3f/Erosion/meshes/rocks';
 import Staging from '/src/r3f/Erosion/staging/staging';
 import CameraControl from '/src/r3f/Erosion/camera-control/camera-control';
 import DescriptionText from '/src/r3f/Erosion/Texts-and-buttons/description-text-erosion';
+import CausesText from '/src/r3f/Erosion/Texts-and-buttons/causes-text-erosion';
 import HomeButton from '/src/r3f/Erosion/Texts-and-buttons/home-button'; 
 import './scene.css';
 
@@ -46,6 +47,7 @@ const Scene = () => {
         <Rocks position={[-0.37, 0.15, -0.4]} scale={[0.022, 0.02, 0.02]} />
         <Tumbleweed position={[0.1, 0.049, 0.1]} scale={[0.01, 0.01, 0.01]} />
         <DescriptionText />
+        <CausesText />
       </Canvas>
 
       <HomeButton onClick={handleHomeButtonClick} label="Inicio" />
