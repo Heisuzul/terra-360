@@ -13,46 +13,64 @@ import CausesText from '/src/r3f/Erosion/Texts-and-buttons/causes-text-erosion';
 import HomeButton from '/src/r3f/Erosion/Texts-and-buttons/home-button'; 
 import './scene.css';
 
-const Scene = () => {
-  const desertRef = useRef();
-  const farmRef = useRef();
+/**
+ * Scene component renders a 3D environment with various objects.
+ * - Includes terrain, farm, desert forest, tumbleweed, rocks, and more.
+ * - Includes lighting, camera controls, and text for a descriptive scene.
+ * - A home button is included for navigation.
+ */
 
+const Scene = () => {
+  const desertRef = useRef();  // Ref for the desert object
+  const farmRef = useRef();  // Ref for the farm object
+
+  // Handle loading of desert mesh (stores reference in desertRef)
   const handleDesertLoad = (desert) => {
     desertRef.current = desert;
   };
 
+  // Handle loading of farm mesh (stores reference in farmRef)
   const handleFarmLoad = (farm) => {
     farmRef.current = farm;
   };
 
+  // Placeholder function for the home button click (can be extended later)
   const handleHomeButtonClick = () => {
+    // Logic for handling home button click
   };
 
   return (
     <div className="scene-container">
+      {/* Canvas element for the 3D scene */}
       <Canvas
-        shadows
+        shadows  // Enable shadows in the 3D scene
         camera={{
-          position: [0.52, 0.42, 0.24],
-          fov: 60,
-          rotation: [-0.85, 0.83, 0.75]
+          position: [0.52, 0.42, 0.24],  // Initial camera position
+          fov: 60,  // Field of view for the camera
+          rotation: [-0.85, 0.83, 0.75]  // Initial camera rotation
         }}
       >
-        <CameraControl />
-        <Staging />
-        <Lights />
-        <Terrain handleDesertLoad={handleDesertLoad} />
-        <Farm handleDesertLoad={handleFarmLoad} position={[3, -0.4, 0.1]} />
-        <DesertForest />
-        <Rocks position={[-0.37, 0.15, -0.4]} scale={[0.022, 0.02, 0.02]} />
-        <Tumbleweed position={[0.1, 0.049, 0.1]} scale={[0.01, 0.01, 0.01]} />
-        <DescriptionText />
-        <CausesText />
+        {/* Include various 3D components in the scene */}
+        <CameraControl />  {/* Manages camera movements */}
+        <Staging />  {/* Scene staging (could include background, floor, etc.) */}
+        <Lights />  {/* Lighting for the scene */}
+        
+        {/* 3D objects */}
+        <Terrain handleDesertLoad={handleDesertLoad} />  {/* The terrain mesh */}
+        <Farm handleDesertLoad={handleFarmLoad} position={[3, -0.4, 0.1]} />  {/* The farm mesh */}
+        <DesertForest />  {/* The desert forest mesh */}
+        <Rocks position={[-0.37, 0.15, -0.4]} scale={[0.022, 0.02, 0.02]} />  {/* Rocks mesh */}
+        <Tumbleweed position={[0.1, 0.049, 0.1]} scale={[0.01, 0.01, 0.01]} />  {/* Tumbleweed mesh */}
+
+        {/* Texts */}
+        <DescriptionText />  {/* Text describing the erosion scene */}
+        <CausesText />  {/* Text describing the causes of erosion */}
       </Canvas>
 
+      {/* Home button for navigation */}
       <HomeButton onClick={handleHomeButtonClick} label="Inicio" />
     </div>
   );
 };
 
-export default Scene;
+export default Scene;  // Export the Scene component
