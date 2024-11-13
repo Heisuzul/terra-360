@@ -1,0 +1,21 @@
+/* home-button.module.css */
+
+.homeButton {
+    position: fixed; /* Fixes the button to a specific position on the screen */
+    top: 20px; /* Position the button 20px from the top of the viewport */
+    left: 20px; /* Position the button 20px from the left of the viewport */
+    padding: 10px 20px; /* Adds padding inside the button, 10px top-bottom and 20px left-right */
+    font-size: 16px; /* Sets the font size of the button text */
+    background-color: #007BFF; /* Blue background color */
+    color: white; /* White text color */
+    border: none; /* Removes default button border */
+    border-radius: 5px; /* Rounds the button corners with a 5px radius */
+    cursor: pointer; /* Changes the cursor to a pointer when hovering over the button */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow around the button */
+    transition: background-color 0.3s; /* Smooth background color transition when hovered */
+    z-index: 20; /* Ensures the button stays on top of other elements (if any) */
+  }
+  
+  .homeButton:hover {
+    background-color: #0056b3; /* Darker blue background color when hovered */
+  }
