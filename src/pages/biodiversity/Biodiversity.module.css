@@ -90,7 +90,7 @@
   left: 50%;         /* Centra horizontalmente */
   transform: translate(-50%, -50%); /* Ajusta para centrar completamente */
   z-index: 10; 
-  background-color: rgba(255, 255, 255, 0.68);
+  background-color: rgba(255, 255, 255, 0.6);
   border-radius: 10px;
   display: flex;
   flex-direction: column;

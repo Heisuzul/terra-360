@@ -7,10 +7,12 @@ import Forest from '../../r3f/biodiversity/forest/Forest'
 import Bee from '../../r3f/biodiversity/bee/Bee'
 import Orchid from '../../r3f/biodiversity/orchid/Orchid'
 import Wolf from '../../r3f/biodiversity/wolf/Wolf'
+import Crocodile from '../../r3f/biodiversity/crocodile/Crocodile'
+import Condor from '../../r3f/biodiversity/condor/Condor'
 import Navbar from './components/navbar/navbar'
 import * as THREE from 'three'
 import keyboardControls from './components/controllers/keyboardControls';
-import { handleBeeClick, handleWolfClick,  handlePointerBeeMissed, handlePointerWolfMissed } from './components/controllers/cameraController';
+import { handleBeeClick, handleWolfClick, handleOrchidClick, handlePointerOrchidMissed, handlePointerBeeMissed, handlePointerWolfMissed, handleCrocClick, handlePointerCrocMissed, handleCondorClick, handlePointerCondorMissed} from './components/controllers/cameraController';
 
 
 function Biodiversity() {
@@ -20,8 +22,13 @@ function Biodiversity() {
   const [isBeeHovered, setIsBeeHovered] = useState(false);
   const [isOrchidHovered, setIsOrchidHovered] = useState(false);
   const [isWolfHovered, setIsWolfHovered] = useState(false);
+  const [isCrocHovered, setIsCrocHovered] = useState(false);
+  const [isCondorHovered, setIsCondorHovered] = useState(false);
   const [isBeeClicked, setIsBeeClicked] = useState(false);
+  const [isOrchidClicked, setIsOrchidClicked] = useState(false);
   const [isWolfClicked, setIsWolfClicked] = useState(false);
+  const [isCrocClicked, setIsCrocClicked] = useState(false);
+  const [isCondorClicked, setIsCondorClicked] = useState(false);
   const introRef = useRef(null);
   const cameraRef = useRef();
   const [keys] = keyboardControls(cameraRef);
@@ -47,13 +54,22 @@ function Biodiversity() {
     )}
     {isOrchidHovered && (
         <div className={styles.speciesLabel}>
-          Orchids are essential for biodiversity and ecological balance due to their unique adaptations to attract pollinators, such as insects. 
-          Their study in biotechnology helps preserve threatened species and improve the quality of cultivated plants.
+          Orchids
         </div>
     )}
     {isWolfHovered && (
       <div className={styles.speciesLabel}>
-          Mexican Wolf
+          Mexican wolf
+      </div>
+    )}
+    {isCrocHovered && (
+      <div className={styles.speciesLabel}>
+          Mindoro crocodile
+      </div>
+    )}
+    {isCondorHovered && (
+      <div className={styles.speciesLabel}>
+          California condor
       </div>
     )}
     <div className={styles.pageContainer}>
@@ -75,7 +91,7 @@ function Biodiversity() {
         <PerspectiveCamera ref={cameraRef} makeDefault fov={70} position={[10, -20, 150]} rotation={[-Math.PI / 6, 0, 0]} />
           <ambientLight intensity={0.9} color="#ffc199"/>
           <directionalLight position={[10, 20, 100]} intensity={0.5} castShadow shadow-camera-far={50}/>
-          <OrbitControls minDistance={2} maxDistance={170} maxPolarAngle={Math.PI * 0.55} minPolarAngle={-100} />
+          <OrbitControls minDistance={2} maxDistance={170} maxPolarAngle={Math.PI * 0.567} minPolarAngle={-100} />
           <Suspense fallback={null}>
             <Forest color='hotpink'/>
             <Bee 
@@ -89,6 +105,8 @@ function Biodiversity() {
             position={[1, -28, 123]}
             onPointerOver={() => setIsOrchidHovered(true)}
             onPointerOut={() => setIsOrchidHovered(false)}
+            onClick={() => handleOrchidClick(cameraRef, setIsOrchidClicked)}
+            onPointerMissed={() => handlePointerOrchidMissed(cameraRef, setIsOrchidClicked)}
             />
             <Wolf 
             position={[-11, -28, 126]}
@@ -96,6 +114,20 @@ function Biodiversity() {
             onPointerOut={() => setIsWolfHovered(false)}
             onClick={() => handleWolfClick(cameraRef, setIsWolfClicked)}
             onPointerMissed={() => handlePointerWolfMissed(cameraRef, setIsWolfClicked)}
+            />
+            <Crocodile
+            position={[0, -16, 110]}
+            onPointerOver = {() => setIsCrocHovered(true)}
+            onPointerOut={() => setIsCrocHovered(false)} 
+            onClick={() => handleCrocClick(cameraRef, setIsCrocClicked)}
+            onPointerMissed={() => handlePointerCrocMissed(cameraRef, setIsCrocClicked)}
+            />
+            <Condor
+            position={[30, -5, 110]}
+            onPointerOver={() => setIsCondorHovered(true)}
+            onPointerOut={() => setIsCondorHovered(false)} 
+            onClick={() => handleCondorClick(cameraRef, setIsCondorClicked)}
+            onPointerMissed={() => handlePointerCondorMissed(cameraRef, setIsCondorClicked)}
             />
           </Suspense>
           <Environment preset='sunset' />
@@ -118,6 +150,34 @@ function Biodiversity() {
           <p>
           The Mexican wolf plays an essential role in controlling populations of herbivores, such as deer and rabbits. This helps maintain balance in ecosystems, 
           avoiding overpopulation and degradation of vegetation.
+          </p>
+        </div>
+      )}
+
+    {isOrchidClicked && (
+        <div className={`${styles.speciesInfo} ${isFading ? styles.fadeOut : ''}`}>
+          <p>
+          Orchids are essential for biodiversity and ecological balance due to their unique adaptations to attract pollinators, such as insects. 
+          Their study in biotechnology helps preserve threatened species and improve the quality of cultivated plants.
+          </p>
+        </div>
+      )}
+
+      {isCrocClicked && (
+        <div className={`${styles.speciesInfo} ${isFading? styles.fadeOut : ''}`}>
+          <p>
+          The Mindoro crocodile plays a vital role in the balance of the freshwater ecosystems where it lives. 
+          As a top predator, it helps control populations of fish and other aquatic animals, maintaining the health of the ecosystem and preventing overpopulation of certain species.
+          Additionally, by moving and building their nests, crocodiles help move nutrients and modify their environment in ways that benefit other species.
+          </p>
+        </div>
+      )}
+
+      {isCondorClicked && (
+        <div className={`${styles.speciesInfo} ${isFading? styles.fadeOut : ''}`}>
+          <p>
+          The California condor is an essential bird species for the biodiversity of North America. It is a highly social and cooperative species,
+          which helps maintain the health of ecosystems by providing nesting sites for other birds and supporting the growth of other species.
           </p>
         </div>
       )}
