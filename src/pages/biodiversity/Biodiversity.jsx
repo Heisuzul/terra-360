@@ -9,10 +9,11 @@ import Orchid from '../../r3f/biodiversity/orchid/Orchid'
 import Wolf from '../../r3f/biodiversity/wolf/Wolf'
 import Crocodile from '../../r3f/biodiversity/crocodile/Crocodile'
 import Condor from '../../r3f/biodiversity/condor/Condor'
+import Frog from '../../r3f/biodiversity/frog/Frog'
 import Navbar from './components/navbar/navbar'
 import * as THREE from 'three'
 import keyboardControls from './components/controllers/keyboardControls';
-import { handleBeeClick, handleWolfClick, handleOrchidClick, handlePointerOrchidMissed, handlePointerBeeMissed, handlePointerWolfMissed, handleCrocClick, handlePointerCrocMissed, handleCondorClick, handlePointerCondorMissed} from './components/controllers/cameraController';
+import { handleBeeClick, handleWolfClick, handleOrchidClick, handlePointerOrchidMissed, handlePointerBeeMissed, handlePointerWolfMissed, handleCrocClick, handlePointerCrocMissed, handleCondorClick, handlePointerCondorMissed, handleFrogClick, handlePointerFrogMissed} from './components/controllers/cameraController';
 
 
 function Biodiversity() {
@@ -24,11 +25,13 @@ function Biodiversity() {
   const [isWolfHovered, setIsWolfHovered] = useState(false);
   const [isCrocHovered, setIsCrocHovered] = useState(false);
   const [isCondorHovered, setIsCondorHovered] = useState(false);
+  const [isFrogHovered, setIsFrogHovered] = useState(false);
   const [isBeeClicked, setIsBeeClicked] = useState(false);
   const [isOrchidClicked, setIsOrchidClicked] = useState(false);
   const [isWolfClicked, setIsWolfClicked] = useState(false);
   const [isCrocClicked, setIsCrocClicked] = useState(false);
   const [isCondorClicked, setIsCondorClicked] = useState(false);
+  const [isFrogClicked, setIsFrogClicked] = useState(false);
   const introRef = useRef(null);
   const cameraRef = useRef();
   const [keys] = keyboardControls(cameraRef);
@@ -70,6 +73,11 @@ function Biodiversity() {
     {isCondorHovered && (
       <div className={styles.speciesLabel}>
           California condor
+      </div>
+    )}
+    {isFrogHovered && (
+      <div className={styles.speciesLabel}>
+          Golden frog
       </div>
     )}
     <div className={styles.pageContainer}>
@@ -129,6 +137,13 @@ function Biodiversity() {
             onClick={() => handleCondorClick(cameraRef, setIsCondorClicked)}
             onPointerMissed={() => handlePointerCondorMissed(cameraRef, setIsCondorClicked)}
             />
+            <Frog 
+            position={[20, -23, 126]}
+            onPointerOver={() => setIsFrogHovered(true)}
+            onPointerOut={() => setIsFrogHovered(false)}
+            onClick={() => handleFrogClick(cameraRef, setIsFrogClicked)}
+            onPointerMissed={() => handlePointerFrogMissed(cameraRef, setIsFrogClicked)}
+            />
           </Suspense>
           <Environment preset='sunset' />
         </EffectComposer>
@@ -178,6 +193,16 @@ function Biodiversity() {
           <p>
           The California condor is an essential bird species for the biodiversity of North America. It is a highly social and cooperative species,
           which helps maintain the health of ecosystems by providing nesting sites for other birds and supporting the growth of other species.
+          </p>
+        </div>
+      )}
+      
+      {isFrogClicked && (
+        <div className={`${styles.speciesInfo} ${isFading? styles.fadeOut : ''}`}>
+          <p>
+          The Panama golden frog contributes to the ecosystem mainly by controlling populations of insects and other invertebrates, helping to maintain ecological balance and prevent pests.
+          It acts as a bioindicator, reflecting the quality of the environment, since its health and presence alert about changes in the ecosystem, such as pollution or diseases. 
+          It is also part of the food chain and its analysis contributes to the nutrient cycle, benefiting vegetation and other organisms in the environment.
           </p>
         </div>
       )}

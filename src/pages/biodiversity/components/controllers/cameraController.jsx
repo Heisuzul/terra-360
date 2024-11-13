@@ -106,3 +106,24 @@ export const handlePointerCondorMissed = (cameraRef, setIsCondorClicked) => {
   
     setIsCondorClicked(false);
 };
+
+export const handleFrogClick = (cameraRef, setIsFrogClicked) => {
+    if (cameraRef.current) {
+      const camera = cameraRef.current;
+      camera.position.set(20.5, -23.2, 130);
+      camera.lookAt(new THREE.Vector3(10, -10, 110));
+      
+    }
+  
+    setIsFrogClicked(true);
+};
+
+export const handlePointerFrogMissed = (cameraRef, setIsFrogClicked) => {
+    if (cameraRef.current) {
+      const camera = cameraRef.current;
+      camera.position.set(10, -20, 150);
+      camera.lookAt(new THREE.Vector3(0, 0, 0));
+    }
+  
+    setIsFrogClicked(false);
+};
