@@ -36,13 +36,25 @@ function Biodiversity() {
   const cameraRef = useRef();
   const [keys] = keyboardControls(cameraRef);
   const [currentText, setCurrentText] = useState('biodiversity');
+  const [backgroundImage, setBackgroundImage] = useState('/images/backgrounds/biodiversity-background.jpg');
+  const [lightSettings, setLightSettings] = useState({
+    intensity: 0.9,
+    color: '#ffc199',
+  });
+  const [preset, setPreset] = useState('sunset');
 
   const handleConsequencesClick = () => {
     setCurrentText('consequences');
+    setBackgroundImage('/images/backgrounds/consequences-background.jpg');
+    setLightSettings({ intensity: 0.05, color: '#121212' });
+    setPreset('forest');
   };
 
   const handleBiodiversityClick = () => {
     setCurrentText('biodiversity');
+    setBackgroundImage('/images/backgrounds/biodiversity-background.jpg');
+    setLightSettings({ intensity: 0.9, color: '#ffc199' });
+    setPreset('sunset');
   };
 
   useEffect(() => {
@@ -102,11 +114,11 @@ function Biodiversity() {
           </p>
         </div>
       )}
-      <div className={`${styles.canvasContainer} ${styles.background}`}>
+      <div className={`${styles.canvasContainer} ${styles.background}`} style={{ backgroundImage: `url(${backgroundImage})` }}>
       <Canvas shadowMap>
         <EffectComposer>
         <PerspectiveCamera ref={cameraRef} makeDefault fov={70} position={[10, -20, 150]} rotation={[-Math.PI / 6, 0, 0]} />
-          <ambientLight intensity={0.9} color="#ffc199"/>
+          <ambientLight intensity={lightSettings.intensity} color={lightSettings.color}/>
           <directionalLight position={[10, 20, 100]} intensity={0.5} castShadow shadow-camera-far={50}/>
           <OrbitControls minDistance={2} maxDistance={170} maxPolarAngle={Math.PI * 0.567} minPolarAngle={-100} />
           <Suspense fallback={null}>
@@ -154,7 +166,7 @@ function Biodiversity() {
             onPointerMissed={() => handlePointerFrogMissed(cameraRef, setIsFrogClicked)}
             />
           </Suspense>
-          <Environment preset='sunset' />
+          <Environment preset={preset} />
         </EffectComposer>
       </Canvas>
       </div>
