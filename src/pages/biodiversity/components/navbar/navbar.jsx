@@ -12,7 +12,7 @@ const Navbar = ({ onConsequencesClick, onBiodiversityClick}) => {
             <li onClick={() => onBiodiversityClick()}>Biodiversity</li>
             <li onClick={() => onConsequencesClick()}>Consequences</li>
         </ul>   
-        <div className={styles.navQuiz}>Quiz</div>
+        <button className={styles.navQuiz}>Quiz</button>
     </div> 
   )
 }
