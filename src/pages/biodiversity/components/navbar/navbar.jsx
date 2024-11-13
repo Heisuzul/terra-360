@@ -3,14 +3,14 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-route
 import styles from './navbar.module.css'
 
 
-const Navbar = () => {
+const Navbar = ({ onConsequencesClick, onBiodiversityClick}) => {
   const navigate = useNavigate();
   return (
     <div className={styles.navbar}>
       <button className={styles.backButton} onClick={() => navigate('/world')}> ← Go Back</button>
         <ul className={styles.navMenu}>
-            <li>Biodiversity</li>
-            <li>Consequences</li>
+            <li onClick={() => onBiodiversityClick()}>Biodiversity</li>
+            <li onClick={() => onConsequencesClick()}>Consequences</li>
         </ul>   
         <div className={styles.navQuiz}>Quiz</div>
     </div> 
