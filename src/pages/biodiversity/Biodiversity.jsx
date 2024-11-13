@@ -35,6 +35,15 @@ function Biodiversity() {
   const introRef = useRef(null);
   const cameraRef = useRef();
   const [keys] = keyboardControls(cameraRef);
+  const [currentText, setCurrentText] = useState('biodiversity');
+
+  const handleConsequencesClick = () => {
+    setCurrentText('consequences');
+  };
+
+  const handleBiodiversityClick = () => {
+    setCurrentText('biodiversity');
+  };
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -49,7 +58,7 @@ function Biodiversity() {
 
   return (
     <>
-    <Navbar/>
+    <Navbar onConsequencesClick={handleConsequencesClick} onBiodiversityClick={handleBiodiversityClick}/>
     {isBeeHovered && (
         <div className={styles.speciesLabel}>
           Bees
@@ -151,7 +160,7 @@ function Biodiversity() {
       </div>
     </div>
 
-    {isBeeClicked && (
+    {isBeeClicked && currentText === 'biodiversity' && (
         <div className={`${styles.speciesInfo} ${isFading ? styles.fadeOut : ''}`}>
           <p>
           Bees are essential for biodiversity and the balance of ecosystems due to their role in pollination.
@@ -160,16 +169,34 @@ function Biodiversity() {
         </div>
       )}
 
-    {isWolfClicked && (
+    {isBeeClicked && currentText === 'consequences' && (
+        <div className={`${styles.speciesInfo} ${isFading ? styles.fadeOut : ''}`}>
+          <p>
+          Bees face serious threats such as the use of pesticides, especially neonicotinoids, which affect their nervous system; habitat loss due to urbanization and intensive agriculture, which reduces their food sources; diseases and parasites such as the Varroa destructor mite; 
+          climate change, which alters pollination patterns; and monocultures, which limit dietary diversity.
+          </p>
+        </div>
+    )}
+
+    {isWolfClicked && currentText === 'biodiversity' && (
         <div className={`${styles.speciesInfo} ${isFading ? styles.fadeOut : ''}`}>
           <p>
           The Mexican wolf plays an essential role in controlling populations of herbivores, such as deer and rabbits. This helps maintain balance in ecosystems, 
           avoiding overpopulation and degradation of vegetation.
           </p>
         </div>
-      )}
+    )}
 
-    {isOrchidClicked && (
+    {isWolfClicked && currentText === 'consequences' && (
+        <div className={`${styles.speciesInfo} ${isFading ? styles.fadeOut : ''}`}>
+          <p>
+          The Mexican wolf faces several threats that endanger its survival, such as habitat loss due to the expansion of agriculture and urbanization and direct persecution by ranchers.
+          </p>
+        </div>
+    )}
+    
+
+    {isOrchidClicked && currentText === 'biodiversity' && (
         <div className={`${styles.speciesInfo} ${isFading ? styles.fadeOut : ''}`}>
           <p>
           Orchids are essential for biodiversity and ecological balance due to their unique adaptations to attract pollinators, such as insects. 
@@ -177,8 +204,18 @@ function Biodiversity() {
           </p>
         </div>
       )}
+    
+    {isOrchidClicked && currentText === 'consequences' && (
+        <div className={`${styles.speciesInfo} ${isFading ? styles.fadeOut : ''}`}>
+          <p>
+          Orchids face several threats that endanger their survival, including the destruction of their habitat due to deforestation and agricultural expansion, illegal harvesting for the ornamental plant trade, and climate change, which alters necessary conditions for their growth and pollination. 
+          These threats have led many orchid species to be in danger of extinction.
+          </p>
+        </div>
+      )}
 
-      {isCrocClicked && (
+
+      {isCrocClicked && currentText === 'biodiversity' && (
         <div className={`${styles.speciesInfo} ${isFading? styles.fadeOut : ''}`}>
           <p>
           The Mindoro crocodile plays a vital role in the balance of the freshwater ecosystems where it lives. 
@@ -188,21 +225,53 @@ function Biodiversity() {
         </div>
       )}
 
-      {isCondorClicked && (
+      {isCrocClicked && currentText === 'consequences' && (
+        <div className={`${styles.speciesInfo} ${isFading? styles.fadeOut : ''}`}>
+          <p>
+          The Mindoro crocodile faces several threats that endanger its survival. These include the destruction of their habitat due to deforestation and the expansion of agriculture, 
+          poaching for their skin and meat, and conflicts with humans, as some crocodiles may attack livestock or people.
+          These threats have led the species to become critically endangered.
+          </p>
+        </div>
+      )}
+
+      {isCondorClicked && currentText === 'biodiversity' && (
         <div className={`${styles.speciesInfo} ${isFading? styles.fadeOut : ''}`}>
           <p>
           The California condor is an essential bird species for the biodiversity of North America. It is a highly social and cooperative species,
           which helps maintain the health of ecosystems by providing nesting sites for other birds and supporting the growth of other species.
+          
           </p>
         </div>
       )}
+
+      {isCondorClicked && currentText === 'consequences' && (
+        <div className={`${styles.speciesInfo} ${isFading? styles.fadeOut : ''}`}>
+          <p>
+          The California Condor faces several threats that have put the species on the brink of extinction. The main threat is habitat loss due to urban development, 
+          agriculture and infrastructure expansion, which reduces their nesting and feeding space. They are also vulnerable to lead contamination, as they ingest lead bullets when feeding on the carcasses of hunted animals,
+          which causes poisoning. Additionally, poaching and human interference with their nests, along with low reproduction rates, have contributed to their drastic decline.
+          </p>
+        </div>
+      )}
+
       
-      {isFrogClicked && (
+      {isFrogClicked && currentText === 'biodiversity' && (
         <div className={`${styles.speciesInfo} ${isFading? styles.fadeOut : ''}`}>
           <p>
           The Panama golden frog contributes to the ecosystem mainly by controlling populations of insects and other invertebrates, helping to maintain ecological balance and prevent pests.
           It acts as a bioindicator, reflecting the quality of the environment, since its health and presence alert about changes in the ecosystem, such as pollution or diseases. 
           It is also part of the food chain and its analysis contributes to the nutrient cycle, benefiting vegetation and other organisms in the environment.
+          </p>
+        </div>
+      )}
+
+      {isFrogClicked && currentText === 'consequences' && (
+        <div className={`${styles.speciesInfo} ${isFading? styles.fadeOut : ''}`}>
+          <p>
+          The Panama golden frog faces several threats that endanger its survival. The loss of habitat due to deforestation and the expansion of agriculture has reduced their natural space, while climate change alters the conditions of their habitat.
+          It has also been affected by illegal capture for the exotic pet trade, which has further worsened its situation. 
+          These threats have led the golden frog to become critically endangered.
           </p>
         </div>
       )}
