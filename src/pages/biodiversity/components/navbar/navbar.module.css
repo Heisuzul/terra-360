@@ -20,7 +20,7 @@
   font-size: 20px;
   white-space: nowrap;
   font-weight: 500;
-  color:#579135;
+  color:#3f6e24;
 }
 
 .navbar li:hover {
@@ -55,4 +55,6 @@
 
 .backButton:hover {
   transform: scale(1.05);
+  box-shadow: 0 0 10px #579135;
+  background-color: #579135;
 }
