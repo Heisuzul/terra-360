@@ -1,0 +1,20 @@
+.homeButton {
+    position: fixed;
+    top: 20px;  
+    left: 20px; 
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s;
+    z-index: 20; 
+}
+
+.homeButton:hover {
+    background-color: #0056b3;
+}
+
