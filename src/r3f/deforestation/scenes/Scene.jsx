@@ -156,14 +156,26 @@ const Scene = ({ ready, isMuted }) => {
         }
         setIsAudioPlaying(!isAudioPlaying);
       } else if (event.key === 'ArrowRight' && activeSet === 1) {
-        // handleKeyboardNext();
-        handleKeyboardBack();
+        if (stateIndex === 0){
+          toggleCameraSet();
+        } else {
+          // handleKeyboardNext();
+          handleKeyboardBack();
+        }
       } else if (event.key === 'ArrowLeft' && activeSet === 1) {
-        // handleKeyboardBack();
-        handleKeyboardNext();
+        if (activeSet === 1 && stateIndex === 2){
+          toggleCameraSet();
+        } else {
+          // handleKeyboardBack();
+          handleKeyboardNext();
+        }
       } else if (event.key === 'ArrowRight' && activeSet === 2) {
-        handleKeyboardNext();
-        // handleKeyboardBack();
+        if (stateIndex === 0){
+          toggleCameraSet();
+        } else {
+          handleKeyboardNext();
+          // handleKeyboardBack();
+        }
       } else if (event.key === 'ArrowLeft' && activeSet === 2) {
         handleKeyboardBack();
         // handleNext();

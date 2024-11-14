@@ -20,6 +20,9 @@ const Deforestation = ({ ready }) => {
       if (event.key === 't') {
         setShowInstructions(true);
       }
+      if (event.key === 'm') {
+        setIsMuted((prev) => !prev);
+      }
     };
 
     window.addEventListener('keydown', handleKeyDown);
