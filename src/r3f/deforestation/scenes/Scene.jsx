@@ -16,6 +16,8 @@ import OneWoodSign from '../meshes/OneWoodSign';
 import BigIrregularSign from '../meshes/BigIrregularSign';
 import BackNextArrows from '../meshes/BackNextArrows';
 import InteractiveBlade from '../meshes/InteractiveBlade';
+import SmallTable from '../meshes/SmallTable';
+import RedValve from '../meshes/RedValve';
 import CameraController from '../controllers/CameraController';
 import CameraLogger from '../../utils/CameraLogger';
 import { useNavigate } from 'react-router-dom';
@@ -74,6 +76,12 @@ const Scene = ({ ready, isMuted }) => {
       target: { x: 17.895, y: 20, z: -45.858},
       minDistance: 1,
       maxDistance: 8,
+    },
+    {
+      position: { x: 17.737703958511364, y: 20.391742664204138, z: -46.84625729877702 },
+      target: { x: 17.35, y: 19.972, z: -45.72 },
+      minDistance: 1,
+      maxDistance: 4,
     },
     {
       position: { x: 20.097741955824603, y: 20.2, z: -46.2096748619},
@@ -173,12 +181,12 @@ const Scene = ({ ready, isMuted }) => {
           handleKeyboardNext();
         }
       } else if (event.key === 'ArrowRight' && activeSet === 2) {
-        if (stateIndex === 0){
-          toggleCameraSet();
-        } else {
+        // if (stateIndex === 0){
+        //   toggleCameraSet();
+        // } else {
           handleKeyboardNext();
           // handleKeyboardBack();
-        }
+        // }
       } else if (event.key === 'ArrowLeft' && activeSet === 2) {
         handleKeyboardBack();
         // handleNext();
@@ -365,20 +373,22 @@ const Scene = ({ ready, isMuted }) => {
             onDoubleClick={handleDoubleClick(3)}
             sceneIndex={stateIndex}
           />
+          <SmallTable position={[17.5, 19.5, -45.858]} scale={0.3}/>
+          <RedValve position={[17.35, 19.972, -45.72]} scale={0.005}/>
           <InteractiveBlade 
-            position={[16.885, 22, -45.858]} 
+            position={[17.9, 22, -45.858]} 
             scale={1} 
             isFirstPerson={firstPersonMode}
             onPickup={() => console.log('Blade picked up')}
             onRelease={() => console.log('Blade released')}
           />
           <InteractiveBlade 
-            position={[16.893, 22, -45.862]} 
+            position={[17.8, 22, -45.82]} 
             scale={1} 
             isFirstPerson={firstPersonMode}
           />
           <InteractiveBlade 
-            position={[16.899, 22, -45.850]} 
+            position={[18, 22, -45.75]} 
             scale={1} 
             isFirstPerson={firstPersonMode}
           />
@@ -406,7 +416,7 @@ const Scene = ({ ready, isMuted }) => {
             </>
           )}
         <Sparkles
-          position={[25, 10, -25]}
+          position={[25, 15, -25]}
           count= { 256 }
           speed= { 1 }
           opacity= { 0.7 }
@@ -416,7 +426,7 @@ const Scene = ({ ready, isMuted }) => {
           noise= { 1}
         />
         <Sparkles
-          position={[25, 15, 25]}
+          position={[25, 20, 25]}
           count= { 256 }
           speed= { 1 }
           opacity= { 0.7 }
@@ -426,7 +436,7 @@ const Scene = ({ ready, isMuted }) => {
           noise= { 1}
         />
         <Sparkles
-          position={[-25, 15, -25]}
+          position={[-25, 20, -25]}
           count= { 256 }
           speed= { 1 }
           opacity= { 0.7 }
