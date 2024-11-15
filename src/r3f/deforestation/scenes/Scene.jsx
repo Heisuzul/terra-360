@@ -15,11 +15,13 @@ import styles from './Scene.module.css';
 import OneWoodSign from '../meshes/OneWoodSign';
 import BigIrregularSign from '../meshes/BigIrregularSign';
 import BackNextArrows from '../meshes/BackNextArrows';
+import InteractiveBlade from '../meshes/InteractiveBlade';
 import CameraController from '../controllers/CameraController';
 import CameraLogger from '../../utils/CameraLogger';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../stores/use-auth-store';
 import { Loader, PositionalAudio, Sparkles } from '@react-three/drei';
+import { Physics } from "@react-three/rapier";
 
 
 const Scene = ({ ready, isMuted }) => {
@@ -31,6 +33,7 @@ const Scene = ({ ready, isMuted }) => {
   const printerRef = useRef();
   const treesRef = useRef(null);
   const [isControlsEnabled, setIsControlsEnabled] = useState(true);
+  const [firstPersonMode, setFirstPersonMode] = useState(false)
 
   const handleTerrainLoad = useCallback((terrain) => {
     terrainRef.current = terrain;
@@ -311,78 +314,97 @@ const Scene = ({ ready, isMuted }) => {
         {/* <ambientLight intensity={0.5} /> */}
         <AmbientLight intensity={1.5} color="#ffffff" />
         <DirectionalLight intensity={2} position={[30, 50, 20]}/>
-        <Terrain onTerrainLoad={handleTerrainLoad} />
-        <Trees ref={treesRef} terrain={terrainRef} amount_rows={12} amount_cols={16} phase_x={0} phase_z={0} space={6}/>
-        <BackNextArrows 
-          position={[15,18.48,-42]} 
-          rotation={[0,Math.PI*(11/12),0]} 
-          onNextClick={handleNext} 
-          onBackClick={handleLogout}
-          onDoubleClick={handlePlatformClick}
-          textNext={"Explore the forest"}
-          textBack={"Sign Out"}
-        />
-        <OneWoodSign 
-          position={[42,2.9,-26]} 
-          rotation={[0,Math.PI*(8/12),0]} 
-          text={"Deforestation is a global challenge, but together, we can make a difference. Discover how to protect our forests!"}
-        />
-        <BackNextArrows 
-          position={[43,2.9,-25]} 
-          rotation={[0,Math.PI*(8/12),0]} 
-          onNextClick={handleNext} 
-          onBackClick={handleBack}
-          textNext={"Continue"}
-          textBack={"Back"}
-        />
-        <BigIrregularSign 
-          position={[30, 18.65, 40]} 
-          rotation={[0,Math.PI*(2.5/12),0]}
-          text={"Forests are essential for a balanced planet, providing clean air, habitats, and climate stability. While deforestation poses a serious threat, every action counts. Join this quiz to learn how you can help protect our forests and play a part in restoring Earth's natural balance!"}
-        />
-        <BackNextArrows 
-          position={[29.0, 18.550, 41.5]} 
-          rotation={[0,Math.PI*(2.5/12),0]} 
-          onNextClick={handleStartQuiz} 
-          onBackClick={handleBack}
-          textNext={"Start Quiz"}
-          textBack={"Back"}
-        />
+        <Physics>
+          <Terrain onTerrainLoad={handleTerrainLoad} />
+          <Trees ref={treesRef} terrain={terrainRef} amount_rows={12} amount_cols={16} phase_x={0} phase_z={0} space={6}/>
+          <BackNextArrows 
+            position={[15,18.48,-42]} 
+            rotation={[0,Math.PI*(11/12),0]} 
+            onNextClick={handleNext} 
+            onBackClick={handleLogout}
+            onDoubleClick={handlePlatformClick}
+            textNext={"Explore the forest"}
+            textBack={"Sign Out"}
+          />
+          <OneWoodSign 
+            position={[42,2.9,-26]} 
+            rotation={[0,Math.PI*(8/12),0]} 
+            text={"Deforestation is a global challenge, but together, we can make a difference. Discover how to protect our forests!"}
+          />
+          <BackNextArrows 
+            position={[43,2.9,-25]} 
+            rotation={[0,Math.PI*(8/12),0]} 
+            onNextClick={handleNext} 
+            onBackClick={handleBack}
+            textNext={"Continue"}
+            textBack={"Back"}
+          />
+          <BigIrregularSign 
+            position={[30, 18.65, 40]} 
+            rotation={[0,Math.PI*(2.5/12),0]}
+            text={"Forests are essential for a balanced planet, providing clean air, habitats, and climate stability. While deforestation poses a serious threat, every action counts. Join this quiz to learn how you can help protect our forests and play a part in restoring Earth's natural balance!"}
+          />
+          <BackNextArrows 
+            position={[29.0, 18.550, 41.5]} 
+            rotation={[0,Math.PI*(2.5/12),0]} 
+            onNextClick={handleStartQuiz} 
+            onBackClick={handleBack}
+            textNext={"Start Quiz"}
+            textBack={"Back"}
+          />
+          <Platform onDoubleClick={handleDoubleClick(0)} position={[16.895, 19, -45.858]}/>
+          <Desk position={[19.7, 19.2, -46.2]} rotation={[0,Math.PI,0]}/>
+          <Laptop onDoubleClick={handleDoubleClick(1)} externalRefs={[printerRef]} position={[20, 19.95, -45.75]} rotation={[0,Math.PI,0]}/>
+          <Printer onDoubleClick={handleDoubleClick(2)} ref={printerRef} position={[18.98, 20.14, -45.65]} rotation={[0,Math.PI*3/4,0]}/>
+          <PhoneBody onDoubleClick={handleDoubleClick(3)} position={[19.1, 19.95, -46.7]} rotation={[0,Math.PI*2/4,0]}/>
+          <PhoneHandle 
+            position={[19.1, 19.95, -46.7]} 
+            rotation={[0, Math.PI*2/4, 0]}
+            onDragStart={() => setIsControlsEnabled(false)}
+            onDragEnd={() => setIsControlsEnabled(true)}
+            onDoubleClick={handleDoubleClick(3)}
+            sceneIndex={stateIndex}
+          />
+          <InteractiveBlade 
+            position={[16.885, 22, -45.858]} 
+            scale={1} 
+            isFirstPerson={firstPersonMode}
+            onPickup={() => console.log('Blade picked up')}
+            onRelease={() => console.log('Blade released')}
+          />
+          <InteractiveBlade 
+            position={[16.893, 22, -45.862]} 
+            scale={1} 
+            isFirstPerson={firstPersonMode}
+          />
+          <InteractiveBlade 
+            position={[16.899, 22, -45.850]} 
+            scale={1} 
+            isFirstPerson={firstPersonMode}
+          />
+        </Physics>
         {ready && (
-          <>
-            <group position={[25, 25, 10]}>
-              <PositionalAudio
-                ref={audioBackgroundRef1}
-                autoplay
-                loop
-                url="/sounds/nature.mp3"
-                distance={5}
-              />
-            </group>
-            <group position={[-25, 25, -10]}>
-              <PositionalAudio
-                ref={audioBackgroundRef2}
-                autoplay
-                loop
-                url="/sounds/nature2.mp3"
-                distance={7}
-              />
-            </group>
-          </>
-        )}
-        <Platform onDoubleClick={handleDoubleClick(0)} position={[16.895, 19, -45.858]}/>
-        <Desk position={[19.7, 19.2, -46.2]} rotation={[0,Math.PI,0]}/>
-        <Laptop onDoubleClick={handleDoubleClick(1)} externalRefs={[printerRef]} position={[20, 19.95, -45.75]} rotation={[0,Math.PI,0]}/>
-        <Printer onDoubleClick={handleDoubleClick(2)} ref={printerRef} position={[18.98, 20.14, -45.65]} rotation={[0,Math.PI*3/4,0]}/>
-        <PhoneBody onDoubleClick={handleDoubleClick(3)} position={[19.1, 19.95, -46.7]} rotation={[0,Math.PI*2/4,0]}/>
-        <PhoneHandle 
-          position={[19.1, 19.95, -46.7]} 
-          rotation={[0, Math.PI*2/4, 0]}
-          onDragStart={() => setIsControlsEnabled(false)}
-          onDragEnd={() => setIsControlsEnabled(true)}
-          onDoubleClick={handleDoubleClick(3)}
-          sceneIndex={stateIndex}
-        />
+            <>
+              <group position={[25, 25, 10]}>
+                <PositionalAudio
+                  ref={audioBackgroundRef1}
+                  autoplay
+                  loop
+                  url="/sounds/nature.mp3"
+                  distance={5}
+                />
+              </group>
+              <group position={[-25, 25, -10]}>
+                <PositionalAudio
+                  ref={audioBackgroundRef2}
+                  autoplay
+                  loop
+                  url="/sounds/nature2.mp3"
+                  distance={7}
+                />
+              </group>
+            </>
+          )}
         <Sparkles
           position={[25, 10, -25]}
           count= { 256 }
