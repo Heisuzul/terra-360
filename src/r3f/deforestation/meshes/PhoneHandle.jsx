@@ -25,7 +25,7 @@ export default function PhoneHandle({
 
   // Reset dragging state when scene changes
   useEffect(() => {
-    if (sceneIndex !== 3 && isDraggingRef.current) {
+    if (sceneIndex !== 4 && isDraggingRef.current) {
       isDraggingRef.current = false;
       onDragEnd?.();
     }
@@ -45,7 +45,7 @@ export default function PhoneHandle({
   }, [CONSTRAINTS.MIN_Y, CONSTRAINTS.MAX_Y]);
 
   const handlePointerDown = useCallback((e) => {
-    if (sceneIndex === 3) {
+    if (sceneIndex === 4) {
       e.stopPropagation();
       isDraggingRef.current = true;
       velocityRef.current = 0;
@@ -64,7 +64,7 @@ export default function PhoneHandle({
   }, [onDragEnd]);
 
   const handlePointerMove = useCallback((e) => {
-    if (sceneIndex === 3 && isDraggingRef.current) {
+    if (sceneIndex === 4 && isDraggingRef.current) {
       e.stopPropagation();
       const movementY = e.movementY * CONSTRAINTS.MOVEMENT_SENSITIVITY;
       const newTargetY = positionRef.current.target - movementY;
@@ -125,6 +125,12 @@ export default function PhoneHandle({
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
       onPointerMove={handlePointerMove}
+      onPointerOver={() => {
+        document.body.style.cursor = 'pointer'
+      }}
+      onPointerOut={() => {
+        document.body.style.cursor = 'auto'
+      }}
     >
       <mesh
         name="tube_low_M_Telephone_0"

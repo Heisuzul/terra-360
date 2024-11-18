@@ -19,7 +19,15 @@ export default function Model({ externalRefs = [], ...props }) {
 
   return (
     <group {...props} dispose={null}>
-      <group name="Silver_colour_Cover" position={[0, 0.001, 0]} scale={[0.19, 0.146, 0.121]}>
+      <group name="Silver_colour_Cover" position={[0, 0.001, 0]} scale={[0.19, 0.146, 0.121]} 
+        onPointerOver={() => {
+          document.body.style.cursor = 'pointer'
+          setHovered(true)
+        }}
+        onPointerOut={() => {
+          document.body.style.cursor = 'auto'
+          setHovered(false)
+        }}>
         <mesh
           name="Cover_Plane"
           castShadow

@@ -13,6 +13,14 @@ const Model = forwardRef((props, ref) => {
         material={materials['69']}
         position={[0, -0.193, 0.232]}
         scale={0.05}
+        onPointerOver={() => {
+          document.body.style.cursor = 'pointer'
+          setHovered(true)
+        }}
+        onPointerOut={() => {
+          document.body.style.cursor = 'auto'
+          setHovered(false)
+        }}
       />
     </group>
   )

@@ -36,6 +36,7 @@ const Scene = ({ ready, isMuted }) => {
   const treesRef = useRef(null);
   const [isControlsEnabled, setIsControlsEnabled] = useState(true);
   const [firstPersonMode, setFirstPersonMode] = useState(false)
+  const [blades, setBlades] = useState([]);
 
   const handleTerrainLoad = useCallback((terrain) => {
     terrainRef.current = terrain;
@@ -304,6 +305,19 @@ const Scene = ({ ready, isMuted }) => {
     setIsAudioPlaying(!isAudioPlaying);
   }, [isMuted]);
 
+  const handleRedValveClick = () => {
+    const newBlade = {
+      id: Date.now(),
+      position: [
+        17.9 + (Math.random() - 0.5) * 0.5,  // Random X offset
+        22 + (Math.random() - 0.5) * 0.5,    // Random Y offset
+        -45.858 + (Math.random() - 0.5) * 0.5 // Random Z offset
+      ],
+      scale: 1
+    };
+    setBlades(prevBlades => [...prevBlades, newBlade]);
+  };
+
   return (
     <div className={styles.pageContainer}>
       <Canvas shadows camera={{ 
@@ -362,36 +376,26 @@ const Scene = ({ ready, isMuted }) => {
           />
           <Platform onDoubleClick={handleDoubleClick(0)} position={[16.895, 19, -45.858]}/>
           <Desk position={[19.7, 19.2, -46.2]} rotation={[0,Math.PI,0]}/>
-          <Laptop onDoubleClick={handleDoubleClick(1)} externalRefs={[printerRef]} position={[20, 19.95, -45.75]} rotation={[0,Math.PI,0]}/>
-          <Printer onDoubleClick={handleDoubleClick(2)} ref={printerRef} position={[18.98, 20.14, -45.65]} rotation={[0,Math.PI*3/4,0]}/>
-          <PhoneBody onDoubleClick={handleDoubleClick(3)} position={[19.1, 19.95, -46.7]} rotation={[0,Math.PI*2/4,0]}/>
+          <Laptop onDoubleClick={handleDoubleClick(2)} externalRefs={[printerRef]} position={[20, 19.95, -45.75]} rotation={[0,Math.PI,0]}/>
+          <Printer onDoubleClick={handleDoubleClick(3)} ref={printerRef} position={[18.98, 20.14, -45.65]} rotation={[0,Math.PI*3/4,0]}/>
+          <PhoneBody onDoubleClick={handleDoubleClick(4)} position={[19.1, 19.95, -46.7]} rotation={[0,Math.PI*2/4,0]}/>
           <PhoneHandle 
             position={[19.1, 19.95, -46.7]} 
             rotation={[0, Math.PI*2/4, 0]}
             onDragStart={() => setIsControlsEnabled(false)}
             onDragEnd={() => setIsControlsEnabled(true)}
-            onDoubleClick={handleDoubleClick(3)}
+            onDoubleClick={handleDoubleClick(4)}
             sceneIndex={stateIndex}
           />
-          <SmallTable position={[17.5, 19.5, -45.858]} scale={0.3}/>
-          <RedValve position={[17.35, 19.972, -45.72]} scale={0.005}/>
-          <InteractiveBlade 
-            position={[17.9, 22, -45.858]} 
-            scale={1} 
-            isFirstPerson={firstPersonMode}
-            onPickup={() => console.log('Blade picked up')}
-            onRelease={() => console.log('Blade released')}
-          />
-          <InteractiveBlade 
-            position={[17.8, 22, -45.82]} 
-            scale={1} 
-            isFirstPerson={firstPersonMode}
-          />
-          <InteractiveBlade 
-            position={[18, 22, -45.75]} 
-            scale={1} 
-            isFirstPerson={firstPersonMode}
-          />
+          <SmallTable position={[17.5, 19.5, -45.858]} scale={0.3} onDoubleClick={handleDoubleClick(1)}/>
+          <RedValve position={[17.35, 19.972, -45.72]} scale={0.005}  onClick={handleRedValveClick} onDoubleClick={handleDoubleClick(1)}/>
+          {blades.map(blade => (
+            <InteractiveBlade 
+              key={blade.id}
+              position={blade.position}
+              scale={blade.scale}
+            />
+          ))}
         </Physics>
         {ready && (
             <>
