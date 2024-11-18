@@ -336,7 +336,7 @@ const Scene = ({ ready, isMuted }) => {
         {/* <ambientLight intensity={0.5} /> */}
         <AmbientLight intensity={1.5} color="#ffffff" />
         <DirectionalLight intensity={2} position={[30, 50, 20]}/>
-        <Physics>
+        <Physics debug>
           <Terrain onTerrainLoad={handleTerrainLoad} />
           <Trees ref={treesRef} terrain={terrainRef} amount_rows={12} amount_cols={16} phase_x={0} phase_z={0} space={6}/>
           <BackNextArrows 
@@ -388,7 +388,7 @@ const Scene = ({ ready, isMuted }) => {
             sceneIndex={stateIndex}
           />
           <SmallTable position={[17.5, 19.5, -45.858]} scale={0.3} onDoubleClick={handleDoubleClick(1)}/>
-          <RedValve position={[17.35, 19.972, -45.72]} scale={0.005}  onClick={handleRedValveClick} onDoubleClick={handleDoubleClick(1)}/>
+          <RedValve position={[17.5, 19.972, -45.856]} scale={0.005}  onClick={handleRedValveClick} onDoubleClick={handleDoubleClick(1)}/>
           {blades.map(blade => (
             <InteractiveBlade 
               key={blade.id}
