@@ -336,7 +336,7 @@ const Scene = ({ ready, isMuted }) => {
         {/* <ambientLight intensity={0.5} /> */}
         <AmbientLight intensity={1.5} color="#ffffff" />
         <DirectionalLight intensity={2} position={[30, 50, 20]}/>
-        <Physics debug>
+        <Physics>
           <Terrain onTerrainLoad={handleTerrainLoad} />
           <Trees ref={treesRef} terrain={terrainRef} amount_rows={12} amount_cols={16} phase_x={0} phase_z={0} space={6}/>
           <BackNextArrows 
