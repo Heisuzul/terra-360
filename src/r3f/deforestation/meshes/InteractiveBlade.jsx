@@ -8,7 +8,7 @@ export default function InteractiveBlade(props, {scale}) {
 
   const handleSaw = useCallback((e) => {
     e.stopPropagation()
-    rbSawRef.current.applyImpulse({x: (Math.random() - 0.6) * 0.01, y: 0.001, z: 0.002}, true)
+    rbSawRef.current.applyImpulse({x: (Math.random() - 0.5) * 0.006 - 0.002, y: 0.002, z: (Math.abs(Math.random()) + 0.5) * 0.003}, true)
     // rbSawRef.current.addTorque({x: 0, y: 0.5, z: 0}, true)
   }, [])
 
