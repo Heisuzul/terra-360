@@ -33,6 +33,7 @@ const Scene = ({ ready, isMuted }) => {
   const navigate = useNavigate();
   const audioBackgroundRef1 = useRef();
   const audioBackgroundRef2 = useRef();
+  const audioBackgroundRef3 = useRef();
   const printerRef = useRef();
   const treesRef = useRef(null);
   const [isControlsEnabled, setIsControlsEnabled] = useState(true);
@@ -157,13 +158,15 @@ const Scene = ({ ready, isMuted }) => {
       if (event.key === 'Escape') {
         setStateIndex(0); // Reset to initial state
       } else if (event.key === 'm') {
-        if (audioBackgroundRef1.current && audioBackgroundRef2.current) {
+        if (audioBackgroundRef1.current && audioBackgroundRef2.current && audioBackgroundRef3.current) {
           if (isAudioPlaying) {
             audioBackgroundRef1.current.pause();
             audioBackgroundRef2.current.pause();
+            audioBackgroundRef3.current.pause();
           } else {
             audioBackgroundRef1.current.play();
             audioBackgroundRef2.current.play();
+            audioBackgroundRef3.current.play();
           }
         }
         setIsAudioPlaying(!isAudioPlaying);
@@ -293,13 +296,15 @@ const Scene = ({ ready, isMuted }) => {
   });
 
   useEffect(() => {
-    if (audioBackgroundRef1.current && audioBackgroundRef2.current) {
+    if (audioBackgroundRef1.current && audioBackgroundRef2.current && audioBackgroundRef3.current) {
       if (isMuted) {
         audioBackgroundRef1.current.pause();
         audioBackgroundRef2.current.pause();
+        audioBackgroundRef3.current.pause();
       } else {
         audioBackgroundRef1.current.play();
         audioBackgroundRef2.current.play();
+        audioBackgroundRef3.current.play();
       }
     }
     setIsAudioPlaying(!isAudioPlaying);
@@ -416,6 +421,15 @@ const Scene = ({ ready, isMuted }) => {
                   loop
                   url="/sounds/nature2.mp3"
                   distance={7}
+                />
+              </group>
+              <group position={[14.95,20.412,-41.98]}>
+                <PositionalAudio
+                  ref={audioBackgroundRef3}
+                  autoplay
+                  loop
+                  url="/sounds/bird-chirp-1.mp3"
+                  distance={1.5}
                 />
               </group>
             </>
