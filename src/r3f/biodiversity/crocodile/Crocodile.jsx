@@ -14,7 +14,7 @@ export default function Model(props) {
   const { nodes, materials } = useGLTF('/models-3d/biodiversity/crocodile/crocodile.glb')
   return (
     <group {...props} dispose={null}>
-      <group rotation={[-Math.PI / 2, 0, 450]} scale={0.38}>
+       <group rotation={[-Math.PI / 2, 0, 450]} scale={0.38}>
         <mesh geometry={nodes.Object_2.geometry} material={materials.tex_u1_v1} />
         <mesh geometry={nodes.Object_3.geometry} material={materials.tex_u1_v1} />
         <mesh geometry={nodes.Object_4.geometry} material={materials.tex_u1_v1} />
