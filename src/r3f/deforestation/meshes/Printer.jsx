@@ -15,11 +15,9 @@ const Model = forwardRef((props, ref) => {
         scale={0.05}
         onPointerOver={() => {
           document.body.style.cursor = 'pointer'
-          setHovered(true)
         }}
         onPointerOut={() => {
           document.body.style.cursor = 'auto'
-          setHovered(false)
         }}
       />
     </group>

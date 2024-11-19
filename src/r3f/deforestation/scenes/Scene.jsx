@@ -18,6 +18,7 @@ import BackNextArrows from '../meshes/BackNextArrows';
 import InteractiveBlade from '../meshes/InteractiveBlade';
 import SmallTable from '../meshes/SmallTable';
 import RedValve from '../meshes/RedValve';
+import OrangeBird from '../meshes/OrangeBird';
 import CameraController from '../controllers/CameraController';
 import CameraLogger from '../../utils/CameraLogger';
 import { useNavigate } from 'react-router-dom';
@@ -387,6 +388,7 @@ const Scene = ({ ready, isMuted }) => {
             onDoubleClick={handleDoubleClick(4)}
             sceneIndex={stateIndex}
           />
+          <OrangeBird position={[20.4, 19.95, -45.75]} rotation={[0,Math.PI,0]}/>
           <SmallTable position={[17.5, 19.5, -45.858]} scale={0.3} onDoubleClick={handleDoubleClick(1)}/>
           <RedValve position={[17.5, 19.972, -45.856]} scale={0.005}  onClick={handleRedValveClick} onDoubleClick={handleDoubleClick(1)}/>
           {blades.map(blade => (

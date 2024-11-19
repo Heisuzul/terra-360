@@ -4,7 +4,6 @@ import { RigidBody } from '@react-three/rapier'
 
 export default function Model(props, {scale}) {
   const { nodes, materials } = useGLTF('/models-3d/deforestation/red-valve.glb')
-  const [hovered, setHovered] = useState(false)
 
   return (
     <group {...props} dispose={null}>
@@ -20,11 +19,9 @@ export default function Model(props, {scale}) {
               scale={100}
               onPointerOver={() => {
                 document.body.style.cursor = 'pointer'
-                setHovered(true)
               }}
               onPointerOut={() => {
                 document.body.style.cursor = 'auto'
-                setHovered(false)
               }}
             />
           </RigidBody>

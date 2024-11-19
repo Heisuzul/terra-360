@@ -21,11 +21,9 @@ export default function InteractiveBlade(props, {scale}) {
                 onClick={handleSaw}
                 onPointerOver={() => {
                     document.body.style.cursor = 'pointer'
-                    setHovered(true)
                 }}
                 onPointerOut={() => {
                     document.body.style.cursor = 'auto'
-                    setHovered(false)
                 }}>
                     <group name="Sketchfab_model" rotation={[-0.201, 0, 0]} scale={scale}>
                     <group name="BLADE1fbx" rotation={[Math.PI / 2, 0, 0]} scale={0.01}>
