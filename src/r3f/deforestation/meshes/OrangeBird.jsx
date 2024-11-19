@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useGLTF, useAnimations } from '@react-three/drei'
 
 export default function Model(props) {
@@ -10,6 +10,10 @@ export default function Model(props) {
 
   console.log(actions)
 
+  useEffect(() => {
+    actions["anim"].play()
+    return () => actions["anim"].stop()
+  }, [actions])
 
   return (
     <group ref={group} {...props} dispose={null}>
@@ -18,7 +22,7 @@ export default function Model(props) {
           <group
             name="bfb1ea86655f4c4ab4c6cbbb449cedf4fbx"
             rotation={[Math.PI / 2, 0, 0]}
-            scale={0.0005}>
+            scale={0.001}>
             <group name="Object_2">
               <group name="RootNode">
                 <group name="BirdOrange_all">
