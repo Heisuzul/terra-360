@@ -387,7 +387,7 @@ const Scene = ({ ready, isMuted }) => {
             onDoubleClick={handleDoubleClick(4)}
             sceneIndex={stateIndex}
           />
-          <OrangeBird position={[20.4, 19.95, -45.75]} rotation={[0,Math.PI,0]}/>
+          <OrangeBird position={[14.95,20.412,-41.98]} rotation={[0,Math.PI/12*10,0]}/>
           <SmallTable position={[17.5, 19.5, -45.858]} scale={0.3} onDoubleClick={handleDoubleClick(1)}/>
           <RedValve position={[17.5, 19.972, -45.856]} scale={0.005}  onClick={handleRedValveClick} onDoubleClick={handleDoubleClick(1)}/>
           {blades.map(blade => (
