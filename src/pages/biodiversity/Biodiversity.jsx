@@ -1,7 +1,7 @@
 import { useState, Suspense, useEffect, useRef } from 'react'
 import styles from './Biodiversity.module.css'
-import {Canvas} from '@react-three/fiber'
-import { Environment, OrbitControls, PerspectiveCamera } from '@react-three/drei'
+import {Canvas, useFrame} from '@react-three/fiber'
+import { Environment, OrbitControls, PerspectiveCamera, Text3D} from '@react-three/drei'
 import { EffectComposer} from '@react-three/postprocessing'
 import Forest from '../../r3f/biodiversity/forest/Forest'
 import Bee from '../../r3f/biodiversity/bee/Bee'
@@ -16,10 +16,13 @@ import keyboardControls from './components/controllers/keyboardControls';
 import { handleBeeClick, handleWolfClick, handleOrchidClick, handlePointerOrchidMissed, handlePointerBeeMissed, handlePointerWolfMissed, handleCrocClick, handlePointerCrocMissed, handleCondorClick, handlePointerCondorMissed, handleFrogClick, handlePointerFrogMissed} from './components/controllers/cameraController';
 
 
+
 function Biodiversity() {
   const [count, setCount] = useState(0)
   const [isVisible, setIsVisible] = useState(true);
   const [isFading, setIsFading] = useState(false);
+  const [showParticles, setShowParticles] = useState(false);
+  const [showLeaves, setShowLeaves] = useState(true);
   const [isBeeHovered, setIsBeeHovered] = useState(false);
   const [isOrchidHovered, setIsOrchidHovered] = useState(false);
   const [isWolfHovered, setIsWolfHovered] = useState(false);
@@ -42,12 +45,14 @@ function Biodiversity() {
     color: '#ffc199',
   });
   const [preset, setPreset] = useState('sunset');
+  
 
   const handleConsequencesClick = () => {
     setCurrentText('consequences');
     setBackgroundImage('/images/backgrounds/consequences-background.jpg');
     setLightSettings({ intensity: 0.05, color: '#121212' });
     setPreset('forest');
+    setShowParticles(true);
   };
 
   const handleBiodiversityClick = () => {
@@ -55,6 +60,7 @@ function Biodiversity() {
     setBackgroundImage('/images/backgrounds/biodiversity-background.jpg');
     setLightSettings({ intensity: 0.9, color: '#ffc199' });
     setPreset('sunset');
+    setShowParticles(false);
   };
 
   useEffect(() => {
@@ -101,6 +107,7 @@ function Biodiversity() {
           Golden frog
       </div>
     )}
+
     <div className={styles.pageContainer}>
        {isVisible && (
         <div ref={introRef} className={`${styles.intro} ${isFading ? styles.fadeOut : ''}`}>
@@ -123,6 +130,15 @@ function Biodiversity() {
           <OrbitControls minDistance={2} maxDistance={170} maxPolarAngle={Math.PI * 0.567} minPolarAngle={-100} />
           <Suspense fallback={null}>
             <Forest color='hotpink'/>
+            <Text3D
+            position={[-25, 0, 100]}
+            rotation={[0, 0.1, 0]}
+            font="/fonts/TiltWarp-Regular.json"
+            scale={10}
+            >
+            WELCOME
+            <meshStandardMaterial attach="material" color="#81d84d" />
+            </Text3D>
             <Bee 
             position={[10, -23, 110]}
             onPointerOver={() => setIsBeeHovered(true)} 
