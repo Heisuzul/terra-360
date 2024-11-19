@@ -36,7 +36,6 @@ const Scene = ({ ready, isMuted }) => {
   const printerRef = useRef();
   const treesRef = useRef(null);
   const [isControlsEnabled, setIsControlsEnabled] = useState(true);
-  const [firstPersonMode, setFirstPersonMode] = useState(false)
   const [blades, setBlades] = useState([]);
 
   const handleTerrainLoad = useCallback((terrain) => {
