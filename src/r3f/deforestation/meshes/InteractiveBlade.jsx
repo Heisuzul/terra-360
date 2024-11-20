@@ -1,24 +1,56 @@
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { useGLTF } from '@react-three/drei'
 import { RigidBody } from '@react-three/rapier'
 
 export default function InteractiveBlade(props, {scale}) {
   const { nodes, materials } = useGLTF('/models-3d/deforestation/circular-blade.glb')
   const rbSawRef = useRef()
+  const [clickStartTime, setClickStartTime] = useState(null)
 
-  const handleSaw = useCallback((e) => {
-    e.stopPropagation()
-    rbSawRef.current.applyImpulse({x: (Math.random() - 0.5) * 0.006 - 0.002, y: 0.002, z: (Math.abs(Math.random()) + 0.5) * 0.003}, true)
-    rbSawRef.current.setAngvel({x: 0, y: 50, z: 0}, true)
+  const handlePointerDown = useCallback((e) => {
+    setClickStartTime(Date.now())
+    rbSawRef.current.setAngvel({
+        x: 0,
+        y: 30,
+        z: 0
+      }, true)
   }, [])
 
+  const handlePointerUp = useCallback((e) => {
+    const clickDuration = Date.now() - clickStartTime
+    const impulseStrength = Math.min(clickDuration / 1000, 1) * 0.003
+
+    const clickPosition = e.intersections[0].point
+    const centerOfMass = rbSawRef.current.translation()
+    const relativePosition = {
+      x: clickPosition.x - centerOfMass.x,
+      y: clickPosition.y - centerOfMass.y,
+      z: clickPosition.z - centerOfMass.z
+    }
+
+    rbSawRef.current.applyImpulse({
+      x: -relativePosition.x * impulseStrength * 5, // Increase the impact on the x-axis
+      y: 0.0015,
+      z: impulseStrength
+    }, true)
+
+    rbSawRef.current.setAngvel({
+      x: 0,
+      y: 50,
+      z: 0
+    }, true)
+
+    e.stopPropagation()
+    setClickStartTime(null)
+  }, [clickStartTime])
 
   return (
     
         <group {...props} dispose={null}>
             <RigidBody type="dynamic" colliders="hull" ref={rbSawRef}>
                 <group name="Sketchfab_Scene" 
-                onClick={handleSaw}
+                onPointerDown={handlePointerDown}
+                onPointerUp={handlePointerUp}
                 onPointerOver={() => {
                     document.body.style.cursor = 'pointer'
                 }}
