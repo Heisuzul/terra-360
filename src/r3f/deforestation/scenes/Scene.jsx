@@ -1,4 +1,4 @@
-import React, { Suspense, useRef, useState, useCallback, useEffect } from 'react';
+import React, { Suspense, useRef, useState, useCallback, useEffect, useMemo } from 'react';
 import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import Staging from '../staging/Staging';
 import Terrain from '../meshes/Terrain';
@@ -19,13 +19,14 @@ import InteractiveBlade from '../meshes/InteractiveBlade';
 import SmallTable from '../meshes/SmallTable';
 import RedValve from '../meshes/RedValve';
 import OrangeBird from '../meshes/OrangeBird';
+import FloatingText from '../meshes/FloatingText';
 import CameraController from '../controllers/CameraController';
 import CameraLogger from '../../utils/CameraLogger';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../stores/use-auth-store';
-import { Loader, PositionalAudio, Sparkles } from '@react-three/drei';
+import { Loader, PositionalAudio, Sparkles, Text3D } from '@react-three/drei';
 import { Physics } from "@react-three/rapier";
-
+import { Vector3 } from 'three';
 
 const Scene = ({ ready, isMuted }) => {
   const terrainRef = useRef();
@@ -36,8 +37,10 @@ const Scene = ({ ready, isMuted }) => {
   const audioBackgroundRef3 = useRef();
   const printerRef = useRef();
   const treesRef = useRef(null);
+  const floatingTextRef = useRef();
   const [isControlsEnabled, setIsControlsEnabled] = useState(true);
   const [blades, setBlades] = useState([]);
+  const [hoveredObject, setHoveredObject] = useState(null);
 
   const handleTerrainLoad = useCallback((terrain) => {
     terrainRef.current = terrain;
@@ -80,8 +83,9 @@ const Scene = ({ ready, isMuted }) => {
       maxDistance: 8,
     },
     {
-      position: { x: 17.737703958511364, y: 20.391742664204138, z: -46.84625729877702 },
-      target: { x: 17.35, y: 19.972, z: -45.72 },
+      // position: { x: 17.737703958511364, y: 20.391742664204138, z: -46.84625729877702 },
+      position: { x: 17.895, y: 21, z: -48.858},
+      target: { x: 17.5, y: 19.972, z: -45.856 },
       minDistance: 1,
       maxDistance: 4,
     },
@@ -112,6 +116,12 @@ const Scene = ({ ready, isMuted }) => {
   // Determine the current set based on activeSet
   const currentCameraStates = activeSet === 1 ? cameraStatesSet1 : cameraStatesSet2;
   const currentState = currentCameraStates[stateIndex];
+
+  const memoizedPosition = useMemo(() => currentState.position, [currentState.position]);
+  const memoizedTarget = useMemo(() => currentState.target, [currentState.target]);
+  const memoizedMinDistance = useMemo(() => currentState.minDistance, [currentState.minDistance]);
+  const memoizedMaxDistance = useMemo(() => currentState.maxDistance, [currentState.maxDistance]);
+  const memoizedIsControlsEnabled = useMemo(() => isControlsEnabled, [isControlsEnabled]);
 
   // Handlers for switching camera states within the active set
   const handleNext = useCallback(() => {
@@ -323,6 +333,17 @@ const Scene = ({ ready, isMuted }) => {
     setBlades(prevBlades => [...prevBlades, newBlade]);
   };
 
+  const handlePointerOver = useCallback(() => {
+    if (floatingTextRef.current) {
+      floatingTextRef.current.visible = true;
+      setTimeout(() => {
+        if (floatingTextRef.current) {
+          floatingTextRef.current.visible = false;
+        }
+      }, 3000); // Adjust the duration as needed (3000ms = 3 seconds)
+    }
+  }, []);
+
   return (
     <div className={styles.pageContainer}>
       <Canvas shadows camera={{ 
@@ -383,7 +404,7 @@ const Scene = ({ ready, isMuted }) => {
           <Desk position={[19.7, 19.2, -46.2]} rotation={[0,Math.PI,0]}/>
           <Laptop onDoubleClick={handleDoubleClick(2)} externalRefs={[printerRef]} position={[20, 19.95, -45.75]} rotation={[0,Math.PI,0]}/>
           <Printer onDoubleClick={handleDoubleClick(3)} ref={printerRef} position={[18.98, 20.14, -45.65]} rotation={[0,Math.PI*3/4,0]}/>
-          <PhoneBody onDoubleClick={handleDoubleClick(4)} position={[19.1, 19.95, -46.7]} rotation={[0,Math.PI*2/4,0]}/>
+          <PhoneBody onDoubleClick={handleDoubleClick(4)} position={[19.1, 19.95, -46.7]} rotation={[0, Math.PI*2/4, 0]}/>
           <PhoneHandle 
             position={[19.1, 19.95, -46.7]} 
             rotation={[0, Math.PI*2/4, 0]}
@@ -392,7 +413,11 @@ const Scene = ({ ready, isMuted }) => {
             onDoubleClick={handleDoubleClick(4)}
             sceneIndex={stateIndex}
           />
-          <OrangeBird position={[14.95,20.412,-41.98]} rotation={[0,Math.PI/12*10,0]}/>
+          <OrangeBird position={[14.95,20.412,-41.98]} rotation={[0,Math.PI/12*10,0]}
+            onPointerOver={handlePointerOver}
+            onClick={handleStartQuiz} 
+          />
+          <FloatingText ref={floatingTextRef} text={'Start Quiz'} position={[14.9,20.6,-41.98]} />
           <SmallTable position={[17.5, 19.5, -45.858]} scale={0.3} onDoubleClick={handleDoubleClick(1)}/>
           <RedValve position={[17.5, 19.972, -45.856]} scale={0.005}  onClick={handleRedValveClick} onDoubleClick={handleDoubleClick(1)}/>
           {blades.map(blade => (
@@ -400,6 +425,8 @@ const Scene = ({ ready, isMuted }) => {
               key={blade.id}
               position={blade.position}
               scale={blade.scale}
+              onDragStart={() => setIsControlsEnabled(false)}
+              onDragEnd={() => setIsControlsEnabled(true)}
             />
           ))}
         </Physics>

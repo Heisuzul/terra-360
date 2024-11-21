@@ -2,9 +2,9 @@ import { OrbitControls } from "@react-three/drei";
 import { useThree, useFrame } from "@react-three/fiber";
 import { useRef, useEffect } from "react";
 import * as THREE from "three";
-import { useState } from "react";
+import { useState, memo } from "react";
 
-const CameraController = ({ 
+const CameraController = memo(({ 
   target, 
   position, 
   minDistance = 3, 
@@ -67,7 +67,7 @@ const CameraController = ({
       maxPolarAngle={Math.PI / 2}
     />
   );
-};
+});
 
 const easeInOutCubic = (t) => {
   return t < 0.5
