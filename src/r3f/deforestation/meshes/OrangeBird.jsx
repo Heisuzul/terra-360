@@ -18,7 +18,13 @@ export default function Model(props) {
   return (
     <group ref={group} {...props} dispose={null}>
       <group name="Sketchfab_Scene">
-        <group name="Sketchfab_model" ref={birdRef} rotation={[-Math.PI / 2, 0, 0]} scale={46.683}>
+        <group name="Sketchfab_model" ref={birdRef} rotation={[-Math.PI / 2, 0, 0]} scale={46.683} 
+        onPointerOver={() => {
+          document.body.style.cursor = 'pointer'
+        }}
+        onPointerOut={() => {
+          document.body.style.cursor = 'auto'
+        }}>
           <group
             name="bfb1ea86655f4c4ab4c6cbbb449cedf4fbx"
             rotation={[Math.PI / 2, 0, 0]}

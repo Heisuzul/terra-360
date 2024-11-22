@@ -1,4 +1,4 @@
-import React, { Suspense, useRef, useState, useCallback, useEffect } from 'react';
+import React, { Suspense, useRef, useState, useCallback, useEffect, useMemo } from 'react';
 import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import Staging from '../staging/Staging';
 import Terrain from '../meshes/Terrain';
@@ -19,13 +19,14 @@ import InteractiveBlade from '../meshes/InteractiveBlade';
 import SmallTable from '../meshes/SmallTable';
 import RedValve from '../meshes/RedValve';
 import OrangeBird from '../meshes/OrangeBird';
+import FloatingText from '../meshes/FloatingText';
 import CameraController from '../controllers/CameraController';
 import CameraLogger from '../../utils/CameraLogger';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../stores/use-auth-store';
-import { Loader, PositionalAudio, Sparkles } from '@react-three/drei';
+import { Loader, PositionalAudio, Sparkles, Text3D } from '@react-three/drei';
 import { Physics } from "@react-three/rapier";
-
+import { Vector3 } from 'three';
 
 const Scene = ({ ready, isMuted }) => {
   const terrainRef = useRef();
@@ -33,10 +34,14 @@ const Scene = ({ ready, isMuted }) => {
   const navigate = useNavigate();
   const audioBackgroundRef1 = useRef();
   const audioBackgroundRef2 = useRef();
+  const audioBackgroundRef3 = useRef();
   const printerRef = useRef();
   const treesRef = useRef(null);
-  const [isControlsEnabled, setIsControlsEnabled] = useState(true);
+  const floatingTextRef = useRef();
+  const floatingTextRef2 = useRef();
+  const floatingTextRef3 = useRef();
   const [blades, setBlades] = useState([]);
+  const cameraControllerRef = useRef();
 
   const handleTerrainLoad = useCallback((terrain) => {
     terrainRef.current = terrain;
@@ -80,7 +85,8 @@ const Scene = ({ ready, isMuted }) => {
     },
     {
       position: { x: 17.737703958511364, y: 20.391742664204138, z: -46.84625729877702 },
-      target: { x: 17.35, y: 19.972, z: -45.72 },
+      // position: { x: 17.895, y: 21, z: -48.858},
+      target: { x: 17.5, y: 19.972, z: -45.856 },
       minDistance: 1,
       maxDistance: 4,
     },
@@ -111,6 +117,16 @@ const Scene = ({ ready, isMuted }) => {
   // Determine the current set based on activeSet
   const currentCameraStates = activeSet === 1 ? cameraStatesSet1 : cameraStatesSet2;
   const currentState = currentCameraStates[stateIndex];
+
+  const memoizedPosition = useMemo(() => currentState.position, [currentState.position]);
+  const memoizedTarget = useMemo(() => currentState.target, [currentState.target]);
+  const memoizedMinDistance = useMemo(() => currentState.minDistance, [currentState.minDistance]);
+  const memoizedMaxDistance = useMemo(() => currentState.maxDistance, [currentState.maxDistance]);
+
+  // Example function to enable or disable camera controls
+  const toggleCameraControls = (enabled) => {
+    cameraControllerRef.current.enableControls(enabled);
+  };
 
   // Handlers for switching camera states within the active set
   const handleNext = useCallback(() => {
@@ -157,13 +173,15 @@ const Scene = ({ ready, isMuted }) => {
       if (event.key === 'Escape') {
         setStateIndex(0); // Reset to initial state
       } else if (event.key === 'm') {
-        if (audioBackgroundRef1.current && audioBackgroundRef2.current) {
+        if (audioBackgroundRef1.current && audioBackgroundRef2.current && audioBackgroundRef3.current) {
           if (isAudioPlaying) {
             audioBackgroundRef1.current.pause();
             audioBackgroundRef2.current.pause();
+            audioBackgroundRef3.current.pause();
           } else {
             audioBackgroundRef1.current.play();
             audioBackgroundRef2.current.play();
+            audioBackgroundRef3.current.play();
           }
         }
         setIsAudioPlaying(!isAudioPlaying);
@@ -293,13 +311,15 @@ const Scene = ({ ready, isMuted }) => {
   });
 
   useEffect(() => {
-    if (audioBackgroundRef1.current && audioBackgroundRef2.current) {
+    if (audioBackgroundRef1.current && audioBackgroundRef2.current && audioBackgroundRef3.current) {
       if (isMuted) {
         audioBackgroundRef1.current.pause();
         audioBackgroundRef2.current.pause();
+        audioBackgroundRef3.current.pause();
       } else {
         audioBackgroundRef1.current.play();
         audioBackgroundRef2.current.play();
+        audioBackgroundRef3.current.play();
       }
     }
     setIsAudioPlaying(!isAudioPlaying);
@@ -318,6 +338,39 @@ const Scene = ({ ready, isMuted }) => {
     setBlades(prevBlades => [...prevBlades, newBlade]);
   };
 
+  const handlePointerOver = useCallback(() => {
+    if (floatingTextRef.current) {
+      floatingTextRef.current.visible = true;
+      setTimeout(() => {
+        if (floatingTextRef.current) {
+          floatingTextRef.current.visible = false;
+        }
+      }, 3000); // Adjust the duration as needed (3000ms = 3 seconds)
+    }
+  }, []);
+
+  const handlePointerOver2 = useCallback(() => {
+    if (floatingTextRef2.current) {
+      floatingTextRef2.current.visible = true;
+      setTimeout(() => {
+        if (floatingTextRef2.current) {
+          floatingTextRef2.current.visible = false;
+        }
+      }, 3000); // Adjust the duration as needed (3000ms = 3 seconds)
+    }
+  }, []);
+
+  const handlePointerOver3 = useCallback(() => {
+    if (floatingTextRef3.current) {
+      floatingTextRef3.current.visible = true;
+      setTimeout(() => {
+        if (floatingTextRef3.current) {
+          floatingTextRef3.current.visible = false;
+        }
+      }, 3000); // Adjust the duration as needed (3000ms = 3 seconds)
+    }
+  }, []);
+
   return (
     <div className={styles.pageContainer}>
       <Canvas shadows camera={{ 
@@ -326,11 +379,11 @@ const Scene = ({ ready, isMuted }) => {
       >
         {/* <CameraLogger /> */}
         <CameraController
+          ref={cameraControllerRef}
           target={currentState.target}
           position={currentState.position}
           minDistance={currentState.minDistance}
           maxDistance={currentState.maxDistance}
-          isControlsEnabled={isControlsEnabled}
         />
         <Staging/>
         {/* <ambientLight intensity={0.5} /> */}
@@ -378,23 +431,32 @@ const Scene = ({ ready, isMuted }) => {
           <Desk position={[19.7, 19.2, -46.2]} rotation={[0,Math.PI,0]}/>
           <Laptop onDoubleClick={handleDoubleClick(2)} externalRefs={[printerRef]} position={[20, 19.95, -45.75]} rotation={[0,Math.PI,0]}/>
           <Printer onDoubleClick={handleDoubleClick(3)} ref={printerRef} position={[18.98, 20.14, -45.65]} rotation={[0,Math.PI*3/4,0]}/>
-          <PhoneBody onDoubleClick={handleDoubleClick(4)} position={[19.1, 19.95, -46.7]} rotation={[0,Math.PI*2/4,0]}/>
+          <PhoneBody onDoubleClick={handleDoubleClick(4)} onPointerOver={handlePointerOver3} position={[19.1, 19.95, -46.7]} rotation={[0, Math.PI*2/4, 0]}/>
           <PhoneHandle 
             position={[19.1, 19.95, -46.7]} 
             rotation={[0, Math.PI*2/4, 0]}
-            onDragStart={() => setIsControlsEnabled(false)}
-            onDragEnd={() => setIsControlsEnabled(true)}
+            onDragStart={() => toggleCameraControls(false)}
+            onDragEnd={() => toggleCameraControls(true)}
             onDoubleClick={handleDoubleClick(4)}
             sceneIndex={stateIndex}
           />
-          <OrangeBird position={[14.95,20.412,-41.98]} rotation={[0,Math.PI/12*10,0]}/>
+          <OrangeBird position={[14.95,20.412,-41.98]} rotation={[0,Math.PI/12*10,0]}
+            onPointerOver={handlePointerOver}
+            onClick={handleStartQuiz} 
+          />
+          { activeSet === 1 ? <FloatingText ref={floatingTextRef} text={'Start Quiz'} position={[14.9,20.6,-41.98]} /> : 
+            <FloatingText ref={floatingTextRef} text={'Back to The Forest'} position={[14.9,20.6,-41.98]} />}
+          <FloatingText ref={floatingTextRef2} text={'Get Blades'} position={[17.5, 20.1, -45.856]} scale={0.5}/>
+          <FloatingText ref={floatingTextRef3} text={'Pick Up'} position={[19.1, 20.1, -46.5]} scale={0.5} rotationDelta={-Math.PI/12*2}/>
           <SmallTable position={[17.5, 19.5, -45.858]} scale={0.3} onDoubleClick={handleDoubleClick(1)}/>
-          <RedValve position={[17.5, 19.972, -45.856]} scale={0.005}  onClick={handleRedValveClick} onDoubleClick={handleDoubleClick(1)}/>
+          <RedValve position={[17.5, 19.972, -45.856]} scale={0.005} onPointerOver={handlePointerOver2} onClick={handleRedValveClick} onDoubleClick={handleDoubleClick(1)}/>
           {blades.map(blade => (
             <InteractiveBlade 
               key={blade.id}
               position={blade.position}
               scale={blade.scale}
+              onDragStart={() => toggleCameraControls(false)}
+              onDragEnd={() => toggleCameraControls(true)}
             />
           ))}
         </Physics>
@@ -416,6 +478,15 @@ const Scene = ({ ready, isMuted }) => {
                   loop
                   url="/sounds/nature2.mp3"
                   distance={7}
+                />
+              </group>
+              <group position={[14.95,20.412,-41.98]}>
+                <PositionalAudio
+                  ref={audioBackgroundRef3}
+                  autoplay
+                  loop
+                  url="/sounds/bird-chirp-1.mp3"
+                  distance={1}
                 />
               </group>
             </>
