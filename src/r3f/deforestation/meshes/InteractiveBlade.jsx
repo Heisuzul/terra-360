@@ -10,6 +10,7 @@ export default function InteractiveBlade({scale, onDragStart, onDragEnd, ...prop
 
   const handlePointerDown = useCallback((e) => {
     setClickStartTime(Date.now())
+    e.stopPropagation();
 
     const clickPosition = e.intersections[0].point;
     const centerOfMass = rbSawRef.current.translation();
@@ -29,6 +30,7 @@ export default function InteractiveBlade({scale, onDragStart, onDragEnd, ...prop
   }, [onDragStart])
 
   const handlePointerUp = useCallback((e) => {
+    e.stopPropagation();
     const clickDuration = Date.now() - clickStartTime;
     const impulseStrength = Math.min(clickDuration / 1000, 1) * 0.003;
 

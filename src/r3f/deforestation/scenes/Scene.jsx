@@ -40,9 +40,8 @@ const Scene = ({ ready, isMuted }) => {
   const floatingTextRef = useRef();
   const floatingTextRef2 = useRef();
   const floatingTextRef3 = useRef();
-  const [isControlsEnabled, setIsControlsEnabled] = useState(true);
   const [blades, setBlades] = useState([]);
-  const [hoveredObject, setHoveredObject] = useState(null);
+  const cameraControllerRef = useRef();
 
   const handleTerrainLoad = useCallback((terrain) => {
     terrainRef.current = terrain;
@@ -85,8 +84,8 @@ const Scene = ({ ready, isMuted }) => {
       maxDistance: 8,
     },
     {
-      // position: { x: 17.737703958511364, y: 20.391742664204138, z: -46.84625729877702 },
-      position: { x: 17.895, y: 21, z: -48.858},
+      position: { x: 17.737703958511364, y: 20.391742664204138, z: -46.84625729877702 },
+      // position: { x: 17.895, y: 21, z: -48.858},
       target: { x: 17.5, y: 19.972, z: -45.856 },
       minDistance: 1,
       maxDistance: 4,
@@ -123,7 +122,11 @@ const Scene = ({ ready, isMuted }) => {
   const memoizedTarget = useMemo(() => currentState.target, [currentState.target]);
   const memoizedMinDistance = useMemo(() => currentState.minDistance, [currentState.minDistance]);
   const memoizedMaxDistance = useMemo(() => currentState.maxDistance, [currentState.maxDistance]);
-  const memoizedIsControlsEnabled = useMemo(() => isControlsEnabled, [isControlsEnabled]);
+
+  // Example function to enable or disable camera controls
+  const toggleCameraControls = (enabled) => {
+    cameraControllerRef.current.enableControls(enabled);
+  };
 
   // Handlers for switching camera states within the active set
   const handleNext = useCallback(() => {
@@ -376,11 +379,11 @@ const Scene = ({ ready, isMuted }) => {
       >
         {/* <CameraLogger /> */}
         <CameraController
+          ref={cameraControllerRef}
           target={currentState.target}
           position={currentState.position}
           minDistance={currentState.minDistance}
           maxDistance={currentState.maxDistance}
-          isControlsEnabled={isControlsEnabled}
         />
         <Staging/>
         {/* <ambientLight intensity={0.5} /> */}
@@ -432,8 +435,8 @@ const Scene = ({ ready, isMuted }) => {
           <PhoneHandle 
             position={[19.1, 19.95, -46.7]} 
             rotation={[0, Math.PI*2/4, 0]}
-            onDragStart={() => setIsControlsEnabled(false)}
-            onDragEnd={() => setIsControlsEnabled(true)}
+            onDragStart={() => toggleCameraControls(false)}
+            onDragEnd={() => toggleCameraControls(true)}
             onDoubleClick={handleDoubleClick(4)}
             sceneIndex={stateIndex}
           />
@@ -452,8 +455,8 @@ const Scene = ({ ready, isMuted }) => {
               key={blade.id}
               position={blade.position}
               scale={blade.scale}
-              onDragStart={() => setIsControlsEnabled(false)}
-              onDragEnd={() => setIsControlsEnabled(true)}
+              onDragStart={() => toggleCameraControls(false)}
+              onDragEnd={() => toggleCameraControls(true)}
             />
           ))}
         </Physics>

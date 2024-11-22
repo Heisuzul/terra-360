@@ -1,26 +1,45 @@
 import { OrbitControls } from "@react-three/drei";
 import { useThree, useFrame } from "@react-three/fiber";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, forwardRef, useImperativeHandle } from "react";
 import * as THREE from "three";
 import { useState, memo } from "react";
 
-const CameraController = memo(({ 
+const CameraController = forwardRef(({ 
   target, 
   position, 
   minDistance = 3, 
   maxDistance = 55, 
-  transitionDuration = 1000,
-  isControlsEnabled = true 
-}) => {
+  transitionDuration = 1000
+}, ref) => {
   const { camera } = useThree();
   const controlsRef = useRef();
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isControlsEnabled, setIsControlsEnabled] = useState(true);
   const startTime = useRef(0);
   
   const startPosition = useRef(new THREE.Vector3());
   const startTarget = useRef(new THREE.Vector3());
   const endPosition = useRef(new THREE.Vector3(position.x, position.y, position.z));
   const endTarget = useRef(new THREE.Vector3(target.x, target.y, target.z));
+  
+  useImperativeHandle(ref, () => ({
+    resetCamera: () => {
+      startPosition.current.copy(camera.position);
+      startTarget.current.copy(controlsRef.current.target);
+
+      endPosition.current.set(position.x, position.y, position.z);
+      endTarget.current.set(target.x, target.y, target.z);
+
+      startTime.current = performance.now();
+      setIsTransitioning(true);
+    },
+    enableControls: (enabled) => {
+      setIsControlsEnabled(enabled);
+      if (controlsRef.current) {
+        controlsRef.current.enableRotate = enabled;
+      }
+    }
+  }));
 
   useEffect(() => {
     if (!controlsRef.current) return;
