@@ -6,20 +6,10 @@ export default function InteractiveBlade({scale, onDragStart, onDragEnd, ...prop
   const { nodes, materials } = useGLTF('/models-3d/deforestation/circular-blade.glb')
   const rbSawRef = useRef()
   const [clickStartTime, setClickStartTime] = useState(null)
-  const [relativePosition, setRelativePosition] = useState(null);
 
   const handlePointerDown = useCallback((e) => {
     setClickStartTime(Date.now())
     e.stopPropagation();
-
-    const clickPosition = e.intersections[0].point;
-    const centerOfMass = rbSawRef.current.translation();
-    const relativePos = {
-      x: clickPosition.x - centerOfMass.x,
-      y: clickPosition.y - centerOfMass.y,
-      z: clickPosition.z - centerOfMass.z
-    };
-    setRelativePosition(relativePos);
 
     rbSawRef.current.setAngvel({
         x: 0,
@@ -32,13 +22,15 @@ export default function InteractiveBlade({scale, onDragStart, onDragEnd, ...prop
   const handlePointerUp = useCallback((e) => {
     e.stopPropagation();
     const clickDuration = Date.now() - clickStartTime;
-    const impulseStrength = Math.min(clickDuration / 1000, 1) * 0.003;
+    const impulseStrength = Math.min(clickDuration / 1000, 1.5);
 
-    if (relativePosition) {
+      const randomSign = Math.random() > 0.5 ? 1 : -1;
+      const anotherRandom = Math.random();
+
       rbSawRef.current.applyImpulse({
-        x: -relativePosition.x * Math.sqrt(relativePosition.x**2+relativePosition.z**2) * impulseStrength * 5, // Increase the impact on the x-axis
-        y: 0.0015,
-        z: impulseStrength
+        x: anotherRandom * 0.004 * randomSign * impulseStrength - 0.002 * impulseStrength,
+        y: 0.0015 * impulseStrength,
+        z: 0.003 * impulseStrength
       }, true);
 
       rbSawRef.current.setAngvel({
@@ -46,12 +38,13 @@ export default function InteractiveBlade({scale, onDragStart, onDragEnd, ...prop
         y: 50,
         z: 0
       }, true);
-    }
+
+
     e.stopPropagation();
     setClickStartTime(null);
     setRelativePosition(null);
     onDragEnd?.();
-  }, [clickStartTime, relativePosition, onDragEnd])
+  }, [clickStartTime, onDragEnd])
 
   return (
     
