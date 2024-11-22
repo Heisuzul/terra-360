@@ -38,6 +38,8 @@ const Scene = ({ ready, isMuted }) => {
   const printerRef = useRef();
   const treesRef = useRef(null);
   const floatingTextRef = useRef();
+  const floatingTextRef2 = useRef();
+  const floatingTextRef3 = useRef();
   const [isControlsEnabled, setIsControlsEnabled] = useState(true);
   const [blades, setBlades] = useState([]);
   const [hoveredObject, setHoveredObject] = useState(null);
@@ -344,6 +346,28 @@ const Scene = ({ ready, isMuted }) => {
     }
   }, []);
 
+  const handlePointerOver2 = useCallback(() => {
+    if (floatingTextRef2.current) {
+      floatingTextRef2.current.visible = true;
+      setTimeout(() => {
+        if (floatingTextRef2.current) {
+          floatingTextRef2.current.visible = false;
+        }
+      }, 3000); // Adjust the duration as needed (3000ms = 3 seconds)
+    }
+  }, []);
+
+  const handlePointerOver3 = useCallback(() => {
+    if (floatingTextRef3.current) {
+      floatingTextRef3.current.visible = true;
+      setTimeout(() => {
+        if (floatingTextRef3.current) {
+          floatingTextRef3.current.visible = false;
+        }
+      }, 3000); // Adjust the duration as needed (3000ms = 3 seconds)
+    }
+  }, []);
+
   return (
     <div className={styles.pageContainer}>
       <Canvas shadows camera={{ 
@@ -404,7 +428,7 @@ const Scene = ({ ready, isMuted }) => {
           <Desk position={[19.7, 19.2, -46.2]} rotation={[0,Math.PI,0]}/>
           <Laptop onDoubleClick={handleDoubleClick(2)} externalRefs={[printerRef]} position={[20, 19.95, -45.75]} rotation={[0,Math.PI,0]}/>
           <Printer onDoubleClick={handleDoubleClick(3)} ref={printerRef} position={[18.98, 20.14, -45.65]} rotation={[0,Math.PI*3/4,0]}/>
-          <PhoneBody onDoubleClick={handleDoubleClick(4)} position={[19.1, 19.95, -46.7]} rotation={[0, Math.PI*2/4, 0]}/>
+          <PhoneBody onDoubleClick={handleDoubleClick(4)} onPointerOver={handlePointerOver3} position={[19.1, 19.95, -46.7]} rotation={[0, Math.PI*2/4, 0]}/>
           <PhoneHandle 
             position={[19.1, 19.95, -46.7]} 
             rotation={[0, Math.PI*2/4, 0]}
@@ -417,9 +441,12 @@ const Scene = ({ ready, isMuted }) => {
             onPointerOver={handlePointerOver}
             onClick={handleStartQuiz} 
           />
-          <FloatingText ref={floatingTextRef} text={'Start Quiz'} position={[14.9,20.6,-41.98]} />
+          { activeSet === 1 ? <FloatingText ref={floatingTextRef} text={'Start Quiz'} position={[14.9,20.6,-41.98]} /> : 
+            <FloatingText ref={floatingTextRef} text={'Back to The Forest'} position={[14.9,20.6,-41.98]} />}
+          <FloatingText ref={floatingTextRef2} text={'Get Blades'} position={[17.5, 20.1, -45.856]} scale={0.5}/>
+          <FloatingText ref={floatingTextRef3} text={'Pick Up'} position={[19.1, 20.1, -46.5]} scale={0.5} rotationDelta={-Math.PI/12*2}/>
           <SmallTable position={[17.5, 19.5, -45.858]} scale={0.3} onDoubleClick={handleDoubleClick(1)}/>
-          <RedValve position={[17.5, 19.972, -45.856]} scale={0.005}  onClick={handleRedValveClick} onDoubleClick={handleDoubleClick(1)}/>
+          <RedValve position={[17.5, 19.972, -45.856]} scale={0.005} onPointerOver={handlePointerOver2} onClick={handleRedValveClick} onDoubleClick={handleDoubleClick(1)}/>
           {blades.map(blade => (
             <InteractiveBlade 
               key={blade.id}
@@ -456,7 +483,7 @@ const Scene = ({ ready, isMuted }) => {
                   autoplay
                   loop
                   url="/sounds/bird-chirp-1.mp3"
-                  distance={1.5}
+                  distance={1}
                 />
               </group>
             </>
