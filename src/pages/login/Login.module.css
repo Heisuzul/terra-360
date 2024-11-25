@@ -21,6 +21,7 @@
     cursor: pointer;
     align-items: center;
     justify-content: center;
+    transition: 0.3s;
 }
 
 .logoutButton {
@@ -30,6 +31,7 @@
     font-size: min(2.5vw, 16px);
     cursor: pointer;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    transition: 0.3s;
 }
 
 .welcomeText {
@@ -52,7 +54,6 @@
     margin: 0px;
     padding: 15px 20px;
     font-size: 16px; 
-    cursor: pointer;
     position: absolute;
     top: 75%;          /* Centra verticalmente */
     left: 50%;         /* Centra horizontalmente */
@@ -66,12 +67,13 @@
     gap: 10px; 
     max-width: 24vw;
     text-align: center;
+    transition: 0.3s;
 }
 
 .introductionDiv {
     margin: 0px;
     padding: 15px 20px;
-    cursor: pointer;
+    cursor: default;
     position: absolute;
     top: 50%;          /* Centra verticalmente */
     left: 50%;         /* Centra horizontalmente */
@@ -83,6 +85,7 @@
     flex-direction: column;
     /* align-items: center; */
     gap: 10px;
+    transition: 0.3s;
 }
 
 #continueText {
@@ -103,11 +106,17 @@
     justify-content: center;
     height: 100vh; /* Full viewport height */
     text-align: center;
+    transition: 0.3s;
 }
 
 .loginIcon {
     margin-bottom: 1vh; /* Space between the logo and button, proportional to viewport height */
-    width: min(45vh, 512px) /* Width proportional to viewport width */
+    width: min(45vh, 512px); /* Width proportional to viewport width */
+    transition: 0.5s;
+}
+
+.loginIcon:hover {
+    transform: scale(1.05);
 }
 
 .buttonIcon {
@@ -126,6 +135,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end; /* Align buttons to the right */
+    transition: 0.3s;
 }
 
 /* Switch to vertical layout when width is less than height */
@@ -176,6 +186,7 @@
     margin-top: 2vh; /* Space between buttons */
     background-size: cover; /* Ensures the image covers the button */
     background-position: center; /* Centers the image */
+    transition: 0.3s;
 }
 
 /* Switch to vertical layout when width is less than height */

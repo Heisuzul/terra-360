@@ -9,7 +9,8 @@
     padding: 4px;
     border-radius: 50%;
     pointer-events: auto;
-    user-select: 'none'
+    user-select: 'none';
+    transition: 0.5s;
 }
 
 .tutorial-buttons {
@@ -20,4 +21,12 @@
     flex-direction: column;
     gap: 16px;
     z-index: 999; /* Ensure the buttons are on top of other elements */
+    transition: 0.5s;
 }
+
+
+.tutorial-button:hover,
+.mute-button:hover,
+.tutorial-buttons:hover {
+    transform: scale(1.05);
+  }
