@@ -22,6 +22,7 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   /* Ensure clicks on the card don't propagate to elements below */
   pointer-events: auto;
+  transition: 0.3s;
 }
 
 .close-button {
@@ -35,6 +36,7 @@
   cursor: pointer;
   padding: 4px;
   border-radius: 50%;
+  transition: 0.3s;
 }
 
 .close-button:hover {
