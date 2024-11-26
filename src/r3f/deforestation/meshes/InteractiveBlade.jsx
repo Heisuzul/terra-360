@@ -93,7 +93,7 @@ export default function InteractiveBlade({scale, onDragStart, onDragEnd, ...prop
   return (
     
         <group {...props} dispose={null}>
-            <RigidBody type="dynamic" colliders="hull" ref={rbSawRef} onCollisionEnter={handleCollision}>
+            <RigidBody type="dynamic" colliders="hull" ref={rbSawRef} onCollisionEnter={handleCollision} restitution={0.2}>
                 <group name="Sketchfab_Scene" 
                 onPointerDown={handlePointerDown}
                 onPointerUp={handlePointerUp}

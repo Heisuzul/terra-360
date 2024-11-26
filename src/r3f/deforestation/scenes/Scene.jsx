@@ -371,6 +371,18 @@ const Scene = ({ ready, isMuted }) => {
     }
   }, []);
 
+  const handleTreesPuff = useCallback(() => {
+    if (treesRef.current) {
+      treesRef.current.puffTrees();
+    }
+  }, [treesRef])
+
+  const handleTreesGrow = useCallback(() => {
+    if (treesRef.current) {
+      treesRef.current.growTrees();
+    }
+  }, [treesRef])
+
   return (
     <div className={styles.pageContainer}>
       <Canvas shadows camera={{ 
@@ -430,7 +442,7 @@ const Scene = ({ ready, isMuted }) => {
           <Platform onDoubleClick={handleDoubleClick(0)} position={[16.895, 19, -45.858]}/>
           <Desk position={[19.7, 19.2, -46.2]} rotation={[0,Math.PI,0]}/>
           <Laptop onDoubleClick={handleDoubleClick(2)} externalRefs={[printerRef]} position={[20, 19.95, -45.75]} rotation={[0,Math.PI,0]}/>
-          <Printer onDoubleClick={handleDoubleClick(3)} ref={printerRef} position={[18.98, 20.14, -45.65]} rotation={[0,Math.PI*3/4,0]}/>
+          <Printer onClick={handleTreesPuff} onDoubleClick={handleDoubleClick(3)} ref={printerRef} position={[18.98, 20.14, -45.65]} rotation={[0,Math.PI*3/4,0]}/>
           <PhoneBody onDoubleClick={handleDoubleClick(4)} onPointerOver={handlePointerOver3} position={[19.1, 19.95, -46.7]} rotation={[0, Math.PI*2/4, 0]}/>
           <PhoneHandle 
             position={[19.1, 19.95, -46.7]} 
@@ -442,7 +454,7 @@ const Scene = ({ ready, isMuted }) => {
           />
           <OrangeBird position={[14.95,20.412,-41.98]} rotation={[0,Math.PI/12*10,0]}
             onPointerOver={handlePointerOver}
-            onClick={handleStartQuiz} 
+            onClick={handleTreesGrow} 
           />
           { activeSet === 1 ? <FloatingText ref={floatingTextRef} text={'Start Quiz'} position={[14.9,20.6,-41.98]} /> : 
             <FloatingText ref={floatingTextRef} text={'Back to The Forest'} position={[14.9,20.6,-41.98]} />}
