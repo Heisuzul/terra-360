@@ -1,13 +1,27 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState, useEffect } from 'react'
 import { useGLTF } from '@react-three/drei'
 import { RigidBody } from '@react-three/rapier'
+import { Html } from '@react-three/drei';
+import { easeCubicInOut } from 'd3-ease';
+import { animated as animatedDiv, useSpring as useSpringWeb } from 'react-spring';
+import { PositionalAudio } from '@react-three/drei';
 
 export default function InteractiveBlade({scale, onDragStart, onDragEnd, ...props}) {
   const { nodes, materials } = useGLTF('/models-3d/deforestation/circular-blade.glb')
   const rbSawRef = useRef()
   const [clickStartTime, setClickStartTime] = useState(null)
+  const [isHolding, setIsHolding] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
+  const audioRef = useRef();
+
+  const springProps = useSpringWeb({
+    height: isHolding ? '100%' : '0%',
+    config: { duration: 1500, easing: easeCubicInOut },
+  });
 
   const handlePointerDown = useCallback((e) => {
+    setIsHolding(true);
     setClickStartTime(Date.now())
     e.stopPropagation();
 
@@ -42,14 +56,44 @@ export default function InteractiveBlade({scale, onDragStart, onDragEnd, ...prop
 
     e.stopPropagation();
     setClickStartTime(null);
-    setRelativePosition(null);
+    setIsHolding(false);
     onDragEnd?.();
   }, [clickStartTime, onDragEnd])
+
+  useEffect(() => {
+    let timer;
+    if (isHolding) {
+      setProgress(0);
+      timer = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 1) {
+            clearInterval(timer);
+            return 1;
+          }
+          return prev + 0.01;
+        });
+      }, 15);
+    } else {
+      setProgress(0);
+    }
+    return () => clearInterval(timer);
+  }, [isHolding]);
+
+  const handleCollision = () => {
+    if (audioRef.current) {
+      const audio = audioRef.current;
+      audio.playbackRate = Math.random() * 0.5 + 0.75; // Random playback rate between 0.75 and 1.25
+      audio.play();
+    }
+    setTimeout(() => {
+      setIsVisible(false);
+    }, 1000); // Puff effect duration in milliseconds
+  };
 
   return (
     
         <group {...props} dispose={null}>
-            <RigidBody type="dynamic" colliders="hull" ref={rbSawRef}>
+            <RigidBody type="dynamic" colliders="hull" ref={rbSawRef} onCollisionEnter={handleCollision}>
                 <group name="Sketchfab_Scene" 
                 onPointerDown={handlePointerDown}
                 onPointerUp={handlePointerUp}
@@ -92,8 +136,25 @@ export default function InteractiveBlade({scale, onDragStart, onDragEnd, ...prop
                         </group>
                     </group>
                     </group>
+                    {isHolding && (
+                      <Html position={[-0.1,0.2,0.2]} transform scale={0.1} rotation={[Math.PI/3.7,Math.PI/2,Math.PI/6]}>
+                      <div style={{ width: '20px', height: '100px', position: 'relative', border: '1px solid #000' }}>
+                        <div style={{ width: '100%', height: '100%', background: 'linear-gradient(to top, green, yellow, red)', position: 'absolute', top: 0 }} />
+                        <animatedDiv.div
+                          style={{
+                            width: '100%',
+                            height: springProps.height,
+                            background: 'rgba(255,255,255,0.5)',
+                            position: 'absolute',
+                            bottom: 0,
+                          }}
+                        />
+                      </div>
+                      </Html>
+                    )}
                 </group>
             </RigidBody>
+            <PositionalAudio ref={audioRef} url="/sounds/metal-hit.mp3" distance={0.01} loop={false} />
         </group>
   )
 }
