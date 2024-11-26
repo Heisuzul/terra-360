@@ -5,6 +5,7 @@ import Farm from '/src/r3f/Erosion/meshes/farm-low-poly';
 import Terrain from '/src/r3f/Erosion/meshes/terrain';
 import Lights from '/src/r3f/Erosion/lights/lights';
 import DesertForest from '/src/r3f/Erosion/meshes/desert-forest';
+import Forest_with_river from '/src/r3f/Erosion/meshes/forest-with-river';
 import Rocks from '/src/r3f/Erosion/meshes/rocks';
 import Staging from '/src/r3f/Erosion/staging/staging';
 import CameraControl from '/src/r3f/Erosion/camera-control/camera-control';
@@ -66,6 +67,7 @@ const Scene = () => {
         <Terrain />  {/* Terrain mesh */}
         <Farm position={[3, -0.4, 0.1]} />  {/* Farm mesh */}
         <DesertForest />  {/* Desert forest mesh */}
+        <Forest_with_river  position={[-0.5, 0.5, 1.69]} rotation={[0, 3, 0]} scale={[0.0022, 0.002, 0.002]}/> 
         <Rocks position={[-0.37, 0.15, -0.4]} scale={[0.022, 0.02, 0.02]} />  {/* Rocks mesh */}
         <Tumbleweed position={[0.1, 0.049, 0.1]} scale={[0.01, 0.01, 0.01]} />  {/* Tumbleweed mesh */}
 

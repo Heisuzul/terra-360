@@ -21,14 +21,14 @@ const CausesTextErosion = () => {
     // `useFrame` hook is used to check the camera's distance from the target position on each frame
     useFrame(() => {
         // Check if the camera is close enough to the target position
-        const isAtTargetPosition = camera.position.distanceTo(targetPositionRef.current) < 0.01;
+        const isAtTargetPosition = camera.position.distanceTo(targetPositionRef.current) < 0.02;
         setIsVisible(isAtTargetPosition);  // Set visibility based on camera's distance
     });
 
     return (
         // If the camera is close to the target position, render the text in 3D space
         isVisible && (
-            <Html position={[0.43, 0.53, 0.05]} center>  {/* Renders HTML content at the specified position */}
+            <Html position={[0.43, 0.52, 0.05]} center>  {/* Renders HTML content at the specified position */}
                 <div className={styles.causesDiv}>
                     <p className={styles.causesText}>
                         Soil erosion is a natural process, but human activities have significantly accelerated it, 

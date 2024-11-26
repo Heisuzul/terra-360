@@ -8,34 +8,45 @@ import * as THREE from 'three';
  * - Changes HDR image and environment scale based on camera position.
  * - Provides dynamic lighting and atmospheric effects to the scene.
  */
-
-const Staging = () => {
+const Staging = ({ instructionsVisible }) => {
   const { camera } = useThree();  // Access the camera object from the 3D scene
   const [hdrFile, setHdrFile] = useState('/hdris/erosion/dikhololo_night_2k.hdr');  // Initial HDR file path
   const [scale, setScale] = useState(2);  // Initial scale for the environment
 
-  // Initial and target camera positions to trigger HDR and scale changes
-  const initialPosition = new THREE.Vector3(0.52, 0.42, 0.24);  // Camera's initial position
-  const targetPosition = new THREE.Vector3(0.33, 0.58, 0.11);  // Camera's target position
+  // Initial, target, and new positions for the camera
+  const positionA = new THREE.Vector3(0.52, 0.42, 0.24);  // Position A
+  const positionB = new THREE.Vector3(0.33, 0.58, 0.11);  // Position B
+  const positionC = new THREE.Vector3(0.099, 0.641, 1.121);  // Position C
 
   // `useFrame` hook runs on each frame to check the camera's position and update HDR
   useFrame(() => {
-    const currentDistanceToInitial = camera.position.distanceTo(initialPosition);  // Distance to the initial position
-    const currentDistanceToTarget = camera.position.distanceTo(targetPosition);  // Distance to the target position
+    if (instructionsVisible) return; // Prevent environment changes if instructions are visible
+
+    const currentDistanceToA = camera.position.distanceTo(positionA);  // Distance to position A
+    const currentDistanceToB = camera.position.distanceTo(positionB);  // Distance to position B
+    const currentDistanceToC = camera.position.distanceTo(positionC);  // Distance to position C
 
     const threshold = 0.1;  // Distance threshold for switching HDR images
 
-    // If the camera is close to the initial position, set the first HDR image and scale
-    if (currentDistanceToInitial < threshold) {
+    // If the camera is close to position A, set the first HDR image and scale
+    if (currentDistanceToA < threshold) {
       if (hdrFile !== '/hdris/erosion/dikhololo_night_2k.hdr') {
         setHdrFile('/hdris/erosion/dikhololo_night_2k.hdr');
-        setScale(2);  // Set scale for the environment at initial position
+        setScale(2);  // Set scale for the environment at position A
       }
-    } else if (currentDistanceToTarget < threshold) {
-      // If the camera is close to the target position, switch to a different HDR and scale
+    } 
+    // If the camera is close to position B, switch to a different HDR and scale
+    else if (currentDistanceToB < threshold) {
       if (hdrFile !== '/hdris/erosion/industrial_sunset_2k.hdr') {
         setHdrFile('/hdris/erosion/industrial_sunset_2k.hdr');
-        setScale(5);  // Set a different scale for the environment at target position
+        setScale(5);  // Set a different scale for the environment at position B
+      }
+    } 
+    // If the camera is close to position C, set a new HDR and scale
+    else if (currentDistanceToC < threshold) {
+      if (hdrFile !== '/hdris/erosion/dikhololo_night_2k.hdr') {
+        setHdrFile('/hdris/erosion/dikhololo_night_2k.hdr');  // New HDR for position C
+        setScale(8);  // Set a different scale for position C
       }
     }
   });
@@ -54,3 +65,4 @@ const Staging = () => {
 };
 
 export default Staging;  // Export the Staging component
+
