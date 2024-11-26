@@ -1,21 +1,60 @@
-/* home-button.module.css */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: absolute; 
+  top: 70px;
+  width: 100%; 
+  z-index: 10; 
+  color: rgb(255, 255, 255);
+}
 
-.homeButton {
-    position: fixed; /* Fixes the button to a specific position on the screen */
-    top: 20px; /* Position the button 20px from the top of the viewport */
-    left: 20px; /* Position the button 20px from the left of the viewport */
-    padding: 10px 20px; /* Adds padding inside the button, 10px top-bottom and 20px left-right */
-    font-size: 16px; /* Sets the font size of the button text */
-    background-color: #007BFF; /* Blue background color */
-    color: white; /* White text color */
-    border: none; /* Removes default button border */
-    border-radius: 5px; /* Rounds the button corners with a 5px radius */
-    cursor: pointer; /* Changes the cursor to a pointer when hovering over the button */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow around the button */
-    transition: background-color 0.3s; /* Smooth background color transition when hovered */
-    z-index: 20; /* Ensures the button stays on top of other elements (if any) */
-  }
-  
-  .homeButton:hover {
-    background-color: #0056b3; /* Darker blue background color when hovered */
-  }
+.navMenu {
+  margin: 20px;
+  margin-right: 600px;
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 60px;
+  font-size: 20px;
+  white-space: nowrap;
+  font-weight: 500;
+  color:#579135;
+}
+
+.backButton {
+  margin: 0px 40px;
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #579135;
+  background-color: #579135;
+  transition: 0.5s;
+  position: absolute;
+  left: 20%;
+}
+
+.backButton:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px #579135;
+  background-color: #579135;
+  left: 20%;
+}
+
+.navQuiz {
+  padding: 20px 40px;
+  border-radius: 50px;
+  background: linear-gradient(267deg, #579135 0.36%, #79d345 102.06%);
+  font-size: 22px;
+  cursor: pointer;
+  transition: 0.5s;
+  text-align: center;
+  box-shadow: 0 0 10px #579135;
+  font-weight: 500;
+  color: #ffffff;
+  position: absolute;
+  right: 20%; 
+}
+
+.navQuiz:hover {
+  transform: scale(1.05);
+}
