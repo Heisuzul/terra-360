@@ -43,7 +43,7 @@ const Staging = () => {
   return (
     <Environment
       ground={{
-        height: 10,  // Height of the ground for environment rendering
+        height: 30,  // Height of the ground for environment rendering
         radius: 400,  // Radius of the ground area
         scale: scale,  // Scale of the environment based on camera position
       }}
