@@ -210,6 +210,17 @@ function Biodiversity() {
             rotation={[0, 5, 0]}
             />}
             {showParticles && <DustParticles count={500} size={0.6} position={[10, -15, 126]} />}
+            {currentText === 'consequences' && (
+               <Text3D
+               position={[-6, -2, 115]}
+               rotation={[0, 0.07, 0]}
+               font="/fonts/TiltWarp-Regular.json"
+               scale={3}
+               >
+               Save the Forest
+               <meshStandardMaterial attach="material" color="#75b850" />
+               </Text3D>
+            )}
           </Suspense>
           <Environment preset={preset} />
         </EffectComposer>
