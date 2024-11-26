@@ -10,10 +10,13 @@ import Wolf from '../../r3f/biodiversity/wolf/Wolf'
 import Crocodile from '../../r3f/biodiversity/crocodile/Crocodile'
 import Condor from '../../r3f/biodiversity/condor/Condor'
 import Frog from '../../r3f/biodiversity/frog/Frog'
+import Butterflies from '../../r3f/biodiversity/butterflies/Butterflies'
+import Butterflies2 from '../../r3f/biodiversity/butterflies/Butterflies2'
+import DustParticles from '../../r3f/biodiversity/dust/DustParticles'
 import Navbar from './components/navbar/navbar'
 import * as THREE from 'three'
 import keyboardControls from './components/controllers/keyboardControls';
-import { handleBeeClick, handleWolfClick, handleOrchidClick, handlePointerOrchidMissed, handlePointerBeeMissed, handlePointerWolfMissed, handleCrocClick, handlePointerCrocMissed, handleCondorClick, handlePointerCondorMissed, handleFrogClick, handlePointerFrogMissed} from './components/controllers/cameraController';
+import { handleBeeClick, handleWolfClick, handleOrchidClick, handlePointerOrchidMissed, handlePointerBeeMissed, handlePointerWolfMissed, handleCrocClick, handlePointerCrocMissed, handleCondorClick, handlePointerCondorMissed, handleFrogClick, handlePointerFrogMissed, handleButterflyClick, handlePointerButterflyMissed} from './components/controllers/cameraController';
 
 
 
@@ -29,12 +32,15 @@ function Biodiversity() {
   const [isCrocHovered, setIsCrocHovered] = useState(false);
   const [isCondorHovered, setIsCondorHovered] = useState(false);
   const [isFrogHovered, setIsFrogHovered] = useState(false);
+  const [isButterflyHovered, setIsButterflyHovered] = useState(false);
   const [isBeeClicked, setIsBeeClicked] = useState(false);
   const [isOrchidClicked, setIsOrchidClicked] = useState(false);
   const [isWolfClicked, setIsWolfClicked] = useState(false);
   const [isCrocClicked, setIsCrocClicked] = useState(false);
   const [isCondorClicked, setIsCondorClicked] = useState(false);
   const [isFrogClicked, setIsFrogClicked] = useState(false);
+  const [isButterflyClicked, setIsButterflyClicked] = useState(false);
+  const [showButterflies, setShowButterflies] = useState(true);
   const introRef = useRef(null);
   const cameraRef = useRef();
   const [keys] = keyboardControls(cameraRef);
@@ -53,6 +59,7 @@ function Biodiversity() {
     setLightSettings({ intensity: 0.05, color: '#121212' });
     setPreset('forest');
     setShowParticles(true);
+    setShowButterflies(false);
   };
 
   const handleBiodiversityClick = () => {
@@ -61,6 +68,7 @@ function Biodiversity() {
     setLightSettings({ intensity: 0.9, color: '#ffc199' });
     setPreset('sunset');
     setShowParticles(false);
+    setShowButterflies(true);
   };
 
   useEffect(() => {
@@ -79,7 +87,7 @@ function Biodiversity() {
     <Navbar onConsequencesClick={handleConsequencesClick} onBiodiversityClick={handleBiodiversityClick}/>
     {isBeeHovered && (
         <div className={styles.speciesLabel}>
-          Bees
+          Bee
         </div>
     )}
     {isOrchidHovered && (
@@ -107,6 +115,11 @@ function Biodiversity() {
           Golden frog
       </div>
     )}
+    {isButterflyHovered && (
+      <div className={styles.speciesLabel}>
+          Butterflies
+      </div>
+    )}
 
     <div className={styles.pageContainer}>
        {isVisible && (
@@ -129,16 +142,7 @@ function Biodiversity() {
           <directionalLight position={[10, 20, 100]} intensity={0.5} castShadow shadow-camera-far={50}/>
           <OrbitControls minDistance={2} maxDistance={170} maxPolarAngle={Math.PI * 0.567} minPolarAngle={-100} />
           <Suspense fallback={null}>
-            <Forest color='hotpink'/>
-            <Text3D
-            position={[-25, 0, 100]}
-            rotation={[0, 0.1, 0]}
-            font="/fonts/TiltWarp-Regular.json"
-            scale={10}
-            >
-            WELCOME
-            <meshStandardMaterial attach="material" color="#81d84d" />
-            </Text3D>
+            <Forest color='hotpink'/> 
             <Bee 
             position={[10, -23, 110]}
             onPointerOver={() => setIsBeeHovered(true)} 
@@ -181,6 +185,31 @@ function Biodiversity() {
             onClick={() => handleFrogClick(cameraRef, setIsFrogClicked)}
             onPointerMissed={() => handlePointerFrogMissed(cameraRef, setIsFrogClicked)}
             />
+            <Butterflies
+            position={[4, -15, 126]}
+            rotation={[0, 0, 0]}
+            onPointerOver={() => setIsButterflyHovered(true)}
+            onPointerOut={() => setIsButterflyHovered(false)}
+            onClick={() => handleButterflyClick(cameraRef, setIsButterflyClicked)}
+            onPointerMissed={() => handlePointerButterflyMissed(cameraRef, setIsButterflyClicked)}
+            />
+            {showButterflies && <Butterflies2 
+            position={[20, -15, 126]}
+            rotation={[0, 2, 0]}
+            />}
+            {showButterflies && <Butterflies 
+            position={[20, -20, 136]}
+            rotation={[0, 5, 0]}
+            />}
+            {showButterflies && <Butterflies
+            position={[-5, -20, 136]}
+            rotation={[0, 2, 0]}
+            />}
+            {showButterflies && <Butterflies2 
+            position={[-10, -15, 126]}
+            rotation={[0, 5, 0]}
+            />}
+            {showParticles && <DustParticles count={500} size={0.6} position={[10, -15, 126]} />}
           </Suspense>
           <Environment preset={preset} />
         </EffectComposer>
@@ -300,6 +329,26 @@ function Biodiversity() {
           The Panama golden frog faces several threats that endanger its survival. The loss of habitat due to deforestation and the expansion of agriculture has reduced their natural space, while climate change alters the conditions of their habitat.
           It has also been affected by illegal capture for the exotic pet trade, which has further worsened its situation. 
           These threats have led the golden frog to become critically endangered.
+          </p>
+        </div>
+      )}
+
+      {isButterflyClicked && currentText === 'biodiversity' && (
+        <div className={`${styles.speciesInfo} ${isFading? styles.fadeOut : ''}`}>
+          <p>
+          Butterflies are essential for ecosystems because they act as pollinators, helping the reproduction of many wild plants and crops. 
+          In addition, they are bioindicators, since their sensitivity to changes in the environment reflects the health of ecosystems. 
+          They are also an important part of the food chain, serving as food for birds, reptiles and other insects.
+          </p>
+        </div>
+      )}
+
+      {isButterflyClicked && currentText === 'consequences' && (
+        <div className={`${styles.speciesInfo} ${isFading? styles.fadeOut : ''}`}>
+          <p>
+          Butterflies are endangered mainly due to the loss of their habitat caused by deforestation, urbanization and intensive agriculture, 
+          which destroy the plants they need for food and reproduction. Additionally, the use of pesticides and herbicides affects both butterflies and their food sources. 
+          Pollution and the introduction of invasive species further aggravate their situation, displacing them from their natural ecosystems.
           </p>
         </div>
       )}
