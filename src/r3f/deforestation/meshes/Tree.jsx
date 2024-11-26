@@ -88,6 +88,27 @@ const Tree = ({ position, scale }) => {
           </a.mesh>
         )}
         <PositionalAudio ref={audioRef} url="/sounds/muffled-sound-of-falling.mp3" distance={1} loop={false} />
+        {!isVisible &&
+          <RigidBody type="dynamic" collider="cuboid">
+            <mesh 
+              ref={boxRef} 
+              position={[0, 2.3, 0]} 
+              scale={scale}
+              castShadow
+            >
+              <boxGeometry args={[0.5, 2, 0.5]} />
+              <meshStandardMaterial color="#D2691E" />
+            </mesh>
+            <mesh 
+              position={[0, 2.3, 0]} 
+              scale={scale*0.9}
+              castShadow
+            >
+              <boxGeometry args={[0.5, 2.24, 0.5]} />
+              <meshStandardMaterial color="#e8a15a" />
+            </mesh>
+          </RigidBody>
+        }
         <mesh 
           ref={boxRef} 
           position={[0, 0.5, 0]} 
@@ -97,14 +118,17 @@ const Tree = ({ position, scale }) => {
           <boxGeometry args={[0.5, 1, 0.5]} />
           <meshStandardMaterial color="#D2691E" />
         </mesh>
-        <mesh 
-          position={[0, 0.56, 0]} 
-          scale={scale*0.9}
-          castShadow
-        >
-          <boxGeometry args={[0.5, 1, 0.5]} />
-          <meshStandardMaterial color="#e8a15a" />
-        </mesh>
+        {!isVisible &&
+          <mesh
+            position={[0, 1.06, 0]}
+            rotation={[0, Math.PI * 0.25, 0]}
+            scale={scale}
+            castShadow
+          >
+            <coneGeometry args={[0.32, 0.1, 4]} />
+            <meshStandardMaterial color="#e8a15a" />
+          </mesh>
+        }
       </group>
   );
 }
