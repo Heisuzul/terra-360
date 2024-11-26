@@ -4,9 +4,10 @@ import { TextureLoader } from 'three';
 import { Plane } from '@react-three/drei';
 import * as THREE from 'three';
 import heightMapImg from '/materials/deforestation/terrain-heightmap1.png';
-import ambientOcclusionMapImg from '/materials/deforestation/terrain-aomap.png';
+import ambientOcclusionMapImg from '/materials/deforestation/terrain-aomap1.png';
 import normalMapImg from '/materials/deforestation/terrain-normal.png';
 import specularMapImg from '/materials/deforestation/terrain-specular.png';
+import { RigidBody } from '@react-three/rapier';
 
 const Terrain = React.memo(({ onTerrainLoad }) => {
   const terrainRef = useRef();
@@ -82,13 +83,15 @@ const Terrain = React.memo(({ onTerrainLoad }) => {
   }, [onTerrainLoad]);
 
   return (
-    <mesh
-      ref={terrainRef}
-      geometry={geometry}
-      material={material}
-      rotation={[-Math.PI / 2, 0, 0]}
-      receiveShadow
-    />
+    <RigidBody type="fixed" colliders="trimesh">
+      <mesh
+        ref={terrainRef}
+        geometry={geometry}
+        material={material}
+        rotation={[-Math.PI / 2, 0, 0]}
+        receiveShadow
+      />
+    </RigidBody>
   );
 });
 

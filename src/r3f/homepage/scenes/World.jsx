@@ -18,7 +18,7 @@ const World = ( { onSelect } ) => {
   // const [cameraPosition, setCameraPosition] = useState({ x: 1, y: 0.7, z: 25 });
   const [cameraPosition, setCameraPosition] = useState({ x: 1, y: 10.7, z: 6 });
   
-  const handleBoxClick = (newTarget, event) => {
+  const  handleBoxClick = (newTarget, event) => {
     setTarget(newTarget);
     setCameraPosition({ x: newTarget.x + 1, y: newTarget.y + 0.7, z: newTarget.z + 6 });
     event.stopPropagation();
@@ -50,6 +50,9 @@ const World = ( { onSelect } ) => {
   };
 
   const TreePositions = generateTreePositions(20, 15, 4.5, 0);
+
+  const isCameraAtTargetPosition = (cameraPosition) =>
+    cameraPosition.x === 1 && cameraPosition.y === 10.7 && cameraPosition.z === 6;
 
   return (
     <div className={styles.pageContainer}>
@@ -117,6 +120,7 @@ const World = ( { onSelect } ) => {
               y: 10,
               z: 0
             }, event);
+            document.body.style.cursor = 'auto'
           }}
           onPointerMissed={(event) => {
             handleBoxClick({
@@ -124,6 +128,21 @@ const World = ( { onSelect } ) => {
               y: 0,
               z: 20
             }, event);
+            document.body.style.cursor = 'auto'
+          }}
+          onPointerOver={() => {
+            if (!isCameraAtTargetPosition(cameraPosition)) {
+              document.body.style.cursor = 'pointer'
+            } else {
+              document.body.style.cursor = 'auto'
+            }
+          }}
+          onPointerOut={() => {
+            if (!isCameraAtTargetPosition(cameraPosition)) {
+              document.body.style.cursor = 'auto'
+            } else {
+              document.body.style.cursor = 'pointer'
+            }
           }}
         />
       </Canvas>

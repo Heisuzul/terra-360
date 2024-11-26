@@ -23,7 +23,7 @@ export default function BackNextArrows({ onNextClick, onBackClick, ...props }) {
       }
   };
 
-  const [dimensions, setDimensions] = useState({ width: 1, height: 1 })
+  const [dimensions, setDimensions] = useState(null)
 
   useEffect(() => {
     if (meshRef.current) {
@@ -47,6 +47,12 @@ export default function BackNextArrows({ onNextClick, onBackClick, ...props }) {
             receiveShadow
             geometry={nodes.Cylinder005.geometry}
             material={materials['Light Wood']}
+            onPointerOver={() => {
+              document.body.style.cursor = 'pointer'
+            }}
+            onPointerOut={() => {
+              document.body.style.cursor = 'auto'
+            }}
           />
           
           <mesh
@@ -65,7 +71,7 @@ export default function BackNextArrows({ onNextClick, onBackClick, ...props }) {
           />
         </group>
       </group>
-      <Text
+      {dimensions && (<Text
         position={[-0.15, 1.685, .05]} // Slight offset from surface
         fontSize={dimensions.height * 0.1} // Scale font size relative to sign height
         maxWidth={dimensions.width * 1.7} // Keep text within sign bounds
@@ -75,8 +81,8 @@ export default function BackNextArrows({ onNextClick, onBackClick, ...props }) {
         color="#261000"
       >
         {props.textNext}
-      </Text>
-      <Text
+      </Text>)}
+      {dimensions && (<Text
         position={[0.1, 1.275, .05]} // Slight offset from surface
         fontSize={dimensions.height * 0.1} // Scale font size relative to sign height
         maxWidth={dimensions.width * 1.7} // Keep text within sign bounds
@@ -86,7 +92,7 @@ export default function BackNextArrows({ onNextClick, onBackClick, ...props }) {
         color="#261000"
       >
         {props.textBack}
-      </Text>
+      </Text>)}
     </group>
   );
 }
