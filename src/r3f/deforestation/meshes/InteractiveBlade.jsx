@@ -21,9 +21,9 @@ export default function InteractiveBlade({scale, onDragStart, onDragEnd, ...prop
   });
 
   const handlePointerDown = useCallback((e) => {
+    e.stopPropagation();
     setIsHolding(true);
     setClickStartTime(Date.now())
-    e.stopPropagation();
 
     rbSawRef.current.setAngvel({
         x: 0,
@@ -53,8 +53,6 @@ export default function InteractiveBlade({scale, onDragStart, onDragEnd, ...prop
         z: 0
       }, true);
 
-
-    e.stopPropagation();
     setClickStartTime(null);
     setIsHolding(false);
     onDragEnd?.();
