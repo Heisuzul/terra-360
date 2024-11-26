@@ -145,51 +145,52 @@ function Biodiversity() {
             <Forest color='hotpink'/> 
             <Bee 
             position={[10, -23, 110]}
-            onPointerOver={() => setIsBeeHovered(true)} 
-            onPointerOut={() => setIsBeeHovered(false)} 
+            onPointerOver={() => {document.body.style.cursor = "pointer"; setIsBeeHovered(true)}}
+            onPointerOut={() => {document.body.style.cursor = "default"; setIsBeeHovered(false)}} 
             onClick={() => handleBeeClick(cameraRef, setIsBeeClicked)}
             onPointerMissed={() => handlePointerBeeMissed(cameraRef, setIsBeeClicked)}
             />
             <Orchid 
             position={[1, -28, 123]}
-            onPointerOver={() => setIsOrchidHovered(true)}
-            onPointerOut={() => setIsOrchidHovered(false)}
+            onPointerOver={() => {document.body.style.cursor = "pointer"; setIsOrchidHovered(true)}}
+            onPointerOut={() => {document.body.style.cursor = "default"; setIsOrchidHovered(false)}}
             onClick={() => handleOrchidClick(cameraRef, setIsOrchidClicked)}
             onPointerMissed={() => handlePointerOrchidMissed(cameraRef, setIsOrchidClicked)}
             />
             <Wolf 
             position={[-11, -28, 126]}
-            onPointerOver={() => setIsWolfHovered(true)} 
-            onPointerOut={() => setIsWolfHovered(false)}
+            onPointerOver={() => {document.body.style.cursor = "pointer"; setIsWolfHovered(true)} }
+            onPointerOut={() => {document.body.style.cursor = "default"; setIsWolfHovered(false)}}
             onClick={() => handleWolfClick(cameraRef, setIsWolfClicked)}
             onPointerMissed={() => handlePointerWolfMissed(cameraRef, setIsWolfClicked)}
             />
             <Crocodile
             position={[0, -16, 110]}
-            onPointerOver = {() => setIsCrocHovered(true)}
-            onPointerOut={() => setIsCrocHovered(false)} 
+            onPointerOver = {() => {document.body.style.cursor = "pointer"; setIsCrocHovered(true)}}
+            onPointerOut={() => {document.body.style.cursor = "default"; setIsCrocHovered(false)}}
             onClick={() => handleCrocClick(cameraRef, setIsCrocClicked)}
             onPointerMissed={() => handlePointerCrocMissed(cameraRef, setIsCrocClicked)}
             />
             <Condor
             position={[30, -5, 110]}
-            onPointerOver={() => setIsCondorHovered(true)}
-            onPointerOut={() => setIsCondorHovered(false)} 
+            onPointerOver={() => {document.body.style.cursor = "pointer"; setIsCondorHovered(true)}}
+            onPointerOut={() => {document.body.style.cursor = "default"; setIsCondorHovered(false)}}
             onClick={() => handleCondorClick(cameraRef, setIsCondorClicked)}
             onPointerMissed={() => handlePointerCondorMissed(cameraRef, setIsCondorClicked)}
             />
             <Frog 
             position={[20, -23, 126]}
-            onPointerOver={() => setIsFrogHovered(true)}
-            onPointerOut={() => setIsFrogHovered(false)}
+            onPointerOver={() => {document.body.style.cursor = "pointer"; setIsFrogHovered(true)}}
+            onPointerOut={() => {document.body.style.cursor = "default"; setIsFrogHovered(false)}}
             onClick={() => handleFrogClick(cameraRef, setIsFrogClicked)}
             onPointerMissed={() => handlePointerFrogMissed(cameraRef, setIsFrogClicked)}
             />
             <Butterflies
             position={[4, -15, 126]}
             rotation={[0, 0, 0]}
-            onPointerOver={() => setIsButterflyHovered(true)}
-            onPointerOut={() => setIsButterflyHovered(false)}
+            scale= {1.5}
+            onPointerOver={() => {document.body.style.cursor = "pointer"; setIsButterflyHovered(true)}}
+            onPointerOut={() => {document.body.style.cursor = "default"; setIsButterflyHovered(false)}}
             onClick={() => handleButterflyClick(cameraRef, setIsButterflyClicked)}
             onPointerMissed={() => handlePointerButterflyMissed(cameraRef, setIsButterflyClicked)}
             />

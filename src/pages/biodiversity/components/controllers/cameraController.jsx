@@ -210,8 +210,8 @@ export const handleButterflyClick = (cameraRef, setIsButterflyClicked) => {
         const camera = cameraRef.current;
         gsap.to(camera.position, {
             x: 5,
-            y: -16,
-            z: 130,
+            y: -17,
+            z: 132,
             duration: 2,
             ease: 'power2.out',
             onUpdate: () => {
