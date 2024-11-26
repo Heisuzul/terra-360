@@ -12,7 +12,8 @@ import CameraControl from '/src/r3f/Erosion/camera-control/camera-control';
 import DescriptionText from '/src/r3f/Erosion/Texts-and-buttons/description-text-erosion';
 import CausesText from '/src/r3f/Erosion/Texts-and-buttons/causes-text-erosion';
 import HomeButton from '/src/r3f/Erosion/Texts-and-buttons/home-button';
-import Instructions from '/src/r3f/Erosion/Texts-and-buttons/Instructions';
+import Instructions from '/src/r3f/Erosion/Texts-and-buttons/instructions';
+import { Physics } from '@react-three/rapier';
 import './scene.css';
 
 /**
@@ -64,12 +65,14 @@ const Scene = () => {
         <Lights />  {/* Lighting for the scene */}
 
         {/* 3D objects */}
-        <Terrain />  {/* Terrain mesh */}
         <Farm position={[3, -0.4, 0.1]} />  {/* Farm mesh */}
-        <DesertForest />  {/* Desert forest mesh */}
         <Forest_with_river  position={[-0.5, 0.5, 1.69]} rotation={[0, 3, 0]} scale={[0.0022, 0.002, 0.002]}/> 
         <Rocks position={[-0.37, 0.15, -0.4]} scale={[0.022, 0.02, 0.02]} />  {/* Rocks mesh */}
-        <Tumbleweed position={[0.1, 0.049, 0.1]} scale={[0.01, 0.01, 0.01]} />  {/* Tumbleweed mesh */}
+        <Physics>
+        <Terrain />
+        <Tumbleweed position={[0.0626, 1.1, 0.00004025]} scale={[0.01, 0.01, 0.01]} />
+        <DesertForest />
+        </Physics>
 
         {/* Descriptive texts */}
         <DescriptionText />  {/* Text describing the erosion scene */}
