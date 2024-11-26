@@ -204,3 +204,37 @@ export const handlePointerFrogMissed = (cameraRef, setIsFrogClicked) => {
     }
     setIsFrogClicked(false);
 };
+
+export const handleButterflyClick = (cameraRef, setIsButterflyClicked) => {
+    if (cameraRef.current) {
+        const camera = cameraRef.current;
+        gsap.to(camera.position, {
+            x: 5,
+            y: -17,
+            z: 132,
+            duration: 2,
+            ease: 'power2.out',
+            onUpdate: () => {
+                camera.lookAt(new THREE.Vector3(10, -10, 110));
+            }
+        });
+    }
+    setIsButterflyClicked(true);
+};
+
+export const handlePointerButterflyMissed = (cameraRef, setIsButterflyClicked) => {
+    if (cameraRef.current) {
+        const camera = cameraRef.current;
+        gsap.to(camera.position, {
+            x: 10,
+            y: -20,
+            z: 150,
+            duration: 2,
+            ease: 'power2.inOut',
+            onUpdate: () => {
+                camera.lookAt(new THREE.Vector3(0, 0, 0));
+            }
+        });
+    }
+    setIsButterflyClicked(false);
+};
