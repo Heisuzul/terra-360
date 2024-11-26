@@ -51,15 +51,43 @@ function Biodiversity() {
     color: '#ffc199',
   });
   const [preset, setPreset] = useState('sunset');
+  const [isShaking, setIsShaking] = useState(false);
+  const [shakeIntensity, setShakeIntensity] = useState(4);
+  const [originalPosition, setOriginalPosition] = useState([10, -20, 150]);
+
+  const startEarthquake = () => {
+    if (cameraRef.current) {
+      setOriginalPosition([...cameraRef.current.position.toArray()]); // Guarda la posición inicial
+    }
+    setIsShaking(true);
+    setShakeIntensity(3); // Define la intensidad inicial
+    setTimeout(() => setIsShaking(false), 2000); // Duración del terremoto
+  };
   
+  useEffect(() => {
+    let interval;
+    if (isShaking) {
+      interval = setInterval(() => {
+        const intensityX = shakeIntensity * (Math.random() - 0.5); // Movimiento en eje X
+        const intensityY = shakeIntensity * 0.5 * (Math.random() - 0.5); // Movimiento reducido en eje Y
+        cameraRef.current.position.x += intensityX;
+        cameraRef.current.position.y += intensityY;
+      }, 50); // Actualiza cada 50ms
+    } else if (cameraRef.current) {
+      // Restaura la posición inicial al terminar el terremoto
+      cameraRef.current.position.set(...originalPosition);
+    }
+    return () => clearInterval(interval); // Limpia el intervalo
+  }, [isShaking, shakeIntensity, originalPosition]);
 
   const handleConsequencesClick = () => {
     setCurrentText('consequences');
-    setBackgroundImage('/images/backgrounds/consequences-background.jpg');
+    setBackgroundImage('/images/backgrounds/consequences-background.gif');
     setLightSettings({ intensity: 0.05, color: '#121212' });
     setPreset('forest');
     setShowParticles(true);
     setShowButterflies(false);
+    startEarthquake();
   };
 
   const handleBiodiversityClick = () => {
