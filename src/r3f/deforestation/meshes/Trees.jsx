@@ -19,6 +19,8 @@ const Trees = forwardRef(({
 }, ref) => {
   const [treePositions, setTreePositions] = useState([]);
   const raycaster = useMemo(() => new Raycaster(), []);
+  const [puffOddTrees, setPuffOddTrees] = useState(false);
+  const [puffEvenTrees, setPuffEvenTrees] = useState(false);
 
   // Generate a cache key based on terrain parameters
   const getCacheKey = useCallback(() => {
@@ -156,7 +158,7 @@ const Trees = forwardRef(({
   };
 
   const puffTrees = () => {
-    if(counter.current===0) {
+    if(counter.current===0 || counter.current===1) {
       counter.current++;
       setPopTrees(true);
     }
@@ -175,16 +177,18 @@ const Trees = forwardRef(({
       {treePositions.map((position, index) => (
         <>
           {showTrees && <Tree key={index} position={position} scale={1} />}
-          {popTrees && 
+        </>
+      ))}
+      {treePositions.map((position, index) => (
+        <>
+          {(popTrees && index % 2 !== 0 && counter.current === 2) || (popTrees && index % 2 === 0 && counter.current === 1) ? (
             <RigidBody type="dynamic" colliders="cuboid" onCollisionEnter={handleCollision}>
-              <mesh
-                position={[position.x,position.y+1,position.z]}
-              >
+              <mesh position={[position.x, position.y + 1, position.z]}>
                 <boxGeometry args={[0.1, 0.1, 0.1]} />
                 <meshStandardMaterial color="#e8a15a" />
               </mesh>
             </RigidBody>
-          }
+          ) : null}
         </>
       ))}
     </>
