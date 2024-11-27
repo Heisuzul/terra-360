@@ -1,7 +1,10 @@
-import React, { useEffect, useState, useMemo, useCallback, forwardRef, useImperativeHandle } from 'react';
+import React, { useEffect, useState, useRef, useMemo, useCallback, forwardRef, useImperativeHandle } from 'react';
 import { Vector3, Raycaster } from 'three';
 import Tree from "../meshes/Tree";
 import { originalTreePositions } from '../data/treePositions';
+import { RigidBody } from '@react-three/rapier';
+import { Bloom, EffectComposer, Vignette, HueSaturation, BrightnessContrast, SSAO } from '@react-three/postprocessing'
+import { BlendFunction } from "postprocessing";
 
 // This will store our cached positions for different terrain configurations
 const positionCache = new Map();
@@ -14,10 +17,14 @@ const Trees = forwardRef(({
   phase_x, 
   phase_z, 
   space,
-  terrainId = 'default' // Add an ID to identify different terrains
+  terrainId = 'default', // Add an ID to identify different terrains
+  onRemove,
+  onReset
 }, ref) => {
   const [treePositions, setTreePositions] = useState([]);
   const raycaster = useMemo(() => new Raycaster(), []);
+  const [puffOddTrees, setPuffOddTrees] = useState(false);
+  const [puffEvenTrees, setPuffEvenTrees] = useState(false);
 
   // Generate a cache key based on terrain parameters
   const getCacheKey = useCallback(() => {
@@ -137,15 +144,75 @@ const Trees = forwardRef(({
     return () => clearTimeout(delay);
   }, [terrain, calculateTreePositions, loadCachedPositions, delta]);
 
+  const [popTrees, setPopTrees] = useState(false)
+  const [showTrees, setShowTrees] = useState(true)
+  const counter = useRef(0)
+
   // Use `useImperativeHandle` to expose `exportPositions`
   useImperativeHandle(ref, () => ({
-    exportPositions
+    exportPositions,
+    puffTrees,
+    growTrees,
   }));
+
+  const handleCollision = () => {
+    setTimeout(() => {
+      setPopTrees(false);
+    }, 10); // Puff effect duration in milliseconds
+  };
+
+  const puffTrees = () => {
+    if(counter.current===0 || counter.current===1) {
+      counter.current++;
+      setPopTrees(true);
+    }
+    console.log("Counter", counter.current)
+    console.log("REF", popTrees)
+  }
+
+  const growTrees = () => {
+    setShowTrees(!showTrees);
+    console.log("GrowREF", showTrees)
+    counter.current = 0;
+    handleTreeReset();
+  }
+
+  const [removedTrees, setRemovedTrees] = useState(0);
+
+  const handleTreeRemoval = () => {
+    setRemovedTrees(prev => prev + 1);
+  };
+
+  const handleTreeReset = () => {
+    setRemovedTrees(0);
+  };
+
+  const intensity = (removedTrees / 221); // Adjust the multiplier as needed
 
   return (
     <>
+      <EffectComposer>
+        <Vignette offset={0.1} darkness={intensity*1.1} />
+        <HueSaturation hue={0.01} saturation={-0.1 - intensity/1.2} />
+        {/* <BrightnessContrast brightness={0} contrast={0.2} /> */}
+        <Bloom intensity={0.1}/>
+      </EffectComposer>
       {treePositions.map((position, index) => (
-        <Tree key={index} position={position} scale={1} />
+        <>
+          {showTrees && <Tree key={index} position={position} scale={1} onRemove={handleTreeRemoval}/>}
+        </>
+      ))}
+      {treePositions.map((position, index) => (
+        <>
+          {(popTrees && index % 2 !== 0 && counter.current === 2) || (popTrees && index % 2 === 0 && counter.current === 1) ? (
+            <RigidBody type="dynamic" colliders="cuboid" onCollisionEnter={handleCollision}>
+              <mesh position={[position.x, position.y + 1, position.z]}>
+                <boxGeometry args={[0.1, 0.1, 0.1]} />
+                <meshStandardMaterial color="#e8a15a" />
+              </mesh>
+            </RigidBody>
+          ) : null}
+        </>
       ))}
     </>
   );
