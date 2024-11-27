@@ -194,7 +194,7 @@ const Trees = forwardRef(({
       <EffectComposer>
         <Vignette offset={0.1} darkness={intensity*1.1} />
         <HueSaturation hue={0.01} saturation={Math.max(-0.1 - intensity/1.2, -1)} />
-        {/* <BrightnessContrast brightness={0} contrast={0.2} /> */}
+        <BrightnessContrast contrast={0.1} />
         <Bloom intensity={0.1}/>
       </EffectComposer>
       {treePositions.map((position, index) => (
