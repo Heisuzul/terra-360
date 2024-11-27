@@ -4,7 +4,7 @@ import { RigidBody } from "@react-three/rapier";
 import { useSpring, a } from "@react-spring/three";
 import { PositionalAudio } from "@react-three/drei";
 
-const Tree = ({ position, scale }) => {
+const Tree = ({ position, scale, onRemove }) => {
   const [isVisible, setIsVisible] = useState(true);
   const [showPuff, setShowPuff] = useState(false);
   const boxRef = useRef();
@@ -34,6 +34,10 @@ const Tree = ({ position, scale }) => {
     setTimeout(() => {
       setShowPuff(false);
     }, 500); // Puff effect duration in milliseconds
+
+    if (onRemove) {
+      onRemove();
+    }
   };
 
   const puffSpring = useSpring({

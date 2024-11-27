@@ -18,7 +18,7 @@ const FloatingText = forwardRef(({ text, position, scale = 1, rotationDelta=0 },
       position={position}
       rotation={[0, Math.PI / 12 * 11 + rotationDelta, 0]}
       font="/fonts/TiltWarp-Regular.json" // Ensure this path is correct
-      size={0.1}
+      size={0.15}
       scale={scale}
       height={0.02}
       visible={false} // Initially invisible
@@ -27,7 +27,7 @@ const FloatingText = forwardRef(({ text, position, scale = 1, rotationDelta=0 },
       <meshStandardMaterial 
         color="#d4682a" 
         emissive="#ffd700" // Add emissive color for glow
-        emissiveIntensity={2} // Adjust intensity as needed
+        emissiveIntensity={10} // Adjust intensity as needed
       />
     </Text3D>
   );
