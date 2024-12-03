@@ -23,8 +23,6 @@ const Trees = forwardRef(({
 }, ref) => {
   const [treePositions, setTreePositions] = useState([]);
   const raycaster = useMemo(() => new Raycaster(), []);
-  const [puffOddTrees, setPuffOddTrees] = useState(false);
-  const [puffEvenTrees, setPuffEvenTrees] = useState(false);
 
   // Generate a cache key based on terrain parameters
   const getCacheKey = useCallback(() => {
@@ -146,7 +144,7 @@ const Trees = forwardRef(({
 
   const [popTrees, setPopTrees] = useState(false)
   const [showTrees, setShowTrees] = useState(true)
-  const counter = useRef(0)
+  const counter = useRef(-1)
 
   // Use `useImperativeHandle` to expose `exportPositions`
   useImperativeHandle(ref, () => ({
@@ -161,19 +159,10 @@ const Trees = forwardRef(({
     }, 10); // Puff effect duration in milliseconds
   };
 
-  const puffTrees = () => {
-    if(counter.current===0 || counter.current===1) {
-      counter.current++;
-      setPopTrees(true);
-    }
-    console.log("Counter", counter.current)
-    console.log("REF", popTrees)
-  }
-
   const growTrees = () => {
     setShowTrees(!showTrees);
     console.log("GrowREF", showTrees)
-    counter.current = 0;
+    counter.current = -1;
     handleTreeReset();
   }
 
@@ -189,6 +178,17 @@ const Trees = forwardRef(({
 
   const intensity = (removedTrees / 221); // Adjust the multiplier as needed
 
+  const stages = 4; // Define the number of stages
+
+  const puffTrees = () => {
+    if(counter.current < stages) {
+      setPopTrees(true);
+      counter.current++;
+    }
+    console.log("Counter", counter.current)
+    console.log("REF", popTrees)
+  }
+
   return (
     <>
       <EffectComposer>
@@ -202,7 +202,7 @@ const Trees = forwardRef(({
           {showTrees && <Tree key={index} position={position} scale={1} onRemove={handleTreeRemoval}/>}
         </>
       ))}
-      {treePositions.map((position, index) => (
+      {/* {treePositions.map((position, index) => (
         <>
           {(popTrees && index % 2 !== 0 && counter.current === 2) || (popTrees && index % 2 === 0 && counter.current === 1) ? (
             <RigidBody type="dynamic" colliders="cuboid" onCollisionEnter={handleCollision}>
@@ -213,7 +213,19 @@ const Trees = forwardRef(({
             </RigidBody>
           ) : null}
         </>
-      ))}
+      ))} */}
+      {treePositions.map((position, index) => (
+            <>
+                {popTrees && (index % stages === counter.current) ? (
+                    <RigidBody type="dynamic" colliders="cuboid" onCollisionEnter={handleCollision}>
+                        <mesh position={[position.x, position.y + 1, position.z]}>
+                            <boxGeometry args={[0.1, 0.1, 0.1]} />
+                            <meshStandardMaterial color="#e8a15a" />
+                        </mesh>
+                    </RigidBody>
+                ) : null}
+            </>
+        ))}
     </>
   );
 });

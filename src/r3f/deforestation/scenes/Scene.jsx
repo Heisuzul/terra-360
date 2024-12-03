@@ -404,7 +404,7 @@ const Scene = ({ ready, isMuted }) => {
         position: [currentState.position.x,currentState.position.y-3.5,currentState.position.z-1],
         fov: 70 }}
       >
-        <CameraLogger />
+        {/* <CameraLogger /> */}
         <CameraController
           ref={cameraControllerRef}
           target={currentState.target}
