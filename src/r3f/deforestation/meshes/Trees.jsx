@@ -180,14 +180,20 @@ const Trees = forwardRef(({
 
   const stages = 4; // Define the number of stages
 
+  const [canPuff, setCanPuff] = useState(true);
+
   const puffTrees = () => {
-    if(counter.current < stages) {
-      setPopTrees(true);
-      counter.current++;
-    }
-    console.log("Counter", counter.current)
-    console.log("REF", popTrees)
-  }
+      if (canPuff && counter.current < stages) {
+          setPopTrees(true);
+          counter.current++;
+          setCanPuff(false);
+          setTimeout(() => {
+              setCanPuff(true);
+          }, 100 * delta); // Adjust the delay as needed
+      }
+      console.log("Counter", counter.current);
+      console.log("REF", popTrees);
+  };
 
   return (
     <>
