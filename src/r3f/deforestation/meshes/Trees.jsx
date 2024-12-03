@@ -189,7 +189,7 @@ const Trees = forwardRef(({
           setCanPuff(false);
           setTimeout(() => {
               setCanPuff(true);
-          }, 100 * delta); // Adjust the delay as needed
+          }, 1000 * delta); // Adjust the delay as needed
       }
       console.log("Counter", counter.current);
       console.log("REF", popTrees);
