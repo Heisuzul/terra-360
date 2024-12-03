@@ -19,6 +19,8 @@ import InteractiveBlade from '../meshes/InteractiveBlade';
 import SmallTable from '../meshes/SmallTable';
 import RedValve from '../meshes/RedValve';
 import OrangeBird from '../meshes/OrangeBird';
+import BagSeeds from '../meshes/BagSeeds';
+import ToggleButton from '../meshes/ToggleButton';
 import FloatingText from '../meshes/FloatingText';
 import CameraController from '../controllers/CameraController';
 import CameraLogger from '../../utils/CameraLogger';
@@ -28,7 +30,7 @@ import { Loader, PositionalAudio, Sparkles, Text3D } from '@react-three/drei';
 import { Physics } from "@react-three/rapier";
 import { Vector3 } from 'three';
 
-const Scene = ({ ready, isMuted }) => {
+const Scene = ({ ready, isMuted, setPoints }) => {
   const terrainRef = useRef();
   const { logout } = useAuthStore();
   const navigate = useNavigate();
@@ -41,7 +43,6 @@ const Scene = ({ ready, isMuted }) => {
   const floatingTextRef2 = useRef();
   const floatingTextRef3 = useRef();
   const floatingTextRef4 = useRef();
-  const [blades, setBlades] = useState([]);
   const cameraControllerRef = useRef();
   const [treesShown, setTreesShown] = useState(true);
 
@@ -328,8 +329,12 @@ const Scene = ({ ready, isMuted }) => {
     setIsAudioPlaying(!isAudioPlaying);
   }, [isMuted]);
 
+  const [currentObjectType, setCurrentObjectType] = useState('blades'); // 'blades' or 'bagSeeds'
+  const [blades, setBlades] = useState([]);
+  const [bagSeeds, setBagSeeds] = useState([]);
+
   const handleRedValveClick = () => {
-    const newBlade = {
+    const newObject = {
       id: Date.now(),
       position: [
         17.9 + (Math.random() - 0.5) * 0.5,  // Random X offset
@@ -338,7 +343,16 @@ const Scene = ({ ready, isMuted }) => {
       ],
       scale: 1
     };
-    setBlades(prevBlades => [...prevBlades, newBlade]);
+  
+    if (currentObjectType === 'blades') {
+      setBlades(prevBlades => [...prevBlades, newObject]);
+    } else if (currentObjectType === 'bagSeeds') {
+      setBagSeeds(prevBagSeeds => [...prevBagSeeds, newObject]);
+    }
+  };
+
+  const setObjectType = (type) => {
+    setCurrentObjectType(type);
   };
 
   const handlePointerOver = useCallback(() => {
@@ -418,7 +432,7 @@ const Scene = ({ ready, isMuted }) => {
         <DirectionalLight intensity={2} position={[30, 50, 20]}/>
         <Physics>
           <Terrain onTerrainLoad={handleTerrainLoad} />
-          <Trees ref={treesRef} terrain={terrainRef} amount_rows={12} amount_cols={16} phase_x={0} phase_z={0} space={6}/>
+          <Trees ref={treesRef} terrain={terrainRef} setPuffedTreesCount={setPoints} amount_rows={12} amount_cols={16} phase_x={0} phase_z={0} space={6}/>
           <BackNextArrows 
             position={[15,18.48,-42]} 
             rotation={[0,Math.PI*(11/12),0]} 
@@ -477,12 +491,24 @@ const Scene = ({ ready, isMuted }) => {
           <FloatingText ref={floatingTextRef3} text={'Pick Up'} position={[19.1, 20.1, -46.5]} scale={0.5} rotationDelta={-Math.PI/12*2}/>
           <FloatingText ref={floatingTextRef4} text={'Kill the Trees'} position={[19.7, 20.2, -45.1]} scale={0.5} rotationDelta={Math.PI/12*1}/>
           <SmallTable position={[17.5, 19.5, -45.858]} scale={0.3} onDoubleClick={handleDoubleClick(1)}/>
-          <RedValve position={[17.5, 19.972, -45.856]} scale={0.005} onPointerOver={handlePointerOver2} onClick={handleRedValveClick} onDoubleClick={handleDoubleClick(1)}/>
-          {blades.map(blade => (
+          <RedValve position={[17.5, 19.972, -45.856]} scale={0.005} onPointerOver={handlePointerOver2} onDoubleClick={handleDoubleClick(1)}/>
+          <ToggleButton scaleFactor={0.2} initialPosition={[17.65, 19.98, -46.0]}  onClick={handleRedValveClick} onDoubleClick={handleDoubleClick(1)}/>
+          <ToggleButton color={'red'} initialPosition={[17.45, 19.98, -46.05]}  onClick={() => setObjectType('blades')} onDoubleClick={handleDoubleClick(1)}/>
+          <ToggleButton color={'green'} initialPosition={[17.3, 19.98, -46.05]}  onClick={() => setObjectType('bagSeeds')} onDoubleClick={handleDoubleClick(1)}/>
+          {currentObjectType === 'blades' && blades.map(blade => (
             <InteractiveBlade 
               key={blade.id}
               position={blade.position}
               scale={blade.scale}
+              onDragStart={() => toggleCameraControls(false)}
+              onDragEnd={() => toggleCameraControls(true)}
+            />
+          ))}
+          {currentObjectType === 'bagSeeds' && bagSeeds.map(bagSeed => (
+            <BagSeeds 
+              key={bagSeed.id}
+              position={bagSeed.position}
+              scale={bagSeed.scale*0.5}
               onDragStart={() => toggleCameraControls(false)}
               onDragEnd={() => toggleCameraControls(true)}
             />

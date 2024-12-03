@@ -18,8 +18,7 @@ const Trees = forwardRef(({
   phase_z, 
   space,
   terrainId = 'default', // Add an ID to identify different terrains
-  onRemove,
-  onReset
+  setPuffedTreesCount
 }, ref) => {
   const [treePositions, setTreePositions] = useState([]);
   const raycaster = useMemo(() => new Raycaster(), []);
@@ -156,6 +155,7 @@ const Trees = forwardRef(({
   const handleCollision = () => {
     setTimeout(() => {
       setPopTrees(false);
+      setPuffedTreesCount(prev => prev + 1);
     }, 10); // Puff effect duration in milliseconds
   };
 
@@ -208,29 +208,17 @@ const Trees = forwardRef(({
           {showTrees && <Tree key={index} position={position} scale={1} onRemove={handleTreeRemoval}/>}
         </>
       ))}
-      {/* {treePositions.map((position, index) => (
-        <>
-          {(popTrees && index % 2 !== 0 && counter.current === 2) || (popTrees && index % 2 === 0 && counter.current === 1) ? (
-            <RigidBody type="dynamic" colliders="cuboid" onCollisionEnter={handleCollision}>
-              <mesh position={[position.x, position.y + 1, position.z]}>
-                <boxGeometry args={[0.1, 0.1, 0.1]} />
-                <meshStandardMaterial color="#e8a15a" />
-              </mesh>
-            </RigidBody>
-          ) : null}
-        </>
-      ))} */}
       {treePositions.map((position, index) => (
-            <>
-                {popTrees && (index % stages === counter.current) ? (
-                    <RigidBody type="dynamic" colliders="cuboid" onCollisionEnter={handleCollision}>
-                        <mesh position={[position.x, position.y + 1, position.z]}>
-                            <boxGeometry args={[0.1, 0.1, 0.1]} />
-                            <meshStandardMaterial color="#e8a15a" />
-                        </mesh>
-                    </RigidBody>
-                ) : null}
-            </>
+          <>
+            {popTrees && (index % stages === counter.current) ? (
+              <RigidBody type="dynamic" colliders="cuboid" onCollisionEnter={handleCollision}>
+                <mesh position={[position.x, position.y + 1, position.z]}>
+                  <boxGeometry args={[0.1, 0.1, 0.1]} />
+                  <meshStandardMaterial color="#e8a15a" />
+                </mesh>
+              </RigidBody>
+            ) : null}
+          </>
         ))}
     </>
   );
