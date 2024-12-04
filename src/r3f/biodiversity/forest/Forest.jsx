@@ -7,14 +7,19 @@ Source: https://sketchfab.com/3d-models/free-low-poly-forest-6dc8c85121234cb59db
 Title: Free Low Poly Forest
 */
 
-import React from 'react'
+import React, {useRef} from 'react'
 import { useGLTF } from '@react-three/drei'
+import Tree from './Tree'
+import Plane from './Plane'
+
 
 export default function Model(props) {
   const { nodes, materials } = useGLTF('/models-3d/biodiversity/forest/forest.gltf')
+  const { applyPhysics, ...restProps } = props;
+
   return (
-    <group {...props} dispose={null}>
-      <group scale={0.01}>
+    <group {...restProps} dispose={null}>
+      <group scale={0.01} position={[0, 0, 0]}>
         <mesh geometry={nodes.PP_Meadow_08_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[5626.188, -3209.623, 5909.061]} rotation={[Math.PI, 0.776, -Math.PI]} scale={1.52} />
         <mesh geometry={nodes.PP_Grass_11_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-5997.097, -2857.319, 1050.125]} rotation={[-0.823, -1.304, -0.603]} scale={5.963} />
         <mesh geometry={nodes.PP_Meadow_07_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-5308.274, -3209.637, -7474.292]} rotation={[0, -0.706, 0]} scale={1.54} />
@@ -65,7 +70,7 @@ export default function Model(props) {
         <mesh geometry={nodes.PP_Daffodil_03_5_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-1270.539, -2678.235, 3693.973]} rotation={[0.044, 0.621, -0.094]} scale={8.547} />
         <mesh geometry={nodes.PP_Hyacinth_04_4_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[5174.088, -2540.375, 4839.489]} rotation={[0.016, -1.255, 0.012]} scale={9.774} />
         <mesh geometry={nodes.PP_Daffodil_03_6_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-1056.475, -2669.289, 3796.747]} rotation={[0, -0.658, 0]} scale={8.596} />
-        <mesh geometry={nodes.PP_Tree_10_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[9951.057, -2906.96, 15413.021]} rotation={[0, -1.501, 0]} scale={4.62} />
+        <Tree geometry={nodes.PP_Tree_10_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[9951.057, -2906.96, 15413.021]} rotation={[0, -1.501, 0]} scale={4.62} applyPhysics={applyPhysics}/>
         <mesh geometry={nodes.PP_Grass_11_13_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[5866.426, -2861.689, 15923.471]} rotation={[-3.038, 0.021, -3.141]} scale={5.166} />
         <mesh geometry={nodes.PP_Mushroom_Fantasy_Orange_10_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-5814.927, -2852.582, 5734.25]} rotation={[-3.131, -0.201, -3.107]} scale={8.02} />
         <mesh geometry={nodes.PP_Grass_11_14_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-2854.588, -2912.749, 5899.772]} rotation={[-0.373, -1.236, -0.373]} scale={5.767} />
@@ -91,7 +96,7 @@ export default function Model(props) {
         <mesh geometry={nodes.PP_Grass_15_12_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-770.218, -2836.396, 2454.281]} rotation={[-0.096, 0.199, 0.098]} scale={5.01} />
         <mesh geometry={nodes.PP_Hyacinth_04_6_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-920.441, -2876.926, 15003.25]} rotation={[2.898, 1.033, -2.766]} scale={10.979} />
         <mesh geometry={nodes.PP_Grass_11_21_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-72.127, -2887.856, 1393.575]} rotation={[3.133, 0.092, -3.075]} scale={7.867} />
-        <mesh geometry={nodes.PP_Birch_Tree_05_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[1471.961, -2918.816, 2269.513]} rotation={[Math.PI, -0.419, Math.PI]} scale={3.159} />
+        <Tree geometry={nodes.PP_Birch_Tree_05_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[1471.961, -2918.816, 2269.513]} rotation={[Math.PI, -0.419, Math.PI]} scale={3.159} applyPhysics={applyPhysics}/>
         <mesh geometry={nodes.PP_Grass_15_13_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[2881.664, -2831.554, 5604.812]} rotation={[-2.942, -0.158, 3.008]} scale={4.2} />
         <mesh geometry={nodes.PP_Daffodil_03_8_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-1360.514, -2786.767, 4234.63]} rotation={[0.351, 1.124, -0.028]} scale={9.233} />
         <mesh geometry={nodes.PP_Grass_11_22_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[3503.575, -2818.706, 7956.33]} rotation={[2.847, -1.49, 2.743]} scale={6.04} />
@@ -116,7 +121,7 @@ export default function Model(props) {
         <mesh geometry={nodes.PP_Hyacinth_04_9_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[521.923, -2679.689, 15428.312]} rotation={[0, 1.309, 0]} scale={10.593} />
         <mesh geometry={nodes.PP_Grass_15_19_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[9058.427, -2871.689, 15202.471]} rotation={[-0.209, 0.823, 0.06]} scale={5.048} />
         <mesh geometry={nodes.PP_Grass_15_20_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[3615.051, -2851.822, 1014.486]} rotation={[-0.159, 0.295, -0.012]} scale={5.147} />
-        <mesh geometry={nodes.PP_Tree_10_1_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-6959.724, -2854.544, 8247.09]} rotation={[-Math.PI, Math.PI / 5, Math.PI]} scale={5.4} />
+        <Tree geometry={nodes.PP_Tree_10_1_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-6959.724, -2854.544, 8247.09]} rotation={[-Math.PI, Math.PI / 5, Math.PI]} scale={5.4} applyPhysics={applyPhysics} />
         <mesh geometry={nodes.PP_Grass_15_21_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[3976.148, -2912.998, -1238.91]} rotation={[0.07, -0.8, -0.037]} scale={5.605} />
         <mesh geometry={nodes.PP_Grass_11_28_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-1989.824, -2887.714, 341.574]} rotation={[0.018, -0.342, 0.024]} scale={5.395} />
         <mesh geometry={nodes.PP_Rock_Moss_Grown_11_2_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-4812.187, -2907.358, 10699.461]} rotation={[Math.PI, -1.274, Math.PI]} scale={2.26} />
@@ -125,7 +130,7 @@ export default function Model(props) {
         <mesh geometry={nodes.PP_Sunflower_04_4_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[723.978, -2843.866, 15338.951]} rotation={[0, 0.442, 0]} scale={9.94} />
         <mesh geometry={nodes.PP_Grass_11_31_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[6748.289, -2820.315, 14924.771]} rotation={[Math.PI, 1.09, -Math.PI]} scale={3.82} />
         <mesh geometry={nodes.PP_Meadow_08_5_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-505.272, -3209.636, -8369.188]} rotation={[-Math.PI, -1.493, -Math.PI]} scale={1.52} />
-        <mesh geometry={nodes.PP_Tree_10_2_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[7843.259, -2906.74, 1834.112]} rotation={[0, 0.995, 0]} scale={4.22} />
+        <Tree geometry={nodes.PP_Tree_10_2_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[7843.259, -2906.74, 1834.112]} rotation={[0, 0.995, 0]} scale={4.22} applyPhysics={applyPhysics} />
         <mesh geometry={nodes.PP_Hyacinth_04_10_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-3835.746, -2876.962, 962.389]} rotation={[-0.041, 0.032, -0.095]} scale={9.057} />
         <mesh geometry={nodes.PP_Grass_15_22_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-7320.583, -2914.149, 13821.473]} rotation={[0.627, -1.353, 0.616]} scale={5.852} />
         <mesh geometry={nodes.PP_Rock_Pile_Forest_Moss_10_2_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-650.649, -3167.113, 11890.521]} scale={2.38} />
@@ -157,7 +162,7 @@ export default function Model(props) {
         <mesh geometry={nodes.PP_Grass_15_31_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-899.995, -2837.606, 2617.397]} rotation={[-3.089, 1.075, 3.032]} scale={5.349} />
         <mesh geometry={nodes.PP_Grass_11_40_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-3044.573, -2886.689, 8397.471]} rotation={[0.066, 0.348, 0.026]} scale={7.429} />
         <mesh geometry={nodes.PP_Meadow_Path_05_4_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-7461.584, -3211.143, -1874.948]} rotation={[0.076, 1.272, -0.07]} scale={1.42} />
-        <mesh geometry={nodes.PP_Tree_02_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-4054.466, -2906.768, 10569.813]} rotation={[0, -1.466, 0]} scale={3.86} />
+        <Tree geometry={nodes.PP_Tree_02_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-4054.466, -2906.768, 10569.813]} rotation={[0, -1.466, 0]} scale={3.86} applyPhysics={applyPhysics}/>
         <mesh geometry={nodes.PP_Grass_15_32_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[1530.182, -2874.363, 14358.683]} rotation={[2.971, 0.926, -3.093]} scale={5.253} />
         <mesh geometry={nodes.PP_Grass_15_33_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-5745.952, -2894.656, 7140.158]} rotation={[2.859, 1.54, -2.688]} scale={5.926} />
         <mesh geometry={nodes.PP_Grass_15_34_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[180.427, -2899.689, 12899.472]} rotation={[0.013, 0.675, 0.041]} scale={5.673} />
@@ -167,11 +172,11 @@ export default function Model(props) {
         <mesh geometry={nodes.PP_Sunflower_04_5_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[7.025, -2899.65, 16042.551]} rotation={[-0.079, -0.992, -0.004]} scale={8.135} />
         <mesh geometry={nodes.PP_Sunflower_04_6_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-611.599, -2860.545, -3285.175]} rotation={[-0.172, -0.496, -0.162]} scale={7.342} />
         <mesh geometry={nodes.PP_Grass_15_35_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-5230.104, -2817.87, 13755.99]} rotation={[0.386, 0.905, -0.348]} scale={5.075} />
-        <mesh geometry={nodes.PP_Tree_10_3_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-8590.403, -2921.887, 15919.802]} rotation={[0, 1.134, 0]} scale={4.64} />
+        <Tree geometry={nodes.PP_Tree_10_3_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-8590.403, -2921.887, 15919.802]} rotation={[0, 1.134, 0]} scale={4.64} applyPhysics={applyPhysics}/>
         <mesh geometry={nodes.PP_Birch_Tree_06_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[7167.231, -2906.779, -336.55]} rotation={[0, 0.262, 0]} scale={3.5} />
         <mesh geometry={nodes.PP_Hyacinth_04_13_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-3641.045, -2892.338, 1794.979]} rotation={[-0.018, -0.321, -0.206]} scale={9.381} />
         <mesh geometry={nodes.PP_Rock_Moss_Grown_09_1_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-4625.029, -2946.174, 13795.752]} rotation={[-0.141, -0.875, -0.106]} scale={1.387} />
-        <mesh geometry={nodes.PP_Birch_Tree_05_1_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-4686.5, -2907.133, 14524.802]} rotation={[Math.PI, 0.977, -Math.PI]} scale={2.9} />
+        <Tree geometry={nodes.PP_Birch_Tree_05_1_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-4686.5, -2907.133, 14524.802]} rotation={[Math.PI, 0.977, -Math.PI]} scale={2.9} applyPhysics={applyPhysics} />
         <mesh geometry={nodes.PP_Grass_11_42_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-5490.175, -2864.503, 6933.623]} rotation={[-0.851, 1.304, 0.867]} scale={5.417} />
         <mesh geometry={nodes.PP_Hyacinth_04_14_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[7154.085, -2579.933, 4416.228]} rotation={[-0.131, 1.184, 0.076]} scale={9.58} />
         <mesh geometry={nodes.PP_Grass_11_43_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[6266.801, -2888.98, 13733.191]} rotation={[-0.039, 0.729, -0.033]} scale={7.113} />
@@ -198,7 +203,7 @@ export default function Model(props) {
         <mesh geometry={nodes.PP_Meadow_07_3_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-1674.573, -3183.689, 1798.471]} rotation={[0, -0.669, 0]} scale={1.54} />
         <mesh geometry={nodes.PP_Meadow_Path_05_6_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-11184.548, -3209.641, 4462.778]} rotation={[0, 0.079, 0]} scale={1.42} />
         <mesh geometry={nodes.PP_Meadow_Path_05_7_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-5523.196, -3209.625, -4508.599]} rotation={[0, 0.393, 0]} scale={1.42} />
-        <mesh geometry={nodes.PP_Birch_Tree_06_1_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[6239.333, -2906.979, 6616.167]} rotation={[0, -0.559, 0]} scale={2.88} />
+        <Tree geometry={nodes.PP_Birch_Tree_06_1_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[6239.333, -2906.979, 6616.167]} rotation={[0, -0.559, 0]} scale={2.88} applyPhysics={applyPhysics} />
         <mesh geometry={nodes.PP_Rock_Moss_Grown_11_5_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-3994.582, -2857.509, 1648.762]} rotation={[-1.876, 0.982, -3.075]} scale={0.562} />
         <mesh geometry={nodes.PP_Hyacinth_04_18_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-5673.153, -2880.999, 15526.12]} rotation={[-3.037, -1.505, -2.891]} scale={9.87} />
         <mesh geometry={nodes.PP_Hyacinth_04_19_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[7431.073, -2855.491, 4786.45]} rotation={[-3.023, 0.616, -3.131]} scale={9.845} />
@@ -214,7 +219,7 @@ export default function Model(props) {
         <mesh geometry={nodes.PP_Rock_Moss_Grown_09_2_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[336.994, -2902.823, 15301.21]} rotation={[0, -0.297, 0]} scale={1.52} />
         <mesh geometry={nodes.PP_Daffodil_03_20_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-917.908, -2887.088, -154.459]} rotation={[0.08, 1.192, -0.169]} scale={9.754} />
         <mesh geometry={nodes.PP_Mushroom_Fantasy_Purple_08_5_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[4584.025, -2863.124, 5670.686]} rotation={[0.188, -0.216, 0.086]} scale={10.584} />
-        <mesh geometry={nodes.PP_Birch_Tree_06_2_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-6872.457, -2907.128, 14967.392]} rotation={[0, 1.344, 0]} scale={2.94} />
+        <Tree geometry={nodes.PP_Birch_Tree_06_2_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-6872.457, -2907.128, 14967.392]} rotation={[0, 1.344, 0]} scale={2.94} applyPhysics={applyPhysics} />
         <mesh geometry={nodes.PP_Hyacinth_04_21_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-578.919, -2922.351, 14967.302]} rotation={[3.084, 1.324, -3.053]} scale={10.979} />
         <mesh geometry={nodes.PP_Hyacinth_04_22_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[5443.356, -2380.137, 8234.41]} rotation={[0.006, 1.178, 0]} scale={9.355} />
         <mesh geometry={nodes.PP_Sunflower_04_8_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-649.972, -2662.388, -4005.129]} rotation={[0.342, 0.252, -0.057]} scale={6.36} />
@@ -227,10 +232,10 @@ export default function Model(props) {
         <mesh geometry={nodes.PP_Mushroom_Fantasy_Orange_10_4_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-489.411, -2884.889, -3743.69]} rotation={[3.139, -0.887, -2.914]} scale={7.13} />
         <mesh geometry={nodes.PP_Rock_Moss_Grown_09_3_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[4446.846, -2922.264, 5200.607]} rotation={[0, -1.414, 0]} scale={2.52} />
         <mesh geometry={nodes.PP_Meadow_08_9_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[12433.718, -3209.657, 11172.403]} rotation={[0, 0.087, 0]} scale={1.52} />
-        <mesh geometry={nodes.PP_Tree_02_1_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[3453.555, -2906.538, -3578.595]} rotation={[Math.PI, -Math.PI / 5, Math.PI]} scale={4.18} />
+        <Tree geometry={nodes.PP_Tree_02_1_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[3453.555, -2906.538, -3578.595]} rotation={[Math.PI, -Math.PI / 5, Math.PI]} scale={4.18} />
         <mesh geometry={nodes.PP_Daffodil_03_22_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-4577.99, -2856.541, 15447.812]} rotation={[0.038, -0.287, 0.064]} scale={10.591} />
         <mesh geometry={nodes.PP_Meadow_Path_05_10_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-5728.717, -3209.592, 4106.449]} rotation={[0, 0.027, 0]} scale={1.42} />
-        <mesh geometry={nodes.PP_Birch_Tree_06_3_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[4654.376, -2906.883, -1334.899]} rotation={[0, -0.559, 0]} scale={2.88} />
+        <Tree geometry={nodes.PP_Birch_Tree_06_3_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[4654.376, -2906.883, -1334.899]} rotation={[0, -0.559, 0]} scale={2.88} />
         <mesh geometry={nodes.PP_Daffodil_03_23_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[3489.122, -2876.193, 11443.317]} rotation={[-0.165, 0.753, -0.046]} scale={10.287} />
         <mesh geometry={nodes.PP_Daffodil_03_24_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-1659.404, -2926.912, 15427.49]} rotation={[0.126, 0.802, -0.097]} scale={9.773} />
         <mesh geometry={nodes.PP_Hyacinth_04_24_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[6805.051, -2893.768, 4835.529]} rotation={[3.02, 0.07, 3.088]} scale={9.22} />
@@ -256,31 +261,31 @@ export default function Model(props) {
         <mesh geometry={nodes.PP_Meadow_Path_05_12_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[11437.717, -3209.65, 210.458]} rotation={[0, 0.254, 0]} scale={1.42} />
         <mesh geometry={nodes.PP_Hyacinth_04_26_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[2090.342, -2889.391, 14677.412]} rotation={[-0.022, 0.471, 0.013]} scale={10.75} />
         <mesh geometry={nodes.PP_Meadow_07_6_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[10506.967, -3209.644, 2786.017]} rotation={[0, -1.178, 0]} scale={1.54} />
-        <mesh geometry={nodes.PP_Tree_10_4_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[3756.813, -2906.229, 2400.053]} scale={4.62} />
+        <Tree geometry={nodes.PP_Tree_10_4_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[3756.813, -2906.229, 2400.053]} scale={4.62} applyPhysics={applyPhysics} />
         <mesh geometry={nodes.PP_Mushroom_Fantasy_Orange_10_6_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[8293.029, -2885.529, 16285.281]} rotation={[0.181, -0.726, 0.267]} scale={6.02} />
         <mesh geometry={nodes.PP_Mushroom_Fantasy_Orange_10_7_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[2970.426, -2453.689, 16108.371]} rotation={[-0.029, -0.621, -0.432]} scale={5.649} />
         <mesh geometry={nodes.PP_Rock_Pile_Forest_Moss_05_4_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[9480.777, -2922.234, 3595.797]} rotation={[Math.PI, 0.75, -Math.PI]} scale={2.3} />
         <mesh geometry={nodes.PP_Hyacinth_04_27_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-7741.914, -2843.288, 14980.721]} rotation={[-3.081, 0.283, 3.103]} scale={9.569} />
-        <mesh geometry={nodes.PP_Tree_02_2_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-6045.926, -2854.78, -5368.138]} rotation={[0, -0.14, 0]} scale={4.42} />
+        <Tree geometry={nodes.PP_Tree_02_2_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-6045.926, -2854.78, -5368.138]} rotation={[0, -0.14, 0]} scale={4.42} applyPhysics={applyPhysics} />
         <mesh geometry={nodes.PP_Rock_Pile_Forest_Moss_10_4_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[3031.174, -2897.204, -3983.777]} rotation={[3.138, -0.852, 3.136]} scale={0.655} />
         <mesh geometry={nodes.PP_Sunflower_04_10_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[1126.151, -2739.006, 6476.66]} rotation={[0.095, 0.614, 0.077]} scale={9.94} />
         <mesh geometry={nodes.PP_Rock_Moss_Grown_11_6_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[7615.823, -2838.794, -290.444]} rotation={[-0.127, 1.374, 0.333]} scale={1.58} />
         <mesh geometry={nodes.PP_Hyacinth_04_28_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[6952.389, -2859.18, 5000.419]} rotation={[-2.256, 1.317, 2.203]} scale={9.889} />
-        <mesh geometry={nodes.PP_Birch_Tree_05_2_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-4116.329, -2874.985, -1765.76]} rotation={[0, 1.484, 0]} scale={3.14} />
+        <Tree geometry={nodes.PP_Birch_Tree_05_2_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-4116.329, -2874.985, -1765.76]} rotation={[0, 1.484, 0]} scale={3.14} applyPhysics={applyPhysics} />
         <mesh geometry={nodes.PP_Rock_Moss_Grown_09_5_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[4174.966, -2941.161, 11186.016]} rotation={[0, Math.PI / 2, 0]} scale={1.5} />
         <mesh geometry={nodes.PP_Sunflower_04_11_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[1056.388, -2848.949, 15961.632]} rotation={[-0.058, 0.685, 0.021]} scale={8.96} />
-        <mesh geometry={nodes.PP_Birch_Tree_06_4_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[2904.181, -2906.819, 7706.368]} rotation={[-Math.PI, 0.454, Math.PI]} scale={3.22} />
+        <Tree geometry={nodes.PP_Birch_Tree_06_4_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[2904.181, -2906.819, 7706.368]} rotation={[-Math.PI, 0.454, Math.PI]} scale={3.22} applyPhysics={applyPhysics} />
         <mesh geometry={nodes.PP_Hyacinth_04_29_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-8090.504, -2683.439, 15642.931]} rotation={[0, -0.509, 0]} scale={11.305} />
-        <mesh geometry={nodes.PP_Birch_Tree_05_3_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-8274.021, -2906.765, 6314.247]} rotation={[Math.PI, -0.419, Math.PI]} scale={3.6} />
+        <Tree geometry={nodes.PP_Birch_Tree_05_3_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-8274.021, -2906.765, 6314.247]} rotation={[Math.PI, -0.419, Math.PI]} scale={3.6} applyPhysics={applyPhysics} />
         <mesh geometry={nodes.PP_Daffodil_03_32_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[865.627, -2867.089, 14284.97]} rotation={[-2.586, -1.378, -2.617]} scale={8.081} />
         <mesh geometry={nodes.PP_Daffodil_03_33_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[3617.014, -2898.116, 9045.942]} rotation={[-3.099, 1.126, 3.053]} scale={8.937} />
-        <mesh geometry={nodes.PP_Tree_10_5_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[8380.92, -2906.896, 9067.813]} rotation={[-Math.PI, 0.332, Math.PI]} scale={4.22} />
+        <Tree geometry={nodes.PP_Tree_10_5_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[8380.92, -2906.896, 9067.813]} rotation={[-Math.PI, 0.332, Math.PI]} scale={4.22} applyPhysics={applyPhysics} />
         <mesh geometry={nodes.PP_Daffodil_03_34_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[2937.499, -2408.164, 11155.509]} rotation={[-0.001, 0.572, 0]} scale={10.316} />
         <mesh geometry={nodes.PP_Daffodil_03_35_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-463.51, -2884.075, 12489.5]} rotation={[-0.057, -0.053, 0.111]} scale={12.76} />
         <mesh geometry={nodes.PP_Sunflower_04_12_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[1965.288, -2905.841, 16354.451]} rotation={[-0.073, 1.057, 0.108]} scale={9.741} />
         <mesh geometry={nodes.PP_Hyacinth_04_30_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-410.644, -2914.17, 15104.432]} rotation={[-3.099, -0.255, 3.027]} scale={10.979} />
         <mesh geometry={nodes.PP_Forest_Mountain_Moss_02_1_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[8375.286, -3209.363, -9718.809]} rotation={[0, -Math.PI / 5, 0]} scale={2.06} />
-        <mesh geometry={nodes.PP_Tree_02_3_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-3687.366, -2906.365, -3315.885]} scale={4.2} />
+        <Tree geometry={nodes.PP_Tree_02_3_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-3687.366, -2906.365, -3315.885]} scale={4.2} applyPhysics={applyPhysics} />
         <mesh geometry={nodes.PP_Daffodil_03_36_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[1362.647, -2905.719, -3859.065]} rotation={[-0.544, 1.551, 0.555]} scale={12.709} />
         <mesh geometry={nodes.PP_Hyacinth_04_31_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[5193.104, -2824.411, 5620.354]} rotation={[-0.337, 1.153, 0.101]} scale={8.627} />
         <mesh geometry={nodes.PP_Grass_15_76_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-6062.206, -2690.713, -1584.213]} rotation={[0, -1.183, 0]} scale={3.8} />
@@ -361,7 +366,7 @@ export default function Model(props) {
         <mesh geometry={nodes.PP_Rock_Moss_Grown_11_12_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[2275.427, -2844.689, -2802.529]} rotation={[2.95, 1.179, -3.062]} scale={0.481} />
         <mesh geometry={nodes.PP_Grass_15_93_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-5561.025, -2830.99, 12417.102]} rotation={[-2.027, 1.511, 1.993]} scale={5.501} />
         <mesh geometry={nodes.PP_Grass_15_94_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[8428.318, -2879.659, 7245.629]} rotation={[0.213, -0.719, 0.106]} scale={5.64} />
-        <mesh geometry={nodes.PP_Tree_02_4_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[4418.914, -2907.047, 13463.98]} rotation={[Math.PI, -Math.PI / 5, Math.PI]} scale={3.32} />
+        <Tree geometry={nodes.PP_Tree_02_4_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[4418.914, -2907.047, 13463.98]} rotation={[Math.PI, -Math.PI / 5, Math.PI]} scale={3.32} applyPhysics={applyPhysics} />
         <mesh geometry={nodes.PP_Grass_11_96_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[4559.052, -2822.566, 15699.471]} rotation={[0.333, 1.537, -0.488]} scale={6.193} />
         <mesh geometry={nodes.PP_Rock_Moss_Grown_11_13_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-6106.343, -2922.299, 8923.372]} rotation={[Math.PI, -0.087, Math.PI]} scale={2.34} />
         <mesh geometry={nodes.PP_Grass_15_95_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-6592.174, -2855.689, -550.829]} rotation={[-2.989, 0.444, -3.031]} scale={5.285} />
@@ -383,7 +388,7 @@ export default function Model(props) {
         <mesh geometry={nodes.PP_Grass_11_105_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-1788.276, -2802.911, 3687.62]} rotation={[-0.103, -0.754, 0.126]} scale={6.752} />
         <mesh geometry={nodes.PP_Grass_11_106_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-5381.547, -2883.389, 12786.85]} rotation={[0.197, -0.819, 0.008]} scale={5.229} />
         <mesh geometry={nodes.PP_Grass_11_107_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[3184.964, -2838.563, -1758.644]} rotation={[-3.027, -0.432, -2.955]} scale={5.353} />
-        <mesh geometry={nodes.PP_Tree_10_6_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-2481.186, -2906.686, 9591.455]} rotation={[0, -1.501, 0]} scale={4.1} />
+        <Tree geometry={nodes.PP_Tree_10_6_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-2481.186, -2906.686, 9591.455]} rotation={[0, -1.501, 0]} scale={4.1} applyPhysics={applyPhysics} />
         <mesh geometry={nodes.PP_Meadow_08_12_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[12972.716, -3209.735, 5184.809]} rotation={[0, 0.087, 0]} scale={1.52} />
         <mesh geometry={nodes.PP_Grass_11_108_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-6152.634, -2678.112, -1554.357]} rotation={[0, 0.027, 0]} scale={4.16} />
         <mesh geometry={nodes.PP_Daffodil_03_46_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[431.286, -2922.916, -3230.906]} rotation={[0.133, -0.111, -0.008]} scale={11.649} />
@@ -396,11 +401,11 @@ export default function Model(props) {
         <mesh geometry={nodes.PP_Meadow_Path_05_17_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-7456.198, -3209.618, 4660.993]} rotation={[Math.PI, 1.544, -Math.PI]} scale={1.42} />
         <mesh geometry={nodes.PP_Meadow_Path_05_18_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[5224.965, -3209.647, 11901.551]} rotation={[Math.PI, 1.47, -Math.PI]} scale={1.42} />
         <mesh geometry={nodes.PP_Rock_Moss_Grown_11_15_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[2976.543, -2922.361, 8233.984]} rotation={[-Math.PI, 1.501, Math.PI]} scale={0.96} />
-        <mesh geometry={nodes.PP_Tree_02_5_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[5112.248, -2906.446, -471.483]} rotation={[0, -1.466, 0]} scale={4.2} />
+        <Tree geometry={nodes.PP_Tree_02_5_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[5112.248, -2906.446, -471.483]} rotation={[0, -1.466, 0]} scale={4.2} applyPhysics={applyPhysics} />
         <mesh geometry={nodes.PP_Grass_11_109_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-3279.515, -2887.877, 6084.566]} rotation={[-3.086, 0.201, -3.086]} scale={5.898} />
         <mesh geometry={nodes.PP_Daffodil_03_47_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[7098.669, -2854.375, 6886.025]} rotation={[-0.269, -0.364, -0.172]} scale={10.33} />
         <mesh geometry={nodes.PP_Hyacinth_04_42_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[981.154, -2884.213, 14708.011]} rotation={[0, -0.977, 0]} scale={10.865} />
-        <mesh geometry={nodes.PP_Tree_10_7_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-1918.003, -2906.628, 7420.432]} rotation={[-Math.PI, -1.379, -Math.PI]} scale={3.72} />
+        <Tree geometry={nodes.PP_Tree_10_7_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-1918.003, -2906.628, 7420.432]} rotation={[-Math.PI, -1.379, -Math.PI]} scale={3.72} applyPhysics={applyPhysics} />
         <mesh geometry={nodes.PP_Rock_Moss_Grown_11_16_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-1799.518, -2960.037, -1361.369]} rotation={[Math.PI, 0.611, -Math.PI]} scale={1.64} />
         <mesh geometry={nodes.PP_Grass_15_99_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-5698.63, -2880.159, -747.067]} rotation={[-2.863, 1.408, 2.9]} scale={7.713} />
         <mesh geometry={nodes.PP_Rock_Moss_Grown_09_8_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[7647.604, -2895.748, 8933.376]} rotation={[-0.055, -0.644, -0.174]} scale={1.675} />
@@ -414,23 +419,23 @@ export default function Model(props) {
         <mesh geometry={nodes.PP_Sunflower_04_17_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[2129.661, -2568.66, 15644.312]} rotation={[0.06, -1.005, -0.125]} scale={8.334} />
         <mesh geometry={nodes.PP_Rock_Moss_Grown_11_19_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[7349.124, -2899.421, 9455.806]} rotation={[3.136, 1.031, -3.087]} scale={0.756} />
         <mesh geometry={nodes.PP_Grass_11_111_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-3290.009, -2882.973, 7764.233]} rotation={[3.051, 0.176, 2.986]} scale={5.944} />
-        <mesh geometry={nodes.PP_Birch_Tree_05_4_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-1599.647, -2906.615, -3422.026]} scale={3.6} />
-        <mesh geometry={nodes.PP_Birch_Tree_05_5_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[8730.32, -2906.84, 2885.746]} scale={3.6} />
-        <mesh geometry={nodes.PP_Birch_Tree_05_6_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[1472.648, -2906.539, -6166.744]} scale={4.4} />
+        <Tree geometry={nodes.PP_Birch_Tree_05_4_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-1599.647, -2906.615, -3422.026]} scale={3.6} applyPhysics={applyPhysics}/>
+        <Tree geometry={nodes.PP_Birch_Tree_05_5_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[8730.32, -2906.84, 2885.746]} scale={3.6} applyPhysics={applyPhysics}/>
+        <Tree geometry={nodes.PP_Birch_Tree_05_6_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[1472.648, -2906.539, -6166.744]} scale={4.4} applyPhysics={applyPhysics}/>
         <mesh geometry={nodes.PP_Birch_Tree_06_5_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[4187.513, -2854.949, -5188.214]} rotation={[0, -0.559, 0]} scale={3.82} />
         <mesh geometry={nodes.PP_Birch_Tree_06_6_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-6056.962, -2907.049, 11477.914]} rotation={[0, -0.559, 0]} scale={2.88} />
-        <mesh geometry={nodes.PP_Birch_Tree_06_7_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-3130.086, -2906.625, 5887.029]} rotation={[0, -0.419, 0]} scale={3.22} />
+        <Tree geometry={nodes.PP_Birch_Tree_06_7_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-3130.086, -2906.625, 5887.029]} rotation={[0, -0.419, 0]} scale={3.22} applyPhysics={applyPhysics} />
         <mesh geometry={nodes.PP_Birch_Tree_06_8_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-5014.738, -2906.516, -607.751]} rotation={[-Math.PI, -0.087, -Math.PI]} scale={3.5} />
         <mesh geometry={nodes.PP_Birch_Tree_06_9_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[5957.337, -2906.888, 9848.589]} rotation={[0, 1.204, 0]} scale={3.5} />
         <mesh geometry={nodes.PP_Birch_Tree_06_10_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-10521.476, -2906.828, -517.622]} rotation={[-Math.PI, -0.908, -Math.PI]} scale={3.5} />
         <mesh geometry={nodes.PP_Birch_Tree_06_11_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[8478.855, -2907.044, 14592.611]} rotation={[0, -1.204, 0]} scale={3.5} />
-        <mesh geometry={nodes.PP_Hyacinth_04_43_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[4855.609, -2927.747, 8497.44]} rotation={[-2.832, -0.985, -3.041]} scale={11.207} />
+        <Tree geometry={nodes.PP_Hyacinth_04_43_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[4855.609, -2927.747, 8497.44]} rotation={[-2.832, -0.985, -3.041]} scale={11.207} applyPhysics={applyPhysics} />
         <mesh geometry={nodes.PP_Birch_Tree_05_7_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[6044.021, -2906.765, 3925.004]} rotation={[Math.PI, 0.977, -Math.PI]} scale={3.46} />
         <mesh geometry={nodes.PP_Birch_Tree_05_8_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-6354.8, -2906.52, 1886.065]} rotation={[Math.PI, -0.419, Math.PI]} scale={3.6} />
         <mesh geometry={nodes.PP_Birch_Tree_05_9_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[8185.297, -2912.689, -77.476]} rotation={[0, Math.PI / 9, 0]} scale={3.14} />
         <mesh geometry={nodes.PP_Birch_Tree_05_10_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-707.834, -2906.963, 11168.112]} rotation={[-Math.PI, -0.942, -Math.PI]} scale={3.14} />
         <mesh geometry={nodes.PP_Birch_Tree_06_12_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[-6467.327, -2906.858, 10027.542]} scale={3.46} />
-        <mesh geometry={nodes.PP_Birch_Tree_06_13_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[5290.258, -2906.801, -4581.899]} rotation={[Math.PI, 1.065, -Math.PI]} scale={3.5} />
+        <Tree geometry={nodes.PP_Birch_Tree_06_13_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[5290.258, -2906.801, -4581.899]} rotation={[Math.PI, 1.065, -Math.PI]} scale={3.5} applyPhysics={applyPhysics}/>
         <mesh geometry={nodes.PP_Daffodil_03_48_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[1622.063, -2849.81, 16442.262]} rotation={[0.092, -0.633, 0.066]} scale={9.7} />
         <mesh geometry={nodes.PP_Daffodil_03_49_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[2318.389, -2874.323, 11161.093]} rotation={[-0.075, 0.835, -0.104]} scale={10.303} />
         <mesh geometry={nodes.PP_Daffodil_03_50_PP_Standard_Material_0.geometry} material={materials.PP_Standard_Material} position={[2580.62, -2922.612, 9648.533]} rotation={[3.061, 0.356, 3.046]} scale={8.737} />
