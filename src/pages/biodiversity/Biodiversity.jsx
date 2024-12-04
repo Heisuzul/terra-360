@@ -117,6 +117,8 @@ function Biodiversity() {
 
   return (
     <>
+    {currentText === 'biodiversity' && (<audio src="/sounds/naturesounds.mp3" autoPlay loop/>)}
+    {currentText === 'consequences' && (<audio src="/sounds/stormsounds.mp3" autoPlay loop/>)}
     <Navbar onConsequencesClick={handleConsequencesClick} onBiodiversityClick={handleBiodiversityClick}/>
     {isBeeHovered && (
         <div className={styles.speciesLabel}>
@@ -175,7 +177,7 @@ function Biodiversity() {
           <directionalLight position={[10, 20, 100]} intensity={0.5} castShadow shadow-camera-far={50}/>
           <OrbitControls minDistance={2} maxDistance={170} maxPolarAngle={Math.PI * 0.567} minPolarAngle={-100} />
           <Suspense fallback={null}>
-          <Physics gravity={[0, -30, 0]} tolerance={0.0001}>
+          <Physics gravity={[0, -9.81, 0]} tolerance={0.0001}>
             <Forest position={[0, 0, 0]} color='hotpink' applyPhysics={applyPhysics} receiveShadow/>   
             <Plane position={[0, 0, 0]} /> 
           </Physics>  
