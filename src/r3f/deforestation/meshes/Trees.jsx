@@ -1,11 +1,15 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useEffect, useState, useRef, useMemo, useCallback, forwardRef, useImperativeHandle } from 'react';
 import { Vector3, Raycaster } from 'three';
 import Tree from "../meshes/Tree";
+import { originalTreePositions } from '../data/treePositions';
+import { RigidBody } from '@react-three/rapier';
+import { Bloom, EffectComposer, Vignette, HueSaturation, BrightnessContrast, SSAO } from '@react-three/postprocessing'
+import { BlendFunction } from "postprocessing";
 
 // This will store our cached positions for different terrain configurations
 const positionCache = new Map();
 
-const Trees = ({ 
+const Trees = forwardRef(({ 
   terrain, 
   delta, 
   amount_rows, 
@@ -13,8 +17,10 @@ const Trees = ({
   phase_x, 
   phase_z, 
   space,
-  terrainId = 'default' // Add an ID to identify different terrains
-}) => {
+  terrainId = 'default', // Add an ID to identify different terrains
+  onRemove,
+  onReset
+}, ref) => {
   const [treePositions, setTreePositions] = useState([]);
   const raycaster = useMemo(() => new Raycaster(), []);
 
@@ -38,7 +44,7 @@ const Trees = ({
   };
 
   const calculateTreePositions = useCallback(() => {
-    if (terrain && terrain.current && terrain.current.geometry.boundingBox) {
+     if (terrain && terrain.current && terrain.current.geometry.boundingBox) {
       const positions = [];
       const rows = amount_rows;
       const cols = amount_cols;
@@ -115,7 +121,13 @@ const Trees = ({
   };
 
   useEffect(() => {
-    const delay = setTimeout(() => {
+    if (originalTreePositions.length > 0) {
+      setTreePositions(originalTreePositions.map(pos => new Vector3(pos.x, pos.y, pos.z)));
+      console.log('Tree positions loaded from originalTreePositions');
+      return;
+    }
+
+    const delay = setTimeout(() => { 
       if (terrain?.current?.geometry?.boundingBox) {
         // Try to load cached positions first
         if (!loadCachedPositions()) {
@@ -130,13 +142,98 @@ const Trees = ({
     return () => clearTimeout(delay);
   }, [terrain, calculateTreePositions, loadCachedPositions, delta]);
 
+  const [popTrees, setPopTrees] = useState(false)
+  const [showTrees, setShowTrees] = useState(true)
+  const counter = useRef(-1)
+
+  // Use `useImperativeHandle` to expose `exportPositions`
+  useImperativeHandle(ref, () => ({
+    exportPositions,
+    puffTrees,
+    growTrees,
+  }));
+
+  const handleCollision = () => {
+    setTimeout(() => {
+      setPopTrees(false);
+    }, 10); // Puff effect duration in milliseconds
+  };
+
+  const growTrees = () => {
+    setShowTrees(!showTrees);
+    console.log("GrowREF", showTrees)
+    counter.current = -1;
+    handleTreeReset();
+  }
+
+  const [removedTrees, setRemovedTrees] = useState(0);
+
+  const handleTreeRemoval = () => {
+    setRemovedTrees(prev => prev + 1);
+  };
+
+  const handleTreeReset = () => {
+    setRemovedTrees(0);
+  };
+
+  const intensity = (removedTrees / 221); // Adjust the multiplier as needed
+
+  const stages = 4; // Define the number of stages
+
+  const [canPuff, setCanPuff] = useState(true);
+
+  const puffTrees = () => {
+      if (canPuff && counter.current < stages) {
+          setPopTrees(true);
+          counter.current++;
+          setCanPuff(false);
+          setTimeout(() => {
+              setCanPuff(true);
+          }, 1000 * delta); // Adjust the delay as needed
+      }
+      console.log("Counter", counter.current);
+      console.log("REF", popTrees);
+  };
+
   return (
     <>
+      <EffectComposer>
+        <Vignette offset={0.1} darkness={intensity*1.1} />
+        <HueSaturation hue={0.01} saturation={Math.max(-0.1 - intensity/1.2, -1)} />
+        <BrightnessContrast contrast={0.1} />
+        <Bloom intensity={0.1}/>
+      </EffectComposer>
       {treePositions.map((position, index) => (
-        <Tree key={index} position={position} scale={1} />
+        <>
+          {showTrees && <Tree key={index} position={position} scale={1} onRemove={handleTreeRemoval}/>}
+        </>
       ))}
+      {/* {treePositions.map((position, index) => (
+        <>
+          {(popTrees && index % 2 !== 0 && counter.current === 2) || (popTrees && index % 2 === 0 && counter.current === 1) ? (
+            <RigidBody type="dynamic" colliders="cuboid" onCollisionEnter={handleCollision}>
+              <mesh position={[position.x, position.y + 1, position.z]}>
+                <boxGeometry args={[0.1, 0.1, 0.1]} />
+                <meshStandardMaterial color="#e8a15a" />
+              </mesh>
+            </RigidBody>
+          ) : null}
+        </>
+      ))} */}
+      {treePositions.map((position, index) => (
+            <>
+                {popTrees && (index % stages === counter.current) ? (
+                    <RigidBody type="dynamic" colliders="cuboid" onCollisionEnter={handleCollision}>
+                        <mesh position={[position.x, position.y + 1, position.z]}>
+                            <boxGeometry args={[0.1, 0.1, 0.1]} />
+                            <meshStandardMaterial color="#e8a15a" />
+                        </mesh>
+                    </RigidBody>
+                ) : null}
+            </>
+        ))}
     </>
   );
-};
+});
 
 export default Trees;

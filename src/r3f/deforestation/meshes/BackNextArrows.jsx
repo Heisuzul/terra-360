@@ -47,6 +47,12 @@ export default function BackNextArrows({ onNextClick, onBackClick, ...props }) {
             receiveShadow
             geometry={nodes.Cylinder005.geometry}
             material={materials['Light Wood']}
+            onPointerOver={() => {
+              document.body.style.cursor = 'pointer'
+            }}
+            onPointerOut={() => {
+              document.body.style.cursor = 'auto'
+            }}
           />
           
           <mesh

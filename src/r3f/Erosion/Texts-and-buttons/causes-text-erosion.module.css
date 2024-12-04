@@ -1,0 +1,17 @@
+/* Container styling for the causes text overlay */
+.causesDiv {
+    padding: 20px; /* Adds space within the container */
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background for readability */
+    border-radius: 8px; /* Smooths the edges for a rounded look */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Creates a subtle shadow for depth */
+    width: 800px; /* Sets a default width for the container */
+    max-width: 80%; /* Ensures the container fits smaller screens */
+    text-align: left; /* Aligns text to the left */
+}
+
+/* Styling for the text inside the causes container */
+.causesText {
+    font-size: 20px; /* Standard font size for readability */
+    color: #333; /* Dark text color for contrast */
+    font-weight: 500; /* Medium weight for emphasis */
+}

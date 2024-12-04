@@ -28,11 +28,12 @@ const InstructionsOverlay = ({ onHide }) => {
         <h3 className="instructions-title">How to Navigate</h3>
         
         <ul className="instructions-list">
-          <li>🖱️ <strong>Rotate:</strong> Left-click and drag</li>
-          <li>🔄 <strong>Zoom:</strong> Scroll wheel</li>
-          <li>🎯 <strong>Move:</strong> Right-click and drag</li>
-          <li>⌨️ <strong>Navigation:</strong> Use arrow keys</li>
-          <li>↩️ <strong>Reset:</strong> Press ESC key</li>
+          <li>🎥 <strong>Rotate:</strong> Left-click and drag</li>
+          <li>🔎 <strong>Zoom:</strong> Scroll wheel 🖱️</li>
+          <li>🧭 <strong>Navigation:</strong> Use the arrow keys ⌨️ or swipe 📲</li>
+          <li>🧱 <strong>Enter/Exit quiz area:</strong> Press ENTER key or double click on platform floor </li>
+          <li>🔇 <strong>Mute/Unmute sounds:</strong> Press M key</li>
+          <li>↩️ <strong>Reset position:</strong> Press ESC key</li>
         </ul>
         
         <label className="checkbox-label">

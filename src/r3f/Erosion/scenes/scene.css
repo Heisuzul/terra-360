@@ -1,28 +1,53 @@
-html, body, #root {
+/* Ensures the base elements occupy the full viewport */
+html,
+body,
+#root {
     margin: 0;
+    /* Removes default margin */
     padding: 0;
+    /* Removes default padding */
     width: 100%;
+    /* Full viewport width */
     height: 100%;
-    overflow: hidden; 
+    /* Full viewport height */
+    overflow: hidden;
+    /* Hides any scrollbars */
 }
 
+/* Styles the container for the 3D scene */
 .scene-container {
     position: fixed;
+    /* Fixes container to viewport */
     top: 0;
+    /* Aligns container to top of viewport */
     left: 0;
+    /* Aligns container to left of viewport */
     width: 100%;
+    /* Full viewport width */
     height: 100%;
-    background-color: #bbeaff; 
+    /* Full viewport height */
+    background-color: #bbeaff;
+    /* Light blue background */
     display: flex;
+    /* Centers the content */
     justify-content: center;
+    /* Horizontally centers the content */
     align-items: center;
+    /* Vertically centers the content */
 }
 
+/* Styling for the canvas element */
 canvas {
     width: 100%;
+    /* Expands to fill container width */
     height: 100%;
+    /* Expands to fill container height */
     display: block;
+    /* Ensures canvas acts as a block element */
     border: none;
+    /* Removes any default border */
     margin: 0;
+    /* Ensures no margin */
     padding: 0;
+    /* Ensures no padding */
 }

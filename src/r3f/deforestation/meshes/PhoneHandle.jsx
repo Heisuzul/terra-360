@@ -1,12 +1,18 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
 import { useGLTF } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
-export default function PhoneHandle({ position: initialPosition, rotation, ...props }) {
+export default function PhoneHandle({ 
+  position: initialPosition, 
+  rotation, 
+  onDragStart,
+  onDragEnd,
+  sceneIndex,
+  ...props 
+}) {
   const { nodes, materials } = useGLTF('/models-3d/deforestation/phone-handle.glb');
   
-  // Use refs for values that don't need to trigger re-renders
   const groupRef = useRef();
   const positionRef = useRef({
     initial: initialPosition[1],
@@ -17,7 +23,14 @@ export default function PhoneHandle({ position: initialPosition, rotation, ...pr
   const velocityRef = useRef(0);
   const isDraggingRef = useRef(false);
 
-  // Constants
+  // Reset dragging state when scene changes
+  useEffect(() => {
+    if (sceneIndex !== 4 && isDraggingRef.current) {
+      isDraggingRef.current = false;
+      onDragEnd?.();
+    }
+  }, [sceneIndex]);
+
   const CONSTRAINTS = {
     MIN_Y: initialPosition[1],
     MAX_Y: initialPosition[1] + 0.3,
@@ -26,28 +39,32 @@ export default function PhoneHandle({ position: initialPosition, rotation, ...pr
     MOVEMENT_SENSITIVITY: 0.005
   };
 
-  // Memoized calculation functions
   const calculateRotation = useCallback((height) => {
     const liftProgress = (height - CONSTRAINTS.MIN_Y) / (CONSTRAINTS.MAX_Y - CONSTRAINTS.MIN_Y);
     return liftProgress * (Math.PI / 2);
   }, [CONSTRAINTS.MIN_Y, CONSTRAINTS.MAX_Y]);
 
-  // Event handlers
   const handlePointerDown = useCallback((e) => {
-    e.stopPropagation();
-    isDraggingRef.current = true;
-    velocityRef.current = 0;
-    e.target.setPointerCapture(e.pointerId);
-  }, []);
+    if (sceneIndex === 4) {
+      e.stopPropagation();
+      isDraggingRef.current = true;
+      velocityRef.current = 0;
+      e.target.setPointerCapture(e.pointerId);
+      onDragStart?.();
+    }
+  }, [sceneIndex, onDragStart]);
 
   const handlePointerUp = useCallback((e) => {
-    e.stopPropagation();
-    isDraggingRef.current = false;
-    e.target.releasePointerCapture(e.pointerId);
-  }, []);
+    if (isDraggingRef.current) {
+      e.stopPropagation();
+      isDraggingRef.current = false;
+      e.target.releasePointerCapture(e.pointerId);
+      onDragEnd?.();
+    }
+  }, [onDragEnd]);
 
   const handlePointerMove = useCallback((e) => {
-    if (isDraggingRef.current) {
+    if (sceneIndex === 4 && isDraggingRef.current) {
       e.stopPropagation();
       const movementY = e.movementY * CONSTRAINTS.MOVEMENT_SENSITIVITY;
       const newTargetY = positionRef.current.target - movementY;
@@ -56,22 +73,19 @@ export default function PhoneHandle({ position: initialPosition, rotation, ...pr
         Math.min(CONSTRAINTS.MAX_Y, newTargetY)
       );
     }
-  }, []);
+  }, [sceneIndex, CONSTRAINTS.MIN_Y, CONSTRAINTS.MAX_Y, CONSTRAINTS.MOVEMENT_SENSITIVITY]);
 
-  // Frame updates
   useFrame(() => {
     if (!groupRef.current) return;
 
     const { current: pos } = positionRef;
     
-    // Update position with smoothing
     const newY = THREE.MathUtils.lerp(
       pos.current,
       pos.target,
       isDraggingRef.current ? (1 - CONSTRAINTS.SMOOTHING_FACTOR) : (1 - CONSTRAINTS.SMOOTHING_FACTOR * 0.5)
     );
 
-    // Update velocity and apply momentum
     velocityRef.current = newY - pos.current;
     
     if (!isDraggingRef.current) {
@@ -82,7 +96,6 @@ export default function PhoneHandle({ position: initialPosition, rotation, ...pr
       );
     }
 
-    // Update rotation
     const targetRotation = calculateRotation(newY);
     const newRotation = THREE.MathUtils.lerp(
       rotationRef.current,
@@ -90,16 +103,13 @@ export default function PhoneHandle({ position: initialPosition, rotation, ...pr
       1 - CONSTRAINTS.SMOOTHING_FACTOR
     );
 
-    // Apply updates
     pos.current = newY;
     rotationRef.current = newRotation;
     
-    // Update mesh
     groupRef.current.position.y = newY;
     groupRef.current.rotation.z = -newRotation/2;
   });
 
-  // Calculate initial combined rotation
   const combinedRotation = rotation ? [
     rotation[0],
     rotation[1],
@@ -115,6 +125,12 @@ export default function PhoneHandle({ position: initialPosition, rotation, ...pr
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
       onPointerMove={handlePointerMove}
+      onPointerOver={() => {
+        document.body.style.cursor = 'pointer'
+      }}
+      onPointerOut={() => {
+        document.body.style.cursor = 'auto'
+      }}
     >
       <mesh
         name="tube_low_M_Telephone_0"

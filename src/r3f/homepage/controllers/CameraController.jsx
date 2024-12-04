@@ -58,6 +58,8 @@ const CameraController = ({ target, position }) => {
       ref={controlsRef}
       enableDamping={true}
       dampingFactor={0.05}
+      minPolarAngle={0}
+      maxPolarAngle={Math.PI / 2}
     />
   );
 };
