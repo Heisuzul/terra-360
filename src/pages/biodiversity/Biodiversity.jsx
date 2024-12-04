@@ -1,8 +1,10 @@
 import { useState, Suspense, useEffect, useRef } from 'react'
 import styles from './Biodiversity.module.css'
 import {Canvas, useFrame} from '@react-three/fiber'
+import { Physics, usePlane} from '@react-three/cannon'
 import { Environment, OrbitControls, PerspectiveCamera, Text3D} from '@react-three/drei'
 import { EffectComposer} from '@react-three/postprocessing'
+import Plane from '../../r3f/biodiversity/forest/Plane'
 import Forest from '../../r3f/biodiversity/forest/Forest'
 import Bee from '../../r3f/biodiversity/bee/Bee'
 import Orchid from '../../r3f/biodiversity/orchid/Orchid'
@@ -54,6 +56,7 @@ function Biodiversity() {
   const [isShaking, setIsShaking] = useState(false);
   const [shakeIntensity, setShakeIntensity] = useState(4);
   const [originalPosition, setOriginalPosition] = useState([10, -20, 150]);
+  const [applyPhysics, setApplyPhysics] = useState(false);
 
   const startEarthquake = () => {
     if (cameraRef.current) {
@@ -87,6 +90,7 @@ function Biodiversity() {
     setPreset('forest');
     setShowParticles(true);
     setShowButterflies(false);
+    setApplyPhysics(true);
     startEarthquake();
   };
 
@@ -97,6 +101,7 @@ function Biodiversity() {
     setPreset('sunset');
     setShowParticles(false);
     setShowButterflies(true);
+    setApplyPhysics(false);
   };
 
   useEffect(() => {
@@ -170,7 +175,10 @@ function Biodiversity() {
           <directionalLight position={[10, 20, 100]} intensity={0.5} castShadow shadow-camera-far={50}/>
           <OrbitControls minDistance={2} maxDistance={170} maxPolarAngle={Math.PI * 0.567} minPolarAngle={-100} />
           <Suspense fallback={null}>
-            <Forest color='hotpink'/> 
+          <Physics gravity={[0, -30, 0]} tolerance={0.0001}>
+            <Forest position={[0, 0, 0]} color='hotpink' applyPhysics={applyPhysics} receiveShadow/>   
+            <Plane position={[0, 0, 0]} /> 
+          </Physics>  
             <Bee 
             position={[10, -23, 110]}
             onPointerOver={() => {document.body.style.cursor = "pointer"; setIsBeeHovered(true)}}
