@@ -18,7 +18,7 @@ const Trees = forwardRef(({
   phase_z, 
   space,
   terrainId = 'default', // Add an ID to identify different terrains
-  setPuffedTreesCount
+  setPuffedTreesCountRef
 }, ref) => {
   const [treePositions, setTreePositions] = useState([]);
   const raycaster = useMemo(() => new Raycaster(), []);
@@ -155,7 +155,6 @@ const Trees = forwardRef(({
   const handleCollision = () => {
     setTimeout(() => {
       setPopTrees(false);
-      setPuffedTreesCount(prev => prev + 1);
     }, 10); // Puff effect duration in milliseconds
   };
 
@@ -205,7 +204,7 @@ const Trees = forwardRef(({
       </EffectComposer>
       {treePositions.map((position, index) => (
         <>
-          {showTrees && <Tree key={index} position={position} scale={1} onRemove={handleTreeRemoval}/>}
+          {showTrees && <Tree key={index} position={position} scale={1} onRemove={handleTreeRemoval} setPuffedTreesCountRef={setPuffedTreesCountRef}/>}
         </>
       ))}
       {treePositions.map((position, index) => (

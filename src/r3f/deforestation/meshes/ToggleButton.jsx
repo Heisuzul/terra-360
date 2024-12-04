@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSpring, animated } from '@react-spring/three';
 import { RigidBody } from '@react-three/rapier';
 
-const ToggleButton = ({ onClick, initialPosition = [0, 0, 0], scaleFactor = 0.1, color='orange'}) => {
+const ToggleButton = ({ onClick, initialPosition = [0, 0, 0], scaleFactor = 0.1, color='orange', onPointerOver}) => {
   const [pressed, setPressed] = useState(false);
 
   const { position } = useSpring({
@@ -19,6 +19,13 @@ const ToggleButton = ({ onClick, initialPosition = [0, 0, 0], scaleFactor = 0.1,
     onClick();
   };
 
+  const handlePointerOver = (event) => {
+    document.body.style.cursor = 'pointer';
+    if (onPointerOver) {
+      onPointerOver(event);
+    }
+  };
+
   return (
     <RigidBody type='fixed'>
         <animated.mesh
@@ -28,9 +35,7 @@ const ToggleButton = ({ onClick, initialPosition = [0, 0, 0], scaleFactor = 0.1,
             scale={[1*scaleFactor, 1.2*scaleFactor, 1*scaleFactor]}
             castShadow
             receiveShadow
-            onPointerOver={() => {
-                document.body.style.cursor = 'pointer'
-            }}
+            onPointerOver={handlePointerOver}
             onPointerOut={() => {
                 setPressed(false)
                 document.body.style.cursor = 'auto'

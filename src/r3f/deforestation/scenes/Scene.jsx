@@ -30,7 +30,7 @@ import { Loader, PositionalAudio, Sparkles, Text3D } from '@react-three/drei';
 import { Physics } from "@react-three/rapier";
 import { Vector3 } from 'three';
 
-const Scene = ({ ready, isMuted, setPoints }) => {
+const Scene = ({ ready, isMuted, setPointsRef }) => {
   const terrainRef = useRef();
   const { logout } = useAuthStore();
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ const Scene = ({ ready, isMuted, setPoints }) => {
   const audioBackgroundRef3 = useRef();
   const printerRef = useRef();
   const treesRef = useRef(null);
-  const floatingTextRef = useRef();
+  const floatingTextRef1 = useRef();
   const floatingTextRef2 = useRef();
   const floatingTextRef3 = useRef();
   const floatingTextRef4 = useRef();
@@ -355,48 +355,31 @@ const Scene = ({ ready, isMuted, setPoints }) => {
     setCurrentObjectType(type);
   };
 
-  const handlePointerOver = useCallback(() => {
-    if (floatingTextRef.current) {
-      floatingTextRef.current.visible = true;
+  const handlePointerOverX = (ref) => {
+    if (ref.current) {
+      ref.current.visible = true;
       setTimeout(() => {
-        if (floatingTextRef.current) {
-          floatingTextRef.current.visible = false;
+        if (ref.current) {
+          ref.current.visible = false;
         }
       }, 3000); // Adjust the duration as needed (3000ms = 3 seconds)
     }
+  };
+  
+  const handlePointerOver1 = useCallback(() => {
+    handlePointerOverX(floatingTextRef1);
   }, []);
 
   const handlePointerOver2 = useCallback(() => {
-    if (floatingTextRef2.current) {
-      floatingTextRef2.current.visible = true;
-      setTimeout(() => {
-        if (floatingTextRef2.current) {
-          floatingTextRef2.current.visible = false;
-        }
-      }, 3000); // Adjust the duration as needed (3000ms = 3 seconds)
-    }
+    handlePointerOverX(floatingTextRef2);
   }, []);
 
   const handlePointerOver3 = useCallback(() => {
-    if (floatingTextRef3.current) {
-      floatingTextRef3.current.visible = true;
-      setTimeout(() => {
-        if (floatingTextRef3.current) {
-          floatingTextRef3.current.visible = false;
-        }
-      }, 3000); // Adjust the duration as needed (3000ms = 3 seconds)
-    }
+    handlePointerOverX(floatingTextRef3);
   }, []);
 
   const handlePointerOver4 = useCallback(() => {
-    if (floatingTextRef4.current) {
-      floatingTextRef4.current.visible = true;
-      setTimeout(() => {
-        if (floatingTextRef4.current) {
-          floatingTextRef4.current.visible = false;
-        }
-      }, 3000); // Adjust the duration as needed (3000ms = 3 seconds)
-    }
+    handlePointerOverX(floatingTextRef4);
   }, []);
 
   const handleTreesPuff = useCallback(() => {
@@ -432,7 +415,7 @@ const Scene = ({ ready, isMuted, setPoints }) => {
         <DirectionalLight intensity={2} position={[30, 50, 20]}/>
         <Physics>
           <Terrain onTerrainLoad={handleTerrainLoad} />
-          <Trees ref={treesRef} terrain={terrainRef} setPuffedTreesCount={setPoints} amount_rows={12} amount_cols={16} phase_x={0} phase_z={0} space={6}/>
+          <Trees ref={treesRef} terrain={terrainRef} setPuffedTreesCountRef={setPointsRef} amount_rows={12} amount_cols={16} phase_x={0} phase_z={0} space={6}/>
           <BackNextArrows 
             position={[15,18.48,-42]} 
             rotation={[0,Math.PI*(11/12),0]} 
@@ -469,7 +452,7 @@ const Scene = ({ ready, isMuted, setPoints }) => {
             textBack={"Back"}
           />
           <Platform onDoubleClick={handleDoubleClick(0)} position={[16.895, 19, -45.858]}/>
-          <Desk position={[19.7, 19.2, -46.2]} rotation={[0,Math.PI,0]}/>
+          <Desk position={[19.7, 19.2, -46.2]} rotation={[0,Math.PI,0]} onPointerOver={handlePointerOver2}/>
           <Laptop onClick={handleDoubleClick(2)} externalRefs={[printerRef]} position={[20, 19.95, -45.75]} rotation={[0,Math.PI,0]}/>
           <Printer onDoubleClick={handleTreesPuff} onClick={handleDoubleClick(3)} ref={printerRef} position={[18.98, 20.14, -45.65]} rotation={[0,Math.PI*3/4,0]} onPointerOver={handlePointerOver4}/>
           <PhoneBody onClick={handleDoubleClick(4)} onPointerOver={handlePointerOver3} position={[19.1, 19.95, -46.7]} rotation={[0, Math.PI*2/4, 0]}/>
@@ -482,17 +465,17 @@ const Scene = ({ ready, isMuted, setPoints }) => {
             sceneIndex={stateIndex}
           />
           <OrangeBird position={[14.95,20.412,-41.98]} rotation={[0,Math.PI/12*10,0]}
-            onPointerOver={handlePointerOver}
+            onPointerOver={handlePointerOver1}
             onClick={handleTreesGrow} 
           />
-          { treesShown ? <FloatingText ref={floatingTextRef} text={'Clean the trees'} position={[14.9,20.6,-41.98]} /> : 
-            <FloatingText ref={floatingTextRef} text={'Grow trees back'} position={[14.9,20.6,-41.98]} />}
+          { treesShown ? <FloatingText ref={floatingTextRef1} text={'Clean the trees'} position={[14.9,20.6,-41.98]} /> : 
+            <FloatingText ref={floatingTextRef1} text={'Grow trees back'} position={[14.9,20.6,-41.98]} />}
           <FloatingText ref={floatingTextRef2} text={'Get Blades'} position={[17.5, 20.1, -45.856]} scale={0.5}/>
           <FloatingText ref={floatingTextRef3} text={'Pick Up'} position={[19.1, 20.1, -46.5]} scale={0.5} rotationDelta={-Math.PI/12*2}/>
           <FloatingText ref={floatingTextRef4} text={'Kill the Trees'} position={[19.7, 20.2, -45.1]} scale={0.5} rotationDelta={Math.PI/12*1}/>
           <SmallTable position={[17.5, 19.5, -45.858]} scale={0.3} onDoubleClick={handleDoubleClick(1)}/>
-          <RedValve position={[17.5, 19.972, -45.856]} scale={0.005} onPointerOver={handlePointerOver2} onDoubleClick={handleDoubleClick(1)}/>
-          <ToggleButton scaleFactor={0.2} initialPosition={[17.65, 19.98, -46.0]}  onClick={handleRedValveClick} onDoubleClick={handleDoubleClick(1)}/>
+          <RedValve position={[17.5, 19.85, -45.887]} scale={0.005}/>
+          <ToggleButton scaleFactor={0.2} initialPosition={[17.65, 19.98, -46.0]} onPointerOver={handlePointerOver2} onClick={handleRedValveClick} onDoubleClick={handleDoubleClick(1)}/>
           <ToggleButton color={'red'} initialPosition={[17.45, 19.98, -46.05]}  onClick={() => setObjectType('blades')} onDoubleClick={handleDoubleClick(1)}/>
           <ToggleButton color={'green'} initialPosition={[17.3, 19.98, -46.05]}  onClick={() => setObjectType('bagSeeds')} onDoubleClick={handleDoubleClick(1)}/>
           {currentObjectType === 'blades' && blades.map(blade => (

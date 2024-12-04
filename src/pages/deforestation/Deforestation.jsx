@@ -10,7 +10,7 @@ const Deforestation = ({ ready }) => {
   const timeoutRef = useRef(null);
   const isDraggingRef = useRef(false);
   const [isMuted, setIsMuted] = useState(false);
-  const [puffedTreesCount, setPuffedTreesCount] = useState(0);
+  const puffedTreesCountRef = useRef(0);
   
   
   const updateInstructionsVisibility = () => {
@@ -75,8 +75,8 @@ const Deforestation = ({ ready }) => {
           <button className='tutorial-button' onClick={() => setShowInstructions(true)}>🎓</button>
         </div>
       )}
-      <Navbar points={puffedTreesCount}/>
-      <Scene ready={ready} isMuted={isMuted} setPoints={setPuffedTreesCount}/>
+      <Navbar pointsRef={puffedTreesCountRef}/>
+      <Scene ready={ready} isMuted={isMuted} setPointsRef={puffedTreesCountRef}/>
       
       {showInstructions && (
         <InstructionsOverlay 
