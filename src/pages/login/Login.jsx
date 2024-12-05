@@ -14,6 +14,35 @@ function Login() {
 
     const [readyDeforestation, setReadyDeforestation] = useState(false);
 
+    // Agregar nuevos estados según sea necesario
+    const cameraStatesSet = [
+        {
+        position: { x: 1, y: 10.7, z: 6 },
+        target: { x: 0, y: 10, z: 0 },
+        },
+        {
+        position: { x: 1.2, y: 0.7, z: 26 },
+        target: { x: 0.2, y: 0, z: 20 },
+        },
+        {
+        position: { x: -1, y: 0.7, z: -66},
+        target: { x: -2, y: 0, z: -60 },
+        },
+    ];
+
+    // No modificar estado inicial.
+    const [target, setTarget] = useState(cameraStatesSet[0].target);
+    const [cameraPosition, setCameraPosition] = useState(cameraStatesSet[0].position);
+    
+    // No modificar función, solo agregar nuevos estados según sea necesario 
+    // y llamar la función en el evento deseado usándo el valor de cameraSatesSet definido.
+    // Ejemplo: handleBoxClick(cameraStatesSet[0].position, cameraStatesSet[0].target, event)
+    const handleBoxClick = (cameraPosition, cameraTarget, event) => {
+        setTarget(cameraTarget);
+        setCameraPosition(cameraPosition);
+        event.stopPropagation();
+    };
+
     useEffect(() => {
         observeAuthState();
     }, [observeAuthState]);
@@ -53,7 +82,7 @@ function Login() {
     const handlePage3 = () => navigate('/erosion'); 
 
     // State to track button-group visibility
-    const [showButtons, setShowButtons] = useState(true);
+    const [showButtons, setShowButtons] = useState(1);
 
     return (
         <div className={styles.pageContainer}>
@@ -61,27 +90,31 @@ function Login() {
                 <>
 
                     <div className={styles.worldContainer}>
-                        <World onSelect={setShowButtons}/>
-                        {showButtons && <div className={styles.welcomeDiv}>
+                        <World onSelect={setShowButtons} handleBoxClick={handleBoxClick} cameraStatesSet={cameraStatesSet} target={target} cameraPosition={cameraPosition}/>
+                        {showButtons === 1 && <div className={styles.welcomeDiv}>
                             <p className={styles.welcomeText}>Welcome, {user.displayName}</p>
                             <button className={styles.logoutButton} onClick={handleLogout}>
                                 Logout
                             </button>
                         </div>}
-                        {showButtons && (
+                        {showButtons === 1 && (
                             <div className={styles.buttonGroup}> 
                                 <button className={`${styles.circularButton} ${styles.button1}`} data-hover="Deforestation" onClick={handlePage1}></button>
                                 <button className={`${styles.circularButton} ${styles.button2}`} data-hover="Biodiversity" onClick={handlePage2}></button>
                                 <button className={`${styles.circularButton} ${styles.button3}`} data-hover="Erosion" onClick={handlePage3}></button>
                             </div>
                         )}
-                        {!showButtons && (
-                            <div className={styles.introductionDiv}> 
+                        {showButtons === 2 && (
+                            <div className={styles.introductionDiv} 
+                                onClick={(event) => {
+                                    handleBoxClick(cameraStatesSet[1].position, cameraStatesSet[1].target, event);
+                                    document.body.style.cursor = 'auto'
+                                }}> 
                                 <p className={styles.introductionText}>
                                 Earth faces critical environmental issues that threaten life and sustainability. <b>Deforestation</b> removes vital forests, impacting climate and habitats. <b>Soil erosion</b> depletes land of nutrients, reducing food security. <b>Biodiversity loss</b> disrupts ecosystems, endangering countless species and our own well-being. Together, we can take action to protect and preserve our planet.
                                 </p>
                                 <p id={styles.continueText}>
-                                    <em>Click <b>outside</b> to continue...</em>
+                                    <em>Click <b>here</b> to continue...</em>
                                 </p>
                             </div>
                         )}

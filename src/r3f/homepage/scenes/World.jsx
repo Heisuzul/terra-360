@@ -6,31 +6,31 @@ import Floor from "../meshes/Floor";
 import Mountain from "../meshes/Mountain";
 import LittleWorld from "../meshes/LittleWorld";
 import CameraController from "../controllers/CameraController";
+import OrangeBird from "../../deforestation/meshes/OrangeBird";
 import styles from './World.module.css'
 import Staging from '../staging/Staging'
 import { useState, useEffect } from 'react'
 
-const World = ( { onSelect } ) => {
+const World = ( { onSelect, handleBoxClick, cameraStatesSet, target, cameraPosition } ) => {
   const relativePosition = 25;
 
-  // const [target, setTarget] = useState({ x: 0, y: 0, z: 20 });
-  const [target, setTarget] = useState({ x: 0, y: 10, z: 0 });
-  // const [cameraPosition, setCameraPosition] = useState({ x: 1, y: 0.7, z: 25 });
-  const [cameraPosition, setCameraPosition] = useState({ x: 1, y: 10.7, z: 6 });
-  
-  const  handleBoxClick = (newTarget, event) => {
-    setTarget(newTarget);
-    setCameraPosition({ x: newTarget.x + 1, y: newTarget.y + 0.7, z: newTarget.z + 6 });
-    event.stopPropagation();
-  };
-
+  // Agregar nuevos valores a onSelect según sea necesario para visualizar componentes html desde Login.jsx.
   useEffect(() => {
-    if ( target.x === 0.2 && target.y === 0 && target.z === 20 ) {
-      onSelect(true);
-    } else {
-      onSelect(false);
+    switch (true) {
+      case target.x === cameraStatesSet[0].target.x && target.y === cameraStatesSet[0].target.y && target.z === cameraStatesSet[0].target.z:
+        onSelect(2);
+        break;
+      case target.x === cameraStatesSet[1].target.x && target.y === cameraStatesSet[1].target.y && target.z === cameraStatesSet[1].target.z:
+        onSelect(1);
+        break;
+      case target.x === cameraStatesSet[2].target.x && target.y === cameraStatesSet[2].target.y && target.z === cameraStatesSet[2].target.z:
+        onSelect(3);
+        break;
+      default:
+        onSelect(1);
+        break;
     }
-  }, [onSelect, target]);
+  }, [onSelect, target, cameraStatesSet]);
 
   const generateTreePositions = (rows, cols, spacing, roadRow) => {
     const positions = [];
@@ -115,19 +115,7 @@ const World = ( { onSelect } ) => {
         <LittleWorld 
           position={[0, 10, 0]} 
           onClick={(event) => {
-            handleBoxClick({
-              x: 0,
-              y: 10,
-              z: 0
-            }, event);
-            document.body.style.cursor = 'auto'
-          }}
-          onPointerMissed={(event) => {
-            handleBoxClick({
-              x: 0.2,
-              y: 0,
-              z: 20
-            }, event);
+            handleBoxClick(cameraStatesSet[0].position, cameraStatesSet[0].target, event);
             document.body.style.cursor = 'auto'
           }}
           onPointerOver={() => {
@@ -145,6 +133,10 @@ const World = ( { onSelect } ) => {
             }
           }}
         />
+        <OrangeBird scale={1.5} position={[0.4,-0.4,21]}  
+          onClick={(event) => {
+            handleBoxClick(cameraStatesSet[2].position, cameraStatesSet[2].target, event);
+          }}/>
       </Canvas>
       </div>
     </div>
