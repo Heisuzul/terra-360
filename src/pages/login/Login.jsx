@@ -53,7 +53,7 @@ function Login() {
     const handlePage3 = () => navigate('/erosion'); 
 
     // State to track button-group visibility
-    const [showButtons, setShowButtons] = useState(true);
+    const [showButtons, setShowButtons] = useState(1);
 
     return (
         <div className={styles.pageContainer}>
@@ -62,20 +62,20 @@ function Login() {
 
                     <div className={styles.worldContainer}>
                         <World onSelect={setShowButtons}/>
-                        {showButtons && <div className={styles.welcomeDiv}>
+                        {showButtons === 1 && <div className={styles.welcomeDiv}>
                             <p className={styles.welcomeText}>Welcome, {user.displayName}</p>
                             <button className={styles.logoutButton} onClick={handleLogout}>
                                 Logout
                             </button>
                         </div>}
-                        {showButtons && (
+                        {showButtons === 1 && (
                             <div className={styles.buttonGroup}> 
                                 <button className={`${styles.circularButton} ${styles.button1}`} data-hover="Deforestation" onClick={handlePage1}></button>
                                 <button className={`${styles.circularButton} ${styles.button2}`} data-hover="Biodiversity" onClick={handlePage2}></button>
                                 <button className={`${styles.circularButton} ${styles.button3}`} data-hover="Erosion" onClick={handlePage3}></button>
                             </div>
                         )}
-                        {!showButtons && (
+                        {showButtons === 2 && (
                             <div className={styles.introductionDiv}> 
                                 <p className={styles.introductionText}>
                                 Earth faces critical environmental issues that threaten life and sustainability. <b>Deforestation</b> removes vital forests, impacting climate and habitats. <b>Soil erosion</b> depletes land of nutrients, reducing food security. <b>Biodiversity loss</b> disrupts ecosystems, endangering countless species and our own well-being. Together, we can take action to protect and preserve our planet.
