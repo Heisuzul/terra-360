@@ -9,12 +9,13 @@ import CameraController from "../controllers/CameraController";
 import OrangeBird from "../../deforestation/meshes/OrangeBird";
 import styles from './World.module.css'
 import Staging from '../staging/Staging'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useImperativeHandle, forwardRef } from 'react'
+import { Physics } from '@react-three/rapier'
 
-const World = ( { onSelect, handleBoxClick, cameraStatesSet, target, cameraPosition } ) => {
+const World = forwardRef(( { onSelect, handleBoxClick, cameraStatesSet, target, cameraPosition }, ref ) => {
   const relativePosition = 25;
 
-  // Agregar nuevos valores a onSelect según sea necesario para visualizar componentes html desde Login.jsx.
+  // Add new values to onSelect as needed to display html components from Login.jsx.
   useEffect(() => {
     switch (true) {
       case target.x === cameraStatesSet[0].target.x && target.y === cameraStatesSet[0].target.y && target.z === cameraStatesSet[0].target.z:
@@ -32,6 +33,7 @@ const World = ( { onSelect, handleBoxClick, cameraStatesSet, target, cameraPosit
     }
   }, [onSelect, target, cameraStatesSet]);
 
+  // Generates the positions of the trees in the world.
   const generateTreePositions = (rows, cols, spacing, roadRow) => {
     const positions = [];
     const halfRows = Math.floor(rows / 2);
@@ -39,11 +41,10 @@ const World = ( { onSelect, handleBoxClick, cameraStatesSet, target, cameraPosit
 
     for (let x = -halfCols; x <= halfCols; x++) {
       for (let z = -halfRows; z <= halfRows; z++) {
-        // Check if the position is in the central road row
         if (x === roadRow) {
-          continue; // Skip this position to leave it empty
+          continue;
         }
-        positions.push([x * spacing + Math.pow(-1,z), 0, z * spacing + Math.pow(-1,z)]);
+        positions.push([x * spacing + Math.pow(-1,z), -0.8, z * spacing + Math.pow(-1,z)]);
       }
     }
     return positions;
@@ -54,6 +55,45 @@ const World = ( { onSelect, handleBoxClick, cameraStatesSet, target, cameraPosit
   const isCameraAtTargetPosition = (cameraPosition) =>
     cameraPosition.x === 1 && cameraPosition.y === 10.7 && cameraPosition.z === 6;
 
+  //Logic related to the animation of the trees when they are cut
+  // -----------------------------------------------------------------
+  const [popTrees, setPopTrees] = useState(false)
+  const [showTrees, setShowTrees] = useState(true)
+  const counter = useRef(0)
+  const [removedTrees, setRemovedTrees] = useState(0);
+
+  const growTrees = () => {
+    setShowTrees(!showTrees);
+    console.log("GrowREF", showTrees)
+    counter.current = 0;
+    handleTreeReset();
+  }
+
+  const handleTreeRemoval = () => {
+    setRemovedTrees(prev => prev + 1);
+  };
+
+  const handleTreeReset = () => {
+    setRemovedTrees(0);
+  };
+
+  // const intensity = (removedTrees / 221); // Adjust the multiplier as needed
+
+  const puffTrees = () => {
+      if (counter.current < 1) {
+          counter.current += 1;
+          setPopTrees(true);
+      }
+      console.log("Counter", counter.current);
+      console.log("REF", popTrees);
+  };
+
+  // Use `useImperativeHandle` to expose a function to the parent component
+  useImperativeHandle(ref, () => ({
+    puffTrees,
+    growTrees,
+  }));
+
   return (
     <div className={styles.pageContainer}>
       <div className={styles.canvasContainer}>
@@ -63,13 +103,16 @@ const World = ( { onSelect, handleBoxClick, cameraStatesSet, target, cameraPosit
         <ambientLight intensity={2}/>
         <directionalLight position={[0, 10, 10]}/>
         {/* <FlyControls movementSpeed={10} rollSpeed={0.5} /> */}
-
-        <Floor color={"#9ACD32"}/>
-        <Floor color={"#CD853F"} width={4} height={-0.4}/>
+        <Physics>
+          <Floor color={"#9ACD32"}/>
+          <Floor color={"#CD853F"} width={4} height={-0.4}/>
 
         {TreePositions.map((position, index) => (
-          <Tree key={index} position={position} />
+          <>
+            {showTrees && <Tree key={index} position={position} scale={1} onRemove={handleTreeRemoval} popTrees={popTrees} setPopTrees={setPopTrees}/>}
+          </>
         ))}
+        </Physics>
 
         <Leaf distance={-1+relativePosition} speed={1} amplitude={1} frequency={2} boundary={5} />
         <Leaf distance={-5+relativePosition} direction={-1} speed={2} amplitude={1} frequency={2} boundary={5} />
@@ -141,6 +184,6 @@ const World = ( { onSelect, handleBoxClick, cameraStatesSet, target, cameraPosit
       </div>
     </div>
   )
-};
+});
 
 export default World;

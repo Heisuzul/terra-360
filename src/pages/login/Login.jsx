@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useState } from 'react';
+import { useEffect, useCallback, useState, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores/use-auth-store';
 import UserDAO from '../../DAO/UserDAO';
@@ -13,6 +13,7 @@ function Login() {
     const navigate = useNavigate();
 
     const [readyDeforestation, setReadyDeforestation] = useState(false);
+    const worldRef = useRef(null);
 
     // Agregar nuevos estados según sea necesario
     const cameraStatesSet = [
@@ -84,17 +85,35 @@ function Login() {
     // State to track button-group visibility
     const [showButtons, setShowButtons] = useState(1);
 
+    const handleTreesPuff = useCallback(() => {
+        if (worldRef.current) {
+            worldRef.current.puffTrees();
+        }
+      }, [worldRef])
+    
+      const handleTreesGrow = useCallback(() => {
+        if (worldRef.current) {
+            worldRef.current.growTrees();
+        }
+      }, [worldRef])
+
     return (
         <div className={styles.pageContainer}>
             {user ? (
                 <>
 
                     <div className={styles.worldContainer}>
-                        <World onSelect={setShowButtons} handleBoxClick={handleBoxClick} cameraStatesSet={cameraStatesSet} target={target} cameraPosition={cameraPosition}/>
+                        <World ref={worldRef} onSelect={setShowButtons} handleBoxClick={handleBoxClick} cameraStatesSet={cameraStatesSet} target={target} cameraPosition={cameraPosition}/>
                         {showButtons === 1 && <div className={styles.welcomeDiv}>
                             <p className={styles.welcomeText}>Welcome, {user.displayName}</p>
                             <button className={styles.logoutButton} onClick={handleLogout}>
                                 Logout
+                            </button>
+                            <button className={styles.logoutButton} onClick={handleTreesGrow}>
+                                Hi
+                            </button>
+                            <button className={styles.logoutButton} onClick={handleTreesPuff}>
+                                Bye
                             </button>
                         </div>}
                         {showButtons === 1 && (
