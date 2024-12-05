@@ -11,37 +11,8 @@ import styles from './World.module.css'
 import Staging from '../staging/Staging'
 import { useState, useEffect } from 'react'
 
-const World = ( { onSelect } ) => {
+const World = ( { onSelect, handleBoxClick, cameraStatesSet, target, cameraPosition } ) => {
   const relativePosition = 25;
-
-  // Agregar nuevos estados según sea necesario
-  const cameraStatesSet = [
-    {
-      position: { x: 1, y: 10.7, z: 6 },
-      target: { x: 0, y: 10, z: 0 },
-    },
-    {
-      position: { x: 1.2, y: 0.7, z: 26 },
-      target: { x: 0.2, y: 0, z: 20 },
-    },
-    {
-      position: { x: -1, y: 0.7, z: -66},
-      target: { x: -2, y: 0, z: -60 },
-    },
-  ];
-
-  // No modificar estado inicial.
-  const [target, setTarget] = useState(cameraStatesSet[0].target);
-  const [cameraPosition, setCameraPosition] = useState(cameraStatesSet[0].position);
-  
-  // No modificar función, solo agregar nuevos estados según sea necesario 
-  // y llamar la función en el evento deseado usándo el valor de cameraSatesSet definido.
-  // Ejemplo: handleBoxClick(cameraStatesSet[0].position, cameraStatesSet[0].target, event)
-  const handleBoxClick = (cameraPosition, cameraTarget, event) => {
-    setTarget(cameraTarget);
-    setCameraPosition(cameraPosition);
-    event.stopPropagation();
-  };
 
   // Agregar nuevos valores a onSelect según sea necesario para visualizar componentes html desde Login.jsx.
   useEffect(() => {
@@ -145,10 +116,6 @@ const World = ( { onSelect } ) => {
           position={[0, 10, 0]} 
           onClick={(event) => {
             handleBoxClick(cameraStatesSet[0].position, cameraStatesSet[0].target, event);
-            document.body.style.cursor = 'auto'
-          }}
-          onPointerMissed={(event) => {
-            handleBoxClick(cameraStatesSet[1].position, cameraStatesSet[1].target, event);
             document.body.style.cursor = 'auto'
           }}
           onPointerOver={() => {
