@@ -260,3 +260,35 @@
         bottom: -10vh; /* Adjust as needed */
     }
 }
+
+.navigationButtons {
+    position: absolute;
+    bottom: 2vh; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 16rem;
+    transition: 0.3s;
+}
+
+.navButton {
+    padding: 0.5rem 1rem;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: #5b914ae8;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: 0.3s;
+}
+
+.navButton:disabled {
+    background-color: #66666677;
+    cursor: not-allowed;
+    color: #ffffff79;
+}
+
+.navButton:hover:not(:disabled) {
+    background-color: #8a3c0f85;
+    color: #b3dda3ea;
+}

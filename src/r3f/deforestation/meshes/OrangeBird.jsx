@@ -40,6 +40,7 @@ export default function Model(props) {
                         geometry={nodes.Object_51.geometry}
                         material={materials.BirdOrange_LMB}
                         skeleton={nodes.Object_51.skeleton}
+                        castShadow
                       />
                       <group name="Object_50" />
                     </group>
