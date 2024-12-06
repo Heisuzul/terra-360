@@ -12,26 +12,8 @@ import Staging from '../staging/Staging'
 import { useState, useEffect, useRef, useImperativeHandle, forwardRef } from 'react'
 import { Physics } from '@react-three/rapier'
 
-const World = forwardRef(( { onSelect, handleBoxClick, cameraStatesSet, target, cameraPosition }, ref ) => {
+const World = forwardRef(( { handleBoxClick, cameraStatesSet, target, cameraPosition }, ref ) => {
   const relativePosition = 25;
-
-  // Add new values to onSelect as needed to display html components from Login.jsx.
-  useEffect(() => {
-    switch (true) {
-      case target.x === cameraStatesSet[0].target.x && target.y === cameraStatesSet[0].target.y && target.z === cameraStatesSet[0].target.z:
-        onSelect(2);
-        break;
-      case target.x === cameraStatesSet[1].target.x && target.y === cameraStatesSet[1].target.y && target.z === cameraStatesSet[1].target.z:
-        onSelect(1);
-        break;
-      case target.x === cameraStatesSet[2].target.x && target.y === cameraStatesSet[2].target.y && target.z === cameraStatesSet[2].target.z:
-        onSelect(3);
-        break;
-      default:
-        onSelect(1);
-        break;
-    }
-  }, [onSelect, target, cameraStatesSet]);
 
   // Generates the positions of the trees in the world.
   const generateTreePositions = (rows, cols, spacing, roadRow) => {
@@ -60,22 +42,22 @@ const World = forwardRef(( { onSelect, handleBoxClick, cameraStatesSet, target, 
   const [popTrees, setPopTrees] = useState(false)
   const [showTrees, setShowTrees] = useState(true)
   const counter = useRef(0)
-  const [removedTrees, setRemovedTrees] = useState(0);
+  // const [removedTrees, setRemovedTrees] = useState(0);
 
   const growTrees = () => {
     setShowTrees(!showTrees);
     console.log("GrowREF", showTrees)
     counter.current = 0;
-    handleTreeReset();
+    // handleTreeReset();
   }
 
-  const handleTreeRemoval = () => {
-    setRemovedTrees(prev => prev + 1);
-  };
+  // const handleTreeRemoval = () => {
+  //   setRemovedTrees(prev => prev + 1);
+  // };
 
-  const handleTreeReset = () => {
-    setRemovedTrees(0);
-  };
+  // const handleTreeReset = () => {
+  //   setRemovedTrees(0);
+  // };
 
   // const intensity = (removedTrees / 221); // Adjust the multiplier as needed
 
@@ -109,7 +91,7 @@ const World = forwardRef(( { onSelect, handleBoxClick, cameraStatesSet, target, 
 
         {TreePositions.map((position, index) => (
           <>
-            {showTrees && <Tree key={index} position={position} scale={1} onRemove={handleTreeRemoval} popTrees={popTrees} setPopTrees={setPopTrees}/>}
+            {showTrees && <Tree key={index} position={position} scale={1} /*onRemove={handleTreeRemoval}*/ popTrees={popTrees} setPopTrees={setPopTrees}/>}
           </>
         ))}
         </Physics>

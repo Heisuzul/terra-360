@@ -6,7 +6,7 @@ import { useSpring, a } from "@react-spring/three";
 import { PositionalAudio } from "@react-three/drei";
 
 
-const Tree = ({position, scale, popTrees, setPopTrees, onRemove}) => {
+const Tree = ({position, scale, popTrees, setPopTrees, /*onRemove*/}) => {
   const boxRef = useRef();
   const coneRef = useRef();
   const coneRef1 = useRef();
@@ -40,9 +40,9 @@ const Tree = ({position, scale, popTrees, setPopTrees, onRemove}) => {
       setShowPuff(false);
     }, 500); // Puff effect duration in milliseconds
 
-    if (onRemove) {
-      onRemove();
-    }
+    // if (onRemove) {
+    //   onRemove();
+    // }
   };
 
   const handleCollisionPuff = () => {
