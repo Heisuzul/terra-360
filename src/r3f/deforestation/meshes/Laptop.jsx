@@ -3,7 +3,7 @@ import { useGLTF, Html } from '@react-three/drei'
 import { useNavigate } from 'react-router-dom'
 import '../../../pages/deforestation/Deforestation.css'; // Import the CSS file
 
-export default function Model({ externalRefs = [], screenToRender = 1, ...props }) {
+export default function Model({ externalRefs = [], screenToRender = 1, handleTreesPop=()=>{}, handleTreesGrow=()=>{},  ...props }) {
   const { nodes, materials } = useGLTF('/models-3d/deforestation/laptop.glb')
   const displayRef = useRef()
   const navigate = useNavigate();
@@ -195,7 +195,7 @@ export default function Model({ externalRefs = [], screenToRender = 1, ...props 
                   Save to USB
                 </button>
                 <button
-                  onClick={handleButtonLogin}
+                  onClick={handleTreesPop}
                   className="button"
                 >
                   Print the document
@@ -207,7 +207,7 @@ export default function Model({ externalRefs = [], screenToRender = 1, ...props 
                 padding: '1.2rem',
               }}>
                 <button
-                  onClick={handleButtonLogin}
+                  onClick={handleTreesGrow}
                   style={{
                     padding: '0.5rem 0.5rem',
                     border: 'none',

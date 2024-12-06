@@ -108,7 +108,7 @@ const World = forwardRef(( { handleBoxClick, cameraStatesSet, target, cameraPosi
           ))}
 
           <Desk position={[-5.7, -0.6, -49.2]} rotation={[0,-Math.PI*2/3,0]}/>
-          <Laptop scale={1.3} externalRefs={[printerRef]} position={[-5.65, 0.15, -48.6]} rotation={[0,-Math.PI*11/12,0]} screenToRender={2}/>
+          <Laptop scale={1.3} handleTreesGrow={growTrees} handleTreesPop={puffTrees} externalRefs={[printerRef]} position={[-5.65, 0.15, -48.6]} rotation={[0,-Math.PI*11/12,0]} screenToRender={2}/>
           <Printer ref={printerRef} position={[-6.6, 0.34, -48.7]} rotation={[0,-Math.PI*7/6,0]}/>
         </Physics>
 
