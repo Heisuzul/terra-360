@@ -16,16 +16,20 @@ function Login() {
     // Agregar nuevos estados según sea necesario
     const cameraStatesSet = [
         {
-        position: { x: 1, y: 10.7, z: 6 },
-        target: { x: 0, y: 10, z: 0 },
+            position: { x: 1, y: 10.7, z: 6 },
+            target: { x: 0, y: 10, z: 0 },
         },
         {
-        position: { x: 1.2, y: 0.7, z: 26 },
-        target: { x: 0.2, y: 0, z: 20 },
+            position: { x: 1.2, y: 0.7, z: 26 },
+            target: { x: 0.2, y: 0, z: 20 },
         },
+        // {
+        //     position: { x: -6, y: 0.7, z: -50},
+        //     target: { x: -5, y: 0, z: -46 },
+        // },
         {
-        position: { x: -6, y: 0.7, z: -52},
-        target: { x: -3, y: 0, z: -46 },
+            position: { x: -5.75, y: 0.5, z: -49.1},
+            target: { x: -5, y: 0, z: -46 },
         },
     ];
 
@@ -137,7 +141,7 @@ function Login() {
                                 </p>
                             </div>
                         )}
-                        {verifyTarget() === 3 && (
+                        {/* {verifyTarget() === 3 && (
                             <div className={styles.introductionDiv} 
                                 onClick={(event) => {
                                     handleBoxClick(cameraStatesSet[2].position, cameraStatesSet[2].target, event);
@@ -153,7 +157,7 @@ function Login() {
                                     Bye Trees
                                 </button>
                             </div>
-                        )}
+                        )} */}
                     </div>
                 </>
             ) : (

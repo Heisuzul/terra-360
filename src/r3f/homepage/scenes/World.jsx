@@ -12,6 +12,9 @@ import Staging from '../staging/Staging'
 import { useState, useEffect, useRef, useImperativeHandle, forwardRef } from 'react'
 import { Physics } from '@react-three/rapier'
 import DirectionalLight from "../../deforestation/lights/DirectionalLight";
+import Desk from "../../deforestation/meshes/Desk";
+import Laptop from "../../deforestation/meshes/Laptop";
+import Printer from "../../deforestation/meshes/Printer";
 
 const World = forwardRef(( { handleBoxClick, cameraStatesSet, target, cameraPosition }, ref ) => {
   const relativePosition = 25;
@@ -77,6 +80,8 @@ const World = forwardRef(( { handleBoxClick, cameraStatesSet, target, cameraPosi
     growTrees,
   }));
 
+  const printerRef = useRef();
+
   return (
     <div className={styles.pageContainer}>
       <div className={styles.canvasContainer}>
@@ -96,11 +101,15 @@ const World = forwardRef(( { handleBoxClick, cameraStatesSet, target, cameraPosi
           <Floor color={"#9ACD32"} />
           <Floor color={"#CD853F"} width={4} height={-0.49}/>
 
-        {TreePositions.map((position, index) => (
-          <>
-            {showTrees && <Tree key={index} position={position} scale={1} /*onRemove={handleTreeRemoval}*/ popTrees={popTrees} setPopTrees={setPopTrees}/>}
-          </>
-        ))}
+          {TreePositions.map((position, index) => (
+            <>
+              {showTrees && <Tree key={index} position={position} scale={1} /*onRemove={handleTreeRemoval}*/ popTrees={popTrees} setPopTrees={setPopTrees}/>}
+            </>
+          ))}
+
+          <Desk position={[-5.7, -0.6, -49.2]} rotation={[0,-Math.PI*2/3,0]}/>
+          <Laptop scale={1.3} externalRefs={[printerRef]} position={[-5.65, 0.15, -48.6]} rotation={[0,-Math.PI*11/12,0]} screenToRender={2}/>
+          <Printer ref={printerRef} position={[-6.6, 0.34, -48.7]} rotation={[0,-Math.PI*7/6,0]}/>
         </Physics>
 
         <Leaf distance={-1+relativePosition} speed={1} amplitude={1} frequency={2} boundary={5} />

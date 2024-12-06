@@ -1,8 +1,9 @@
 import React, { useRef, useCallback, useMemo } from 'react'
 import { useGLTF, Html } from '@react-three/drei'
 import { useNavigate } from 'react-router-dom'
+import '../../../pages/deforestation/Deforestation.css'; // Import the CSS file
 
-export default function Model({ externalRefs = [], ...props }) {
+export default function Model({ externalRefs = [], screenToRender = 1, ...props }) {
   const { nodes, materials } = useGLTF('/models-3d/deforestation/laptop.glb')
   const displayRef = useRef()
   const navigate = useNavigate();
@@ -79,6 +80,7 @@ export default function Model({ externalRefs = [], ...props }) {
           receiveShadow
           geometry={nodes.Display_Plane_1.geometry}
           material={materials['Display Glass']}>
+          { screenToRender === 1 && (
           <Html
             transform
             occlude={validOccludeRefs.length > 0 ? validOccludeRefs : undefined}
@@ -137,7 +139,58 @@ export default function Model({ externalRefs = [], ...props }) {
                 Login
               </button>
             </div>
-          </Html>
+          </Html>)}
+          { screenToRender === 2 && (
+          <Html
+            transform
+            occlude={validOccludeRefs.length > 0 ? validOccludeRefs : undefined}
+            distanceFactor={1.0}
+            position={[-0.01, -0.07, -0.80]}
+            rotation={[Math.PI * 17.625/ 12, 0, 0]}
+            scale={[1.15, 1.8, 1]}
+            style={{
+              width: '690px',
+              height: '420px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: '#bbeaff',
+              userSelect: 'none',
+            }}
+          >
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '0.1rem',
+              // padding: '2rem',
+            }}>
+              <p
+                className="hover-text"
+              >
+                Tomorrow, you'll need to present a report on the impact of deforestation on the environment. Would you print it, or would you store in a USB drive?
+              </p>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '1rem',
+              }}>
+                <button
+                  onClick={handleButtonLogin}
+                  className="button"
+                >
+                  Save to USB
+                </button>
+                <button
+                  onClick={handleButtonLogin}
+                  className="button"
+                >
+                  Print the document
+                </button>
+              </div>
+            </div>
+          </Html>)}
         </mesh>
       </group>
     </group>
