@@ -140,17 +140,17 @@ function Login() {
                         {verifyTarget() === 3 && (
                             <div className={styles.introductionDiv} 
                                 onClick={(event) => {
-                                    handleBoxClick(cameraStatesSet[1].position, cameraStatesSet[1].target, event);
+                                    handleBoxClick(cameraStatesSet[2].position, cameraStatesSet[2].target, event);
                                     document.body.style.cursor = 'auto'
                                 }}> 
                                 <p className={styles.introductionText}>
                                 This is the place for the first quiz question.
                                 </p>
                                 <button className={styles.logoutButton} onClick={handleTreesGrow}>
-                                    Hi
+                                    Hi Trees
                                 </button>
                                 <button className={styles.logoutButton} onClick={handleTreesPuff}>
-                                    Bye
+                                    Bye Trees
                                 </button>
                             </div>
                         )}
