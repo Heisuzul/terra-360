@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useState } from 'react';
+import { useEffect, useCallback, useState, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores/use-auth-store';
 import UserDAO from '../../DAO/UserDAO';
@@ -11,8 +11,7 @@ function Login() {
 
     const { user, observeAuthState, loginGoogleWithPopup, logout } = useAuthStore();
     const navigate = useNavigate();
-
-    const [readyDeforestation, setReadyDeforestation] = useState(false);
+    const worldRef = useRef(null);
 
     // Agregar nuevos estados según sea necesario
     const cameraStatesSet = [
@@ -25,14 +24,26 @@ function Login() {
         target: { x: 0.2, y: 0, z: 20 },
         },
         {
-        position: { x: -1, y: 0.7, z: -66},
-        target: { x: -2, y: 0, z: -60 },
+        position: { x: -6, y: 0.7, z: -52},
+        target: { x: -3, y: 0, z: -46 },
         },
     ];
 
     // No modificar estado inicial.
     const [target, setTarget] = useState(cameraStatesSet[0].target);
     const [cameraPosition, setCameraPosition] = useState(cameraStatesSet[0].position);
+
+    // Add new values to onSelect as needed to display html components from Login.jsx.
+    const verifyTarget = useCallback(() => {
+        switch (true) {
+        case target.x === cameraStatesSet[0].target.x && target.y === cameraStatesSet[0].target.y && target.z === cameraStatesSet[0].target.z:
+            return 2;
+        case target.x === cameraStatesSet[1].target.x && target.y === cameraStatesSet[1].target.y && target.z === cameraStatesSet[1].target.z:
+            return 1;
+        case target.x === cameraStatesSet[2].target.x && target.y === cameraStatesSet[2].target.y && target.z === cameraStatesSet[2].target.z:
+            return 3;
+        }
+    }, [target, cameraStatesSet]);
     
     // No modificar función, solo agregar nuevos estados según sea necesario 
     // y llamar la función en el evento deseado usándo el valor de cameraSatesSet definido.
@@ -75,14 +86,22 @@ function Login() {
     }, [logout], [navigate]);
 
     const handlePage1 = () => {
-        setReadyDeforestation(true);
         navigate('/deforestation');
     }
     const handlePage2 = () => navigate('/biodiversity');
     const handlePage3 = () => navigate('/erosion'); 
 
-    // State to track button-group visibility
-    const [showButtons, setShowButtons] = useState(1);
+    const handleTreesPuff = useCallback(() => {
+        if (worldRef.current) {
+            worldRef.current.puffTrees();
+        }
+      }, [worldRef])
+    
+      const handleTreesGrow = useCallback(() => {
+        if (worldRef.current) {
+            worldRef.current.growTrees();
+        }
+      }, [worldRef])
 
     return (
         <div className={styles.pageContainer}>
@@ -90,21 +109,21 @@ function Login() {
                 <>
 
                     <div className={styles.worldContainer}>
-                        <World onSelect={setShowButtons} handleBoxClick={handleBoxClick} cameraStatesSet={cameraStatesSet} target={target} cameraPosition={cameraPosition}/>
-                        {showButtons === 1 && <div className={styles.welcomeDiv}>
+                        <World ref={worldRef} handleBoxClick={handleBoxClick} cameraStatesSet={cameraStatesSet} target={target} cameraPosition={cameraPosition}/>
+                        {verifyTarget() === 1 && <div className={styles.welcomeDiv}>
                             <p className={styles.welcomeText}>Welcome, {user.displayName}</p>
                             <button className={styles.logoutButton} onClick={handleLogout}>
                                 Logout
                             </button>
                         </div>}
-                        {showButtons === 1 && (
+                        {verifyTarget() === 1 && (
                             <div className={styles.buttonGroup}> 
                                 <button className={`${styles.circularButton} ${styles.button1}`} data-hover="Deforestation" onClick={handlePage1}></button>
                                 <button className={`${styles.circularButton} ${styles.button2}`} data-hover="Biodiversity" onClick={handlePage2}></button>
                                 <button className={`${styles.circularButton} ${styles.button3}`} data-hover="Erosion" onClick={handlePage3}></button>
                             </div>
                         )}
-                        {showButtons === 2 && (
+                        {verifyTarget() === 2 && (
                             <div className={styles.introductionDiv} 
                                 onClick={(event) => {
                                     handleBoxClick(cameraStatesSet[1].position, cameraStatesSet[1].target, event);
@@ -116,6 +135,23 @@ function Login() {
                                 <p id={styles.continueText}>
                                     <em>Click <b>here</b> to continue...</em>
                                 </p>
+                            </div>
+                        )}
+                        {verifyTarget() === 3 && (
+                            <div className={styles.introductionDiv} 
+                                onClick={(event) => {
+                                    handleBoxClick(cameraStatesSet[2].position, cameraStatesSet[2].target, event);
+                                    document.body.style.cursor = 'auto'
+                                }}> 
+                                <p className={styles.introductionText}>
+                                This is the place for the first quiz question.
+                                </p>
+                                <button className={styles.logoutButton} onClick={handleTreesGrow}>
+                                    Hi Trees
+                                </button>
+                                <button className={styles.logoutButton} onClick={handleTreesPuff}>
+                                    Bye Trees
+                                </button>
                             </div>
                         )}
                     </div>
