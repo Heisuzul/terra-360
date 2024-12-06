@@ -11,6 +11,7 @@ import styles from './World.module.css'
 import Staging from '../staging/Staging'
 import { useState, useEffect, useRef, useImperativeHandle, forwardRef } from 'react'
 import { Physics } from '@react-three/rapier'
+import DirectionalLight from "../../deforestation/lights/DirectionalLight";
 
 const World = forwardRef(( { handleBoxClick, cameraStatesSet, target, cameraPosition }, ref ) => {
   const relativePosition = 25;
@@ -79,15 +80,21 @@ const World = forwardRef(( { handleBoxClick, cameraStatesSet, target, cameraPosi
   return (
     <div className={styles.pageContainer}>
       <div className={styles.canvasContainer}>
-      <Canvas className={styles.canvas}>
+      <Canvas shadows className={styles.canvas}>
         <Staging/>
         <CameraController target={target} position={cameraPosition} />
         <ambientLight intensity={2}/>
-        <directionalLight position={[0, 10, 10]}/>
-        {/* <FlyControls movementSpeed={10} rollSpeed={0.5} /> */}
+        <DirectionalLight position={[0, 10, 10]} intensity={2} shadowCamera = {{
+            near: -64,
+            far: 64,            // Increase far value to encompass larger scenes
+            left: -40,          // Half of the plane size
+            right: 40,
+            top: 40,
+            bottom: -40
+        }}/>
         <Physics>
-          <Floor color={"#9ACD32"}/>
-          <Floor color={"#CD853F"} width={4} height={-0.4}/>
+          <Floor color={"#9ACD32"} />
+          <Floor color={"#CD853F"} width={4} height={-0.49}/>
 
         {TreePositions.map((position, index) => (
           <>
@@ -133,9 +140,10 @@ const World = forwardRef(( { handleBoxClick, cameraStatesSet, target, cameraPosi
         <Text3D
             position={[-2, 0.5, 20]}
             font="/fonts/TiltWarp-Regular.json"
+            castShadow
         >
           SELECT
-          <meshStandardMaterial attach="material" color="white" />
+          <meshStandardMaterial color="white" roughness={0.2}/>
         </Text3D>
         <LittleWorld 
           position={[0, 10, 0]} 

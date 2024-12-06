@@ -75,7 +75,7 @@ const Tree = ({position, scale, popTrees, setPopTrees, /*onRemove*/}) => {
             castShadow
           >
             <coneGeometry args={[1.27, 4, 6]} />
-            <meshStandardMaterial color={leavesColor} />
+            <meshStandardMaterial color={leavesColor} roughness={0.6}/>
           </mesh>
           <mesh
             ref={coneRef1}
@@ -85,7 +85,7 @@ const Tree = ({position, scale, popTrees, setPopTrees, /*onRemove*/}) => {
             castShadow
           >
             <coneGeometry args={[1.15, 3, 6]} />
-            <meshStandardMaterial color={leavesColor} />
+            <meshStandardMaterial color={leavesColor} roughness={0.6}/>
           </mesh>
           <mesh
             ref={coneRef2}
@@ -95,7 +95,7 @@ const Tree = ({position, scale, popTrees, setPopTrees, /*onRemove*/}) => {
             castShadow
           >
             <coneGeometry args={[1.10, 2.5, 6]} />
-            <meshStandardMaterial color={leavesColor} />
+            <meshStandardMaterial color={leavesColor} roughness={0.6}/>
           </mesh>
         </>
         }
@@ -121,7 +121,7 @@ const Tree = ({position, scale, popTrees, setPopTrees, /*onRemove*/}) => {
           castShadow
         >
           <boxGeometry args={[0.5, 1, 0.5]} />
-          <meshStandardMaterial color="#D2691E" />
+          <meshStandardMaterial color="#D2691E" roughness={0.6}/>
         </mesh>
         {!isVisible &&
           <mesh
@@ -131,7 +131,7 @@ const Tree = ({position, scale, popTrees, setPopTrees, /*onRemove*/}) => {
             castShadow
           >
             <coneGeometry args={[0.32, 0.1, 4]} />
-            <meshStandardMaterial color="#e8a15a" />
+            <meshStandardMaterial color="#e8a15a" roughness={0.6}/>
           </mesh>
         }
       </group>
