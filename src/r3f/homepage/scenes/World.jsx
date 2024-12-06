@@ -9,14 +9,14 @@ import CameraController from "../controllers/CameraController";
 import OrangeBird from "../../deforestation/meshes/OrangeBird";
 import styles from './World.module.css'
 import Staging from '../staging/Staging'
-import { useState, useEffect, useRef, useImperativeHandle, forwardRef } from 'react'
+import { useState, useRef, useImperativeHandle, forwardRef } from 'react'
 import { Physics } from '@react-three/rapier'
 import DirectionalLight from "../../deforestation/lights/DirectionalLight";
 import Desk from "../../deforestation/meshes/Desk";
 import Laptop from "../../deforestation/meshes/Laptop";
 import Printer from "../../deforestation/meshes/Printer";
 
-const World = forwardRef(( { handleBoxClick, cameraStatesSet, target, cameraPosition }, ref ) => {
+const World = forwardRef(( { handleBoxClick, target, cameraPosition }, ref ) => {
   const relativePosition = 25;
 
   // Generates the positions of the trees in the world.
@@ -157,7 +157,7 @@ const World = forwardRef(( { handleBoxClick, cameraStatesSet, target, cameraPosi
         <LittleWorld 
           position={[0, 10, 0]} 
           onClick={(event) => {
-            handleBoxClick(cameraStatesSet[0].position, cameraStatesSet[0].target, event);
+            handleBoxClick(0, event);
             document.body.style.cursor = 'auto'
           }}
           onPointerOver={() => {
@@ -175,9 +175,9 @@ const World = forwardRef(( { handleBoxClick, cameraStatesSet, target, cameraPosi
             }
           }}
         />
-        <OrangeBird scale={1.5} position={[0.4,-0.4,21]}  
+        <OrangeBird scale={1.5} position={[2.2,1.46,20.1]} rotation={[0,-Math.PI*0.8/12,0]}
           onClick={(event) => {
-            handleBoxClick(cameraStatesSet[2].position, cameraStatesSet[2].target, event);
+            handleBoxClick(2, event);
           }}/>
       </Canvas>
       </div>

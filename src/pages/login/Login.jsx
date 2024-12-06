@@ -23,10 +23,10 @@ function Login() {
             position: { x: 1.2, y: 0.7, z: 26 },
             target: { x: 0.2, y: 0, z: 20 },
         },
-        // {
-        //     position: { x: -6, y: 0.7, z: -50},
-        //     target: { x: -5, y: 0, z: -46 },
-        // },
+        {
+            position: { x: -6, y: 0.7, z: -50},
+            target: { x: -5, y: 0, z: -46 },
+        },
         {
             position: { x: -5.75, y: 0.5, z: -49.1},
             target: { x: -5, y: 0, z: -46 },
@@ -34,8 +34,9 @@ function Login() {
     ];
 
     // No modificar estado inicial.
-    const [target, setTarget] = useState(cameraStatesSet[0].target);
-    const [cameraPosition, setCameraPosition] = useState(cameraStatesSet[0].position);
+    const [currentCameraIndex, setCurrentCameraIndex] = useState(0);
+    const target = cameraStatesSet[currentCameraIndex].target;
+    const cameraPosition = cameraStatesSet[currentCameraIndex].position;
 
     // Add new values to onSelect as needed to display html components from Login.jsx.
     const verifyTarget = useCallback(() => {
@@ -52,9 +53,8 @@ function Login() {
     // No modificar función, solo agregar nuevos estados según sea necesario 
     // y llamar la función en el evento deseado usándo el valor de cameraSatesSet definido.
     // Ejemplo: handleBoxClick(cameraStatesSet[0].position, cameraStatesSet[0].target, event)
-    const handleBoxClick = (cameraPosition, cameraTarget, event) => {
-        setTarget(cameraTarget);
-        setCameraPosition(cameraPosition);
+    const handleBoxClick = (cameraIndex, event) => {
+        setCurrentCameraIndex(cameraIndex);
         event.stopPropagation();
     };
 
@@ -107,6 +107,14 @@ function Login() {
         }
       }, [worldRef])
 
+      const handleNext = () => {
+        setCurrentCameraIndex((prevIndex) => Math.min(prevIndex + 1, cameraStatesSet.length - 1));
+      };
+    
+      const handleBack = () => {
+        setCurrentCameraIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+      };
+
     return (
         <div className={styles.pageContainer}>
             {user ? (
@@ -130,7 +138,7 @@ function Login() {
                         {verifyTarget() === 2 && (
                             <div className={styles.introductionDiv} 
                                 onClick={(event) => {
-                                    handleBoxClick(cameraStatesSet[1].position, cameraStatesSet[1].target, event);
+                                    handleBoxClick(1, event);
                                     document.body.style.cursor = 'auto'
                                 }}> 
                                 <p className={styles.introductionText}>
@@ -144,7 +152,7 @@ function Login() {
                         {/* {verifyTarget() === 3 && (
                             <div className={styles.introductionDiv} 
                                 onClick={(event) => {
-                                    handleBoxClick(cameraStatesSet[2].position, cameraStatesSet[2].target, event);
+                                    handleBoxClick(2, event);
                                     document.body.style.cursor = 'auto'
                                 }}> 
                                 <p className={styles.introductionText}>
@@ -158,7 +166,15 @@ function Login() {
                                 </button>
                             </div>
                         )} */}
-                    </div>
+                        <div className={styles.navigationButtons}>
+                            <button className={styles.navButton} onClick={handleBack} disabled={currentCameraIndex === 0}>
+                                Back
+                            </button>
+                            <button className={styles.navButton} onClick={handleNext} disabled={currentCameraIndex === cameraStatesSet.length - 1}>
+                                Next
+                            </button>
+                            </div>
+                        </div>
                 </>
             ) : (
                 <div className={styles.loginContainer}>
