@@ -37,18 +37,6 @@ function Login() {
     const [currentCameraIndex, setCurrentCameraIndex] = useState(0);
     const target = cameraStatesSet[currentCameraIndex].target;
     const cameraPosition = cameraStatesSet[currentCameraIndex].position;
-
-    // Add new values to onSelect as needed to display html components from Login.jsx.
-    const verifyTarget = useCallback(() => {
-        switch (true) {
-        case target.x === cameraStatesSet[0].target.x && target.y === cameraStatesSet[0].target.y && target.z === cameraStatesSet[0].target.z:
-            return 2;
-        case target.x === cameraStatesSet[1].target.x && target.y === cameraStatesSet[1].target.y && target.z === cameraStatesSet[1].target.z:
-            return 1;
-        case target.x === cameraStatesSet[2].target.x && target.y === cameraStatesSet[2].target.y && target.z === cameraStatesSet[2].target.z:
-            return 3;
-        }
-    }, [target, cameraStatesSet]);
     
     // No modificar función, solo agregar nuevos estados según sea necesario 
     // y llamar la función en el evento deseado usándo el valor de cameraSatesSet definido.
@@ -122,20 +110,20 @@ function Login() {
 
                     <div className={styles.worldContainer}>
                         <World ref={worldRef} handleBoxClick={handleBoxClick} cameraStatesSet={cameraStatesSet} target={target} cameraPosition={cameraPosition}/>
-                        {verifyTarget() === 1 && <div className={styles.welcomeDiv}>
+                        {currentCameraIndex === 1 && <div className={styles.welcomeDiv}>
                             <p className={styles.welcomeText}>Welcome, {user.displayName}</p>
                             <button className={styles.logoutButton} onClick={handleLogout}>
                                 Logout
                             </button>
                         </div>}
-                        {verifyTarget() === 1 && (
+                        {currentCameraIndex === 1 && (
                             <div className={styles.buttonGroup}> 
                                 <button className={`${styles.circularButton} ${styles.button1}`} data-hover="Deforestation" onClick={handlePage1}></button>
                                 <button className={`${styles.circularButton} ${styles.button2}`} data-hover="Biodiversity" onClick={handlePage2}></button>
                                 <button className={`${styles.circularButton} ${styles.button3}`} data-hover="Erosion" onClick={handlePage3}></button>
                             </div>
                         )}
-                        {verifyTarget() === 2 && (
+                        {currentCameraIndex === 0 && (
                             <div className={styles.introductionDiv} 
                                 onClick={(event) => {
                                     handleBoxClick(1, event);
@@ -145,11 +133,11 @@ function Login() {
                                 Earth faces critical environmental issues that threaten life and sustainability. <b>Deforestation</b> removes vital forests, impacting climate and habitats. <b>Soil erosion</b> depletes land of nutrients, reducing food security. <b>Biodiversity loss</b> disrupts ecosystems, endangering countless species and our own well-being. Together, we can take action to protect and preserve our planet.
                                 </p>
                                 <p id={styles.continueText}>
-                                    <em>Click <b>here</b> to continue...</em>
+                                    <em>Click <b>Here/Next</b> to continue...</em>
                                 </p>
                             </div>
                         )}
-                        {/* {verifyTarget() === 3 && (
+                        {/* {currentCameraIndex === 2 && (
                             <div className={styles.introductionDiv} 
                                 onClick={(event) => {
                                     handleBoxClick(2, event);
