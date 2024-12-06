@@ -32,15 +32,15 @@
   }
 
 .hover-text {
-color: #8a3c0f;
-font-size: 28px; /* Base font size */
-text-align: center;
-padding: 2rem;
-transition: font-size 300ms ease-in-out;
+    color: #8a3c0f;
+    font-size: 28px; /* Base font size */
+    text-align: center;
+    padding: 1rem;
+    transition: 300ms ease-in-out;
 }
 
 .hover-text:hover {
-font-size: 28.5px; /* Increase font size on hover */
+    font-size: 28.5px; /* Increase font size on hover */
 }
 
 .button {

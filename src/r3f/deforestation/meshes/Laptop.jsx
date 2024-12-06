@@ -163,9 +163,21 @@ export default function Model({ externalRefs = [], screenToRender = 1, ...props 
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              gap: '0.1rem',
-              // padding: '2rem',
             }}>
+              <div style={{
+                display: 'flex',
+                marginRight: 'auto',
+                padding: '1rem',
+              }}>
+                <img 
+                  src="Terra360 Logo-03.svg" 
+                  alt="Terra Logo" 
+                  style={{
+                    width: '48px',
+                    height: '48px',
+                  }}
+                />
+              </div>
               <p
                 className="hover-text"
               >
@@ -187,6 +199,26 @@ export default function Model({ externalRefs = [], screenToRender = 1, ...props 
                   className="button"
                 >
                   Print the document
+                </button>
+              </div>
+              <div style={{
+                display: 'flex',
+                marginLeft: 'auto',
+                padding: '1.2rem',
+              }}>
+                <button
+                  onClick={handleButtonLogin}
+                  style={{
+                    padding: '0.5rem 0.5rem',
+                    border: 'none',
+                    borderRadius: '10px',
+                    backgroundColor: '#52463f',
+                    color: 'white',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s',
+                }}
+                >
+                  ♻️
                 </button>
               </div>
             </div>
