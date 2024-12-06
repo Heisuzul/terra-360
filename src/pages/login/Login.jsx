@@ -26,8 +26,8 @@ function Login() {
         target: { x: 0.2, y: 0, z: 20 },
         },
         {
-        position: { x: -1, y: 0.7, z: -66},
-        target: { x: -2, y: 0, z: -60 },
+        position: { x: -6, y: 0.7, z: -52},
+        target: { x: -3, y: 0, z: -46 },
         },
     ];
 
@@ -131,6 +131,20 @@ function Login() {
                                 }}> 
                                 <p className={styles.introductionText}>
                                 Earth faces critical environmental issues that threaten life and sustainability. <b>Deforestation</b> removes vital forests, impacting climate and habitats. <b>Soil erosion</b> depletes land of nutrients, reducing food security. <b>Biodiversity loss</b> disrupts ecosystems, endangering countless species and our own well-being. Together, we can take action to protect and preserve our planet.
+                                </p>
+                                <p id={styles.continueText}>
+                                    <em>Click <b>here</b> to continue...</em>
+                                </p>
+                            </div>
+                        )}
+                        {showButtons === 3 && (
+                            <div className={styles.introductionDiv} 
+                                onClick={(event) => {
+                                    handleBoxClick(cameraStatesSet[1].position, cameraStatesSet[1].target, event);
+                                    document.body.style.cursor = 'auto'
+                                }}> 
+                                <p className={styles.introductionText}>
+                                This is the place for the first quiz question.
                                 </p>
                                 <p id={styles.continueText}>
                                     <em>Click <b>here</b> to continue...</em>
