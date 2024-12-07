@@ -7,18 +7,17 @@ class UserDAO {
     }
 
     async getUserById(id) {
-        await getDoc(doc(this.collectionRef, id))
-            .then((userDoc) => {
-                if (userDoc.exist()) {
-                    return { sucess: true, data: userDoc.data() };
-
-                } else {
-                    return { sucess: false, data: null };
-                }
-            })
-            .catch((error) => {
-                console.log("Error getting document:", error);
-            })
+        try {
+            const userDoc = await getDoc(doc(this.collectionRef, id));
+            if (userDoc.exists()) {
+                return { success: true, data: userDoc.data() };
+            } else {
+                return { success: false, data: null };
+            }
+        } catch (error) {
+            console.log("Error getting document:", error);
+            return { success: false, data: null };
+        }
     }
 
     async getUserByEmail(email) {

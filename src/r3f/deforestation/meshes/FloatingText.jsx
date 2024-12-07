@@ -2,7 +2,7 @@ import React, { useRef, useEffect, forwardRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Text3D } from "@react-three/drei";
 
-const FloatingText = forwardRef(({ text, position, scale = 1, rotationDelta=0 }, ref) => {
+const FloatingText = forwardRef(({ text, position, scale = 1, rotationDelta=0, color='#d4682a', onClick=()=>{} }, ref) => {
   const { camera } = useThree();
   const textRef = useRef();
 
@@ -22,10 +22,17 @@ const FloatingText = forwardRef(({ text, position, scale = 1, rotationDelta=0 },
       scale={scale}
       height={0.02}
       visible={false} // Initially invisible
+      onPointerOver={() => {
+        document.body.style.cursor = 'pointer'
+      }}
+      onPointerOut={() => {
+        document.body.style.cursor = 'auto'
+      }}
+      onClick={onClick}
     >
       {text}
       <meshStandardMaterial 
-        color="#d4682a" 
+        color={color} 
         emissive="#ffd700" // Add emissive color for glow
         emissiveIntensity={10} // Adjust intensity as needed
       />

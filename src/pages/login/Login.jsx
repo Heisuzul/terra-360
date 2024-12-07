@@ -8,12 +8,11 @@ import styles from './Login.module.css'
 
 
 function Login() {
-
     const { user, observeAuthState, loginGoogleWithPopup, logout, updateUserPoints } = useAuthStore();
     const navigate = useNavigate();
     const worldRef = useRef(null);
 
-    // Agregar nuevos estados según sea necesario
+    // Definir estados de las cámaras y sus posiciones y objetivos
     const cameraStatesSet = [
         {
             position: { x: 1, y: 10.7, z: 6 },
@@ -41,6 +40,7 @@ function Login() {
     const [currentCameraIndex, setCurrentCameraIndex] = useState(0);
     const target = cameraStatesSet[currentCameraIndex].target;
     const cameraPosition = cameraStatesSet[currentCameraIndex].position;
+    const [storedPoints, setStoredPoints] = useState(0);
     
     // No modificar función, solo agregar nuevos estados según sea necesario 
     // y llamar la función en el evento deseado usándo el valor de cameraSatesSet definido.
@@ -54,6 +54,21 @@ function Login() {
         observeAuthState();
     }, [observeAuthState]);
 
+    // Obtener puntos almacenados del usuario
+    useEffect(() => {
+        const fetchStoredPoints = async () => {
+            if (user) {
+                const userDoc = await UserDAO.getUserById(user.uid);
+                if (userDoc && userDoc.success) {
+                    const points = userDoc.data.points || 0;
+                    setStoredPoints(Math.round(points * 10) / 10);
+                } 
+            }
+        };
+        fetchStoredPoints();
+    }, [user]);
+
+    // Crear usuario en la base de datos
     useEffect(() => {
         if (user) {
           const newUser = {
@@ -70,24 +85,25 @@ function Login() {
           }
         }
       }, [user]);
-    
+
+    // Funciones para manejar el login y logout  
     const handleLogin = useCallback(async () => {
         localStorage.clear();
-        await loginGoogleWithPopup(); // Espera a que se complete la autenticación
-        navigate('/world'); // Navega a "/about" después de la autenticación
+        await loginGoogleWithPopup();
+        navigate('/world');
     }, [loginGoogleWithPopup, navigate]);
  
     const handleLogout = useCallback(async() => {
         await logout();
-        navigate('/'); // Navega a "/" después de desloguearse
+        navigate('/');
     }, [logout], [navigate]);
 
-    const handlePage1 = () => {
-        navigate('/deforestation');
-    }
+    // Funciones para navegar a las páginas de deforestation, biodiversity y erosion
+    const handlePage1 = () => {navigate('/deforestation')};
     const handlePage2 = () => navigate('/biodiversity');
     const handlePage3 = () => navigate('/erosion'); 
 
+    // Funciones para manejar las acciones de los árboles
     const handleTreesPuff = useCallback(() => {
         if (worldRef.current) {
             worldRef.current.puffTrees();
@@ -100,6 +116,7 @@ function Login() {
         }
     }, [worldRef])
 
+    // Funciones para navegar entre las cámaras
     const handleNext = () => {
         setCurrentCameraIndex((prevIndex) => Math.min(prevIndex + 1, cameraStatesSet.length - 1));
     };
@@ -108,18 +125,20 @@ function Login() {
         setCurrentCameraIndex((prevIndex) => Math.max(prevIndex - 1, 0));
     };
 
+    // Referencias para almacenar los puntos de cada apartado
     const deforestationPointsRef = useRef(0);
     const biodiversityPointsRef = useRef(0);
     const erosionPointsRef = useRef(0);
 
+    // Función para guardar los puntos del usuario
     const handleSavePoints = async () => {
         const totalPoints = (deforestationPointsRef.current + biodiversityPointsRef.current + erosionPointsRef.current) / 75 * 100;
         if (user) {
             await updateUserPoints(user.uid, totalPoints);
+            setStoredPoints(Math.round(totalPoints * 10) / 10);
         }
     };
     
-
     return (
         <div className={styles.pageContainer}>
             {user ? (
@@ -133,6 +152,9 @@ function Login() {
                             target={target} 
                             cameraPosition={cameraPosition} 
                             deforestationPointsRef={deforestationPointsRef}
+                            biodiversityPointsRef={biodiversityPointsRef}
+                            erosionPointsRef={erosionPointsRef}
+                            storedPoints={storedPoints}
                         />
                         {currentCameraIndex === 1 && <div className={styles.welcomeDiv}>
                             <p className={styles.welcomeText}>Welcome, {user.displayName}</p>

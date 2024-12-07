@@ -15,8 +15,9 @@ import DirectionalLight from "../../deforestation/lights/DirectionalLight";
 import Desk from "../../deforestation/meshes/Desk";
 import Laptop from "../../deforestation/meshes/Laptop";
 import Printer from "../../deforestation/meshes/Printer";
+import FloatingText from "../../deforestation/meshes/FloatingText";
 
-const World = forwardRef(( { handleBoxClick, target, cameraPosition, deforestationPointsRef }, ref ) => {
+const World = forwardRef(( { handleBoxClick, target, cameraPosition, deforestationPointsRef, biodiversityPointsRef, erosionPointsRef, storedPoints }, ref ) => {
   const relativePosition = 25;
 
   // Generates the positions of the trees in the world.
@@ -91,6 +92,13 @@ const World = forwardRef(( { handleBoxClick, target, cameraPosition, deforestati
     }
   }
 
+  // reset the points when the user restarts the quiz
+  const resetPointsRefs = () => {
+    deforestationPointsRef.current = 0;
+    biodiversityPointsRef.current = 0;
+    erosionPointsRef.current = 0;
+  }
+
   // Use `useImperativeHandle` to expose a function to the parent component
   useImperativeHandle(ref, () => ({
     puffTrees,
@@ -98,6 +106,15 @@ const World = forwardRef(( { handleBoxClick, target, cameraPosition, deforestati
   }));
 
   const printerRef = useRef();
+  const floatingTextRef1 = useRef();
+  const floatingTextRef2 = useRef();
+
+  if (floatingTextRef1.current) {
+    floatingTextRef1.current.visible = true;
+  }
+  if (floatingTextRef2.current) {
+    floatingTextRef2.current.visible = true;
+  }
 
   return (
     <div className={styles.pageContainer}>
@@ -204,6 +221,8 @@ const World = forwardRef(( { handleBoxClick, target, cameraPosition, deforestati
           onClick={(event) => {
             handleBoxClick(2, event);
           }}/>
+        {!storedPoints > 0 ? <FloatingText ref={floatingTextRef1} onClick={(event) => {handleBoxClick(2, event)}} text={'Start Quiz'} position={[1,1.75,20.1]} rotationDelta={3.4} scale={1.1}/>
+          : <FloatingText ref={floatingTextRef2} onClick={(event) => {handleBoxClick(2, event); resetPointsRefs()}} text={`You have ${storedPoints} points. Restart Quiz?`} position={[-0.8,1.75,20.1]} rotationDelta={3.4} scale={1}/>}
       </Canvas>
       </div>
     </div>
