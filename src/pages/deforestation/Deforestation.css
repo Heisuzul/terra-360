@@ -35,7 +35,7 @@
     color: #8a3c0f;
     font-size: 28px; /* Base font size */
     text-align: center;
-    padding: 1rem;
+    padding: 0rem 3rem;
     transition: 300ms ease-in-out;
 }
 
@@ -44,7 +44,6 @@
 }
 
 .button {
-    gap: 0.5rem;
     padding: 1rem 2rem; /* Increase padding for larger buttons */
     font-size: 18px; /* Increase font size */
     border: none;

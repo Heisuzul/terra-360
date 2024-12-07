@@ -154,73 +154,53 @@ export default function Model({ externalRefs = [], screenToRender = 1, handleTre
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              justifyContent: 'center',
               background: '#bbeaff',
               userSelect: 'none',
+              justifyContent: 'center',
+              gap: '1rem',
             }}
           >
+            <p
+              className="hover-text"
+            >
+              Tomorrow, you'll need to present a report on the impact of <em>deforestation</em> over the environment. Would you <b>print</b> it, or would you store in a <b>USB</b> drive?
+            </p>
             <div style={{
               display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
+              gap: '1rem',
             }}>
-              <div style={{
-                display: 'flex',
-                marginRight: 'auto',
-                padding: '1rem',
-              }}>
-                <img 
-                  src="Terra360 Logo-03.svg" 
-                  alt="Terra Logo" 
-                  style={{
-                    width: '48px',
-                    height: '48px',
-                  }}
-                />
-              </div>
-              <p
-                className="hover-text"
+              <button
+                onClick={handleCorrectAnswer}
+                className="button"
               >
-                Tomorrow, you'll need to present a report on the impact of deforestation on the environment. Would you print it, or would you store in a USB drive?
-              </p>
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '1rem',
-              }}>
-                <button
-                  onClick={handleCorrectAnswer}
-                  className="button"
-                >
-                  Save to USB
-                </button>
-                <button
-                  onClick={handleTreesPop}
-                  className="button"
-                >
-                  Print the document
-                </button>
-              </div>
-              <div style={{
-                display: 'flex',
-                marginLeft: 'auto',
-                padding: '1.2rem',
-              }}>
-                <button
-                  onClick={handleTreesGrow}
-                  style={{
-                    padding: '0.5rem 0.5rem',
-                    border: 'none',
-                    borderRadius: '10px',
-                    backgroundColor: '#52463f',
-                    color: 'white',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s',
-                }}
-                >
-                  ♻️
-                </button>
-              </div>
+                Save to USB
+              </button>
+              <button
+                onClick={handleTreesPop}
+                className="button"
+              >
+                Print the document
+              </button>
+            </div>
+            <div style={{
+              display: 'flex',
+              padding: '1.2rem',
+            }}>
+              <button
+                onClick={handleTreesGrow}
+                style={{
+                  padding: '0.5rem 0.5rem',
+                  border: 'none',
+                  borderRadius: '10px',
+                  backgroundColor: '#52463f',
+                  color: 'white',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s',
+                  fontSize: '1.2rem',
+              }}
+              >
+                ♻️
+              </button>
             </div>
           </Html>)}
         </mesh>
