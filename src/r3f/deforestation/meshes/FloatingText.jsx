@@ -2,7 +2,7 @@ import React, { useRef, useEffect, forwardRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Text3D } from "@react-three/drei";
 
-const FloatingText = forwardRef(({ text, position, scale = 1, rotationDelta=0, color='#d4682a', onClick=()=>{} }, ref) => {
+const FloatingText = forwardRef(({ text, position, scale = 1, rotationDelta=0, color='#d4682a', emissive="#ffd700", emissiveIntensity=10, onClick=()=>{} }, ref) => {
   const { camera } = useThree();
   const textRef = useRef();
 
@@ -33,8 +33,8 @@ const FloatingText = forwardRef(({ text, position, scale = 1, rotationDelta=0, c
       {text}
       <meshStandardMaterial 
         color={color} 
-        emissive="#ffd700" // Add emissive color for glow
-        emissiveIntensity={10} // Adjust intensity as needed
+        emissive={emissive} // Add emissive color for glow
+        emissiveIntensity={emissiveIntensity} // Adjust intensity as needed
       />
     </Text3D>
   );
