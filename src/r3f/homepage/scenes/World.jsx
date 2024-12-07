@@ -9,13 +9,15 @@ import CameraController from "../controllers/CameraController";
 import OrangeBird from "../../deforestation/meshes/OrangeBird";
 import styles from './World.module.css'
 import Staging from '../staging/Staging'
-import { useState, useRef, useImperativeHandle, forwardRef } from 'react'
+import { useState, useRef, useImperativeHandle, forwardRef, useEffect } from 'react'
 import { Physics } from '@react-three/rapier'
 import DirectionalLight from "../../deforestation/lights/DirectionalLight";
 import Desk from "../../deforestation/meshes/Desk";
 import Laptop from "../../deforestation/meshes/Laptop";
 import Printer from "../../deforestation/meshes/Printer";
 import FloatingText from "../../deforestation/meshes/FloatingText";
+import Flowers from "../../biodiversity/flowers/Flowers"
+import Bee from "../../biodiversity/bee/Bee"
 
 const World = forwardRef(( { handleBoxClick, target, cameraPosition, deforestationPointsRef, biodiversityPointsRef, erosionPointsRef, storedPoints }, ref ) => {
   const relativePosition = 25;
@@ -41,6 +43,8 @@ const World = forwardRef(( { handleBoxClick, target, cameraPosition, deforestati
 
   const isCameraAtTargetPosition = (cameraPosition) =>
     cameraPosition.x === 1 && cameraPosition.y === 10.7 && cameraPosition.z === 6;
+  
+ 
 
   //Logic related to the animation of the trees when they are cut
   // -----------------------------------------------------------------
@@ -116,6 +120,22 @@ const World = forwardRef(( { handleBoxClick, target, cameraPosition, deforestati
     floatingTextRef2.current.visible = true;
   }
 
+  //Biodiversity Section
+  const isCameraAtBiodiversityPosition = (cameraPosition) =>
+    cameraPosition.x === 11.5 && cameraPosition.y === 0.5 && cameraPosition.z === -50.5;
+  
+  const [clicked, setClicked] = useState(false);
+
+  const handleClick = () => {
+    setClicked(true);
+  };
+
+  useEffect(() => {
+    if (!isCameraAtBiodiversityPosition(cameraPosition)) {
+      setClicked(false);
+    }
+  }, [isCameraAtBiodiversityPosition(cameraPosition)]);
+
   return (
     <div className={styles.pageContainer}>
       <div className={styles.canvasContainer}>
@@ -153,6 +173,9 @@ const World = forwardRef(( { handleBoxClick, target, cameraPosition, deforestati
             scale={1.3} handleTreesGrow={growTrees} handleTreesPop={puffTrees} handleCorrectAnswer={correctAnswerDeforestation} externalRefs={[printerRef]} position={[-5.65, 0.15, -48.6]} rotation={[0,-Math.PI*11/12,0]} screenToRender={2}/>
           <Printer ref={printerRef} position={[-6.6, 0.34, -48.7]} rotation={[0,-Math.PI*7/6,0]}/>
         </Physics>
+
+        <Bee scale={0.1} position={[10.8, 0, -46.5]} baseY={-0.3} rotation={[0.17,2.7,0]} />
+        <Flowers position={[18.5, -0.4, -47.99]} rotation={[0,1.5,0]} scale={0.5}/>
 
         <Leaf distance={-1+relativePosition} speed={1} amplitude={1} frequency={2} boundary={5} />
         <Leaf distance={-5+relativePosition} direction={-1} speed={2} amplitude={1} frequency={2} boundary={5} />
@@ -225,6 +248,28 @@ const World = forwardRef(( { handleBoxClick, target, cameraPosition, deforestati
           : <FloatingText ref={floatingTextRef2} onClick={(event) => {handleBoxClick(2, event); resetPointsRefs()}} text={`You have ${storedPoints} points. Restart Quiz?`} position={[-0.8,1.75,20.1]} rotationDelta={3.4} scale={1}/>}
       </Canvas>
       </div>
+      {isCameraAtBiodiversityPosition(cameraPosition) && (
+      <>
+        {!clicked ? (
+          <div className={styles.bioInfo} onClick={handleClick}>
+            <p>
+              Imagine a world without bees: without the buzz among the flowers, without fresh fruits on your table and with landscapes devoid of color and life.
+              In this quiz, we will test your knowledge about these wonderful insects. 
+              <span className={styles.highlightText}>Can you save a bee and help preserve the balance of our ecosystem?</span>
+            </p>
+            <p className={styles.continueText}>
+              <em>Click <b>Here</b> to continue...</em>
+            </p>
+          </div>
+        ) : (
+          <div className={styles.newBioInfo}>
+            <p>
+            Answer correctly and show that you are a guardian of biodiversity. Good luck!
+            </p>
+          </div>
+        )}
+      </>
+    )}
     </div>
   )
 });
