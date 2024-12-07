@@ -187,7 +187,7 @@ function Login() {
                         )}
                         {currentCameraIndex === 5 && (
                             <div className={styles.introductionDiv}>
-                                <button className={styles.savePointsButton} onClick={handleSavePoints}>
+                                <button className={styles.savePointsButton} onClick={(event) => {handleSavePoints(); handleBoxClick(1,event)}}>
                                     Save Points
                                 </button>
                             </div>
