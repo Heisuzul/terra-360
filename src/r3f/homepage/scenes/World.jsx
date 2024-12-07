@@ -233,16 +233,15 @@ const World = forwardRef(( { handleBoxClick, target, cameraPosition, deforestati
             }
           }}
           onPointerOut={() => {
-            if (!isCameraAtTargetPosition(cameraPosition)) {
               document.body.style.cursor = 'auto'
-            } else {
-              document.body.style.cursor = 'pointer'
-            }
           }}
         />
         <OrangeBird scale={1.5} position={[2.2,1.46,20.1]} rotation={[0,-Math.PI*0.8/12,0]}
           onClick={(event) => {
             handleBoxClick(2, event);
+            if (storedPoints > 0) {
+              resetPointsRefs();
+            }
           }}/>
         {!storedPoints > 0 ? <FloatingText ref={floatingTextRef1} onClick={(event) => {handleBoxClick(2, event)}} text={'Start Quiz'} position={[1,1.75,20.1]} rotationDelta={3.4} scale={1.1}/>
           : <FloatingText ref={floatingTextRef2} onClick={(event) => {handleBoxClick(2, event); resetPointsRefs()}} text={`You have ${storedPoints} points. Restart Quiz?`} position={[-0.8,1.75,20.1]} rotationDelta={3.4} scale={1}/>}

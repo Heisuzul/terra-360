@@ -73,7 +73,7 @@
 .introductionDiv {
     margin: 0px;
     padding: 15px 20px;
-    cursor: default;
+    cursor: pointer;
     position: absolute;
     top: 50%;          /* Centra verticalmente */
     left: 50%;         /* Centra horizontalmente */
