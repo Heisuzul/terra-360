@@ -31,7 +31,7 @@ function Login() {
             target: { x: -5, y: 0, z: -46 },
         },
         {
-            position: { x: 10.75, y: 0.5, z: -50},
+            position: { x: 11.5, y: 0.5, z: -50.5},
             target: { x: 11, y: 0, z: -46 },
         }
     ];

@@ -13,9 +13,12 @@ export default function Model(props) {
   const group = useRef()
   const { nodes, materials } = useGLTF('/models-3d/biodiversity/flowers/flowers.glb')
   return (
-    <group ref={group} {...props} dispose={null} scale={0.6}>
+    <group ref={group} {...props} dispose={null}>
       <group rotation={[-Math.PI / 2, 0, 0]}>
         <group rotation={[Math.PI / 2, 0, 0]} scale={0.01}>
+          <group position={[0, 0, -1774.42]} rotation={[-Math.PI / 2, 0, 0]} scale={[100, 100, 100]}>
+            <mesh geometry={nodes.Cylinder009_lowPoly_flor34_0.geometry} material={materials.lowPoly_flor34} />
+          </group>
           <group position={[-126.7, 0, -1637.86]} rotation={[-Math.PI / 2, 0, 0]} scale={[100, 100, 100]}>
             <mesh
               geometry={nodes.Cylinder013_lowPoly_flor33001_0.geometry}
