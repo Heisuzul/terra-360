@@ -73,7 +73,7 @@
 .introductionDiv {
     margin: 0px;
     padding: 15px 20px;
-    cursor: default;
+    cursor: pointer;
     position: absolute;
     top: 50%;          /* Centra verticalmente */
     left: 50%;         /* Centra horizontalmente */
@@ -291,4 +291,26 @@
 .navButton:hover:not(:disabled) {
     background-color: #8a3c0f85;
     color: #b3dda3ea;
+}
+
+.savePointsButton {
+    padding: 0.5rem 1rem;
+    background-color: rgba(255, 255, 255, 1);
+    color: #5b914ae8;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: 0.3s;
+}
+
+.savePointsButton:disabled {
+    background-color: #66666677;
+    cursor: not-allowed;
+    color: #ffffff79;
+}
+
+.savePointsButton:hover:not(:disabled) {
+    background-color: #8a3c0f;
+    color: #edfde6;
 }

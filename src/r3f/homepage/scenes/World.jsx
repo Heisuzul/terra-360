@@ -15,10 +15,12 @@ import DirectionalLight from "../../deforestation/lights/DirectionalLight";
 import Desk from "../../deforestation/meshes/Desk";
 import Laptop from "../../deforestation/meshes/Laptop";
 import Printer from "../../deforestation/meshes/Printer";
+import FloatingText from "../../deforestation/meshes/FloatingText";
 import Flowers from "../../biodiversity/flowers/Flowers"
 import Bee from "../../biodiversity/bee/Bee"
+import { Bloom, EffectComposer, HueSaturation, BrightnessContrast } from '@react-three/postprocessing'
 
-const World = forwardRef(( { handleBoxClick, target, cameraPosition }, ref ) => {
+const World = forwardRef(( { handleBoxClick, target, cameraPosition, deforestationPointsRef, biodiversityPointsRef, erosionPointsRef, storedPoints }, ref ) => {
   const relativePosition = 25;
 
   // Generates the positions of the trees in the world.
@@ -51,12 +53,15 @@ const World = forwardRef(( { handleBoxClick, target, cameraPosition }, ref ) => 
   const [showTrees, setShowTrees] = useState(true)
   const counter = useRef(0)
   // const [removedTrees, setRemovedTrees] = useState(0);
+  const puffTreesCountRef = useRef(0);
+  const growTreesCountRef = useRef(0);
 
   const growTrees = () => {
     setShowTrees(!showTrees);
     console.log("GrowREF", showTrees)
     counter.current = 0;
     // handleTreeReset();
+    growTreesCountRef.current += 1;
   }
 
   // const handleTreeRemoval = () => {
@@ -73,10 +78,31 @@ const World = forwardRef(( { handleBoxClick, target, cameraPosition }, ref ) => 
       if (counter.current < 1) {
           counter.current += 1;
           setPopTrees(true);
+          if (puffTreesCountRef.current < 3) {
+            puffTreesCountRef.current += 1;
+          }
       }
       console.log("Counter", counter.current);
       console.log("REF", popTrees);
   };
+
+  const correctAnswerDeforestation = () => {
+    if (deforestationPointsRef.current < 25) {
+      if (puffTreesCountRef.current === 0) {
+        deforestationPointsRef.current = 25;
+      } else if (puffTreesCountRef.current <= 3) {
+        deforestationPointsRef.current = 25 - puffTreesCountRef.current * 5;
+      }
+      console.log("Deforestation points:", deforestationPointsRef.current);
+    }
+  }
+
+  // reset the points when the user restarts the quiz
+  const resetPointsRefs = () => {
+    deforestationPointsRef.current = 0;
+    biodiversityPointsRef.current = 0;
+    erosionPointsRef.current = 0;
+  }
 
   // Use `useImperativeHandle` to expose a function to the parent component
   useImperativeHandle(ref, () => ({
@@ -85,6 +111,15 @@ const World = forwardRef(( { handleBoxClick, target, cameraPosition }, ref ) => 
   }));
 
   const printerRef = useRef();
+  const floatingTextRef1 = useRef();
+  const floatingTextRef2 = useRef();
+
+  if (floatingTextRef1.current) {
+    floatingTextRef1.current.visible = true;
+  }
+  if (floatingTextRef2.current) {
+    floatingTextRef2.current.visible = true;
+  }
 
   //Biodiversity Section
   const isCameraAtBiodiversityPosition = (cameraPosition) =>
@@ -106,6 +141,11 @@ const World = forwardRef(( { handleBoxClick, target, cameraPosition }, ref ) => 
     <div className={styles.pageContainer}>
       <div className={styles.canvasContainer}>
       <Canvas shadows className={styles.canvas}>
+        <EffectComposer>
+          <HueSaturation hue={0.01} saturation={0.01} />
+          <BrightnessContrast contrast={0.1} />
+          <Bloom intensity={0.05}/>
+        </EffectComposer>
         <Staging/>
         <CameraController target={target} position={cameraPosition} />
         <ambientLight intensity={2}/>
@@ -131,10 +171,12 @@ const World = forwardRef(( { handleBoxClick, target, cameraPosition }, ref ) => 
             handleBoxClick(2, event);
             document.body.style.cursor = 'auto'
           }} position={[-5.7, -0.6, -49.2]} rotation={[0,-Math.PI*2/3,0]}/>
-          <Laptop onClick={(event) => {
-            handleBoxClick(3, event);
-            document.body.style.cursor = 'auto'
-          }} scale={1.3} handleTreesGrow={growTrees} handleTreesPop={puffTrees} externalRefs={[printerRef]} position={[-5.65, 0.15, -48.6]} rotation={[0,-Math.PI*11/12,0]} screenToRender={2}/>
+          <Laptop
+            onClick={(event) => {
+              handleBoxClick(3, event);
+              document.body.style.cursor = 'auto'
+            }} 
+            scale={1.3} handleTreesGrow={growTrees} handleTreesPop={puffTrees} handleCorrectAnswer={correctAnswerDeforestation} externalRefs={[printerRef]} position={[-5.65, 0.15, -48.6]} rotation={[0,-Math.PI*11/12,0]} screenToRender={2}/>
           <Printer ref={printerRef} position={[-6.6, 0.34, -48.7]} rotation={[0,-Math.PI*7/6,0]}/>
         </Physics>
 
@@ -197,17 +239,18 @@ const World = forwardRef(( { handleBoxClick, target, cameraPosition }, ref ) => 
             }
           }}
           onPointerOut={() => {
-            if (!isCameraAtTargetPosition(cameraPosition)) {
               document.body.style.cursor = 'auto'
-            } else {
-              document.body.style.cursor = 'pointer'
-            }
           }}
         />
         <OrangeBird scale={1.5} position={[2.2,1.46,20.1]} rotation={[0,-Math.PI*0.8/12,0]}
           onClick={(event) => {
             handleBoxClick(2, event);
+            if (storedPoints > 0) {
+              resetPointsRefs();
+            }
           }}/>
+        {!storedPoints > 0 ? <FloatingText ref={floatingTextRef1} onClick={(event) => {handleBoxClick(2, event)}} text={'Start Quiz'} position={[1,1.75,20.1]} rotationDelta={3.4} scale={1.1} color={'#db7500'} emissive={'#db7500'} emissiveIntensity={0}/>
+          : <FloatingText ref={floatingTextRef2} onClick={(event) => {handleBoxClick(2, event); resetPointsRefs()}} text={`You have ${storedPoints} points. Restart Quiz?`} position={[-0.8,1.75,20.1]} color={'#db7500'} emissive={'#db7500'} emissiveIntensity={0} rotationDelta={3.4} scale={1}/>}
       </Canvas>
       </div>
       {isCameraAtBiodiversityPosition(cameraPosition) && (
