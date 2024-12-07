@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, addDoc, updateDoc, deleteDoc, query, where, getDocs } from 'firebase/firestore';
+import { collection, doc, getDoc, setDoc, addDoc, updateDoc, deleteDoc, query, where, getDocs } from 'firebase/firestore';
 import { db } from "../../firebase.config";
 
 class UserDAO {
@@ -39,13 +39,19 @@ class UserDAO {
             return;
         }
 
-        await addDoc(this.collectionRef, userData)
-            .then((docRef) => {
-                console.log("Document written with ID:", docRef.id);
-            })
-            .catch((error) => {
-                console.log("Error adding document:", error);
-            });
+        const userDocRef = doc(this.collectionRef, userData.uid);
+        await setDoc(userDocRef, {
+            email: userData.email,
+            name: userData.name,
+            photo: userData.photo,
+            points: 0, // Initialize points field
+        }, { merge: true })
+        .then(() => {
+            console.log("Document written with ID:", userData.uid);
+        })
+        .catch((error) => {
+            console.log("Error adding document:", error);
+        });
     }
 
     async updateUser(id, userData) {

@@ -9,7 +9,7 @@ import styles from './Login.module.css'
 
 function Login() {
 
-    const { user, observeAuthState, loginGoogleWithPopup, logout } = useAuthStore();
+    const { user, observeAuthState, loginGoogleWithPopup, logout, updateUserPoints } = useAuthStore();
     const navigate = useNavigate();
     const worldRef = useRef(null);
 
@@ -30,6 +30,10 @@ function Login() {
         {
             position: { x: -5.75, y: 0.5, z: -49.1},
             target: { x: -5, y: 0, z: -46 },
+        },
+        {
+            position: { x: 1.2, y: 0.7, z: 18.5 },
+            target: { x: 0.2, y: 0, z: 12.5 },
         },
     ];
 
@@ -52,19 +56,20 @@ function Login() {
 
     useEffect(() => {
         if (user) {
-            const newUser = {
-                email: user.email,
-                name: user.displayName,
-                photo: user.photoURL
-            };
-
-            if (newUser.email && newUser.name && newUser.photo) {
-                UserDAO.createUser(newUser);
-            } else {
-                console.error('Invalid user data:', newUser);
-            }
+          const newUser = {
+            uid: user.uid, // Pass the UID
+            email: user.email,
+            name: user.displayName,
+            photo: user.photoURL,
+          };
+    
+          if (newUser.email && newUser.name && newUser.photo) {
+            UserDAO.createUser(newUser);
+          } else {
+            console.error('Invalid user data:', newUser);
+          }
         }
-    }, [user]);
+      }, [user]);
     
     const handleLogin = useCallback(async () => {
         localStorage.clear();
@@ -87,21 +92,33 @@ function Login() {
         if (worldRef.current) {
             worldRef.current.puffTrees();
         }
-      }, [worldRef])
-    
-      const handleTreesGrow = useCallback(() => {
+    }, [worldRef])
+
+    const handleTreesGrow = useCallback(() => {
         if (worldRef.current) {
             worldRef.current.growTrees();
         }
-      }, [worldRef])
+    }, [worldRef])
 
-      const handleNext = () => {
+    const handleNext = () => {
         setCurrentCameraIndex((prevIndex) => Math.min(prevIndex + 1, cameraStatesSet.length - 1));
-      };
-    
-      const handleBack = () => {
+    };
+
+    const handleBack = () => {
         setCurrentCameraIndex((prevIndex) => Math.max(prevIndex - 1, 0));
-      };
+    };
+
+    const deforestationPointsRef = useRef(0);
+    const biodiversityPointsRef = useRef(0);
+    const erosionPointsRef = useRef(0);
+
+    const handleSavePoints = async () => {
+        const totalPoints = (deforestationPointsRef.current + biodiversityPointsRef.current + erosionPointsRef.current) / 75 * 100;
+        if (user) {
+            await updateUserPoints(user.uid, totalPoints);
+        }
+    };
+    
 
     return (
         <div className={styles.pageContainer}>
@@ -109,7 +126,14 @@ function Login() {
                 <>
 
                     <div className={styles.worldContainer}>
-                        <World ref={worldRef} handleBoxClick={handleBoxClick} cameraStatesSet={cameraStatesSet} target={target} cameraPosition={cameraPosition}/>
+                        <World 
+                            ref={worldRef} 
+                            handleBoxClick={handleBoxClick} 
+                            cameraStatesSet={cameraStatesSet} 
+                            target={target} 
+                            cameraPosition={cameraPosition} 
+                            deforestationPointsRef={deforestationPointsRef}
+                        />
                         {currentCameraIndex === 1 && <div className={styles.welcomeDiv}>
                             <p className={styles.welcomeText}>Welcome, {user.displayName}</p>
                             <button className={styles.logoutButton} onClick={handleLogout}>
@@ -137,23 +161,13 @@ function Login() {
                                 </p>
                             </div>
                         )}
-                        {/* {currentCameraIndex === 2 && (
-                            <div className={styles.introductionDiv} 
-                                onClick={(event) => {
-                                    handleBoxClick(2, event);
-                                    document.body.style.cursor = 'auto'
-                                }}> 
-                                <p className={styles.introductionText}>
-                                This is the place for the first quiz question.
-                                </p>
-                                <button className={styles.logoutButton} onClick={handleTreesGrow}>
-                                    Hi Trees
-                                </button>
-                                <button className={styles.logoutButton} onClick={handleTreesPuff}>
-                                    Bye Trees
+                        {currentCameraIndex === 4 && (
+                            <div className={styles.introductionDiv}>
+                                <button className={styles.savePointsButton} onClick={handleSavePoints}>
+                                    Save Points
                                 </button>
                             </div>
-                        )} */}
+                        )}
                         <div className={styles.navigationButtons}>
                             <button className={styles.navButton} onClick={handleBack} disabled={currentCameraIndex === 0}>
                                 Back
