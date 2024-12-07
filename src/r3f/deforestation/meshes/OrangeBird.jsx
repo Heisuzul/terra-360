@@ -8,7 +8,7 @@ export default function Model(props) {
 
   const birdRef = useRef()
 
-  console.log(actions)
+  // console.log(actions)
 
   useEffect(() => {
     actions["anim"].play()

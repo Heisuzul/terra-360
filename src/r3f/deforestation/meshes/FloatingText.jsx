@@ -2,7 +2,7 @@ import React, { useRef, useEffect, forwardRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Text3D } from "@react-three/drei";
 
-const FloatingText = forwardRef(({ text, position, scale = 1, rotationDelta=0, color='#d4682a', emissive="#ffd700", emissiveIntensity=10, onClick=()=>{} }, ref) => {
+const FloatingText = forwardRef(({ text, position, scale = 1, rotationDelta=0, color='#d4682a', emissive="#ffd700", emissiveIntensity=10, onClick=()=>{}, visible = false }, ref) => {
   const { camera } = useThree();
   const textRef = useRef();
 
@@ -21,7 +21,7 @@ const FloatingText = forwardRef(({ text, position, scale = 1, rotationDelta=0, c
       size={0.15}
       scale={scale}
       height={0.02}
-      visible={false} // Initially invisible
+      visible={visible} // Initially invisible
       onPointerOver={() => {
         document.body.style.cursor = 'pointer'
       }}

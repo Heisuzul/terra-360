@@ -9,7 +9,7 @@ import CameraController from "../controllers/CameraController";
 import OrangeBird from "../../deforestation/meshes/OrangeBird";
 import styles from './World.module.css'
 import Staging from '../staging/Staging'
-import { useState, useRef, useImperativeHandle, forwardRef, useEffect } from 'react'
+import React, { useState, useRef, useImperativeHandle, forwardRef, useEffect } from 'react'
 import { Physics } from '@react-three/rapier'
 import DirectionalLight from "../../deforestation/lights/DirectionalLight";
 import Desk from "../../deforestation/meshes/Desk";
@@ -18,7 +18,7 @@ import Printer from "../../deforestation/meshes/Printer";
 import FloatingText from "../../deforestation/meshes/FloatingText";
 import Flowers from "../../biodiversity/flowers/Flowers"
 import Bee from "../../biodiversity/bee/Bee"
-import { Bloom, EffectComposer, HueSaturation, BrightnessContrast } from '@react-three/postprocessing'
+// import { Bloom, EffectComposer, HueSaturation, BrightnessContrast } from '@react-three/postprocessing'
 
 const World = forwardRef(( { handleBoxClick, target, cameraPosition, deforestationPointsRef, biodiversityPointsRef, erosionPointsRef, storedPoints }, ref ) => {
   const relativePosition = 25;
@@ -141,11 +141,11 @@ const World = forwardRef(( { handleBoxClick, target, cameraPosition, deforestati
     <div className={styles.pageContainer}>
       <div className={styles.canvasContainer}>
       <Canvas shadows className={styles.canvas}>
-        <EffectComposer>
+        {/* <EffectComposer>
           <HueSaturation hue={0.01} saturation={0.01} />
           <BrightnessContrast contrast={0.1} />
           <Bloom intensity={0.05}/>
-        </EffectComposer>
+        </EffectComposer> */}
         <Staging/>
         <CameraController target={target} position={cameraPosition} />
         <ambientLight intensity={2}/>
@@ -162,9 +162,9 @@ const World = forwardRef(( { handleBoxClick, target, cameraPosition, deforestati
           <Floor color={"#CD853F"} width={4} height={-0.49}/>
 
           {TreePositions.map((position, index) => (
-            <>
+            <React.Fragment key={index}>
               {showTrees && <Tree key={index} position={position} scale={1} /*onRemove={handleTreeRemoval}*/ popTrees={popTrees} setPopTrees={setPopTrees}/>}
-            </>
+            </React.Fragment>
           ))}
 
           <Desk onClick={(event) => {

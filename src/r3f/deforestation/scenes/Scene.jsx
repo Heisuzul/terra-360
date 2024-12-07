@@ -1,4 +1,4 @@
-import React, { Suspense, useRef, useState, useCallback, useEffect, useMemo } from 'react';
+import React, { forwardRef, useRef, useState, useCallback, useEffect, useMemo, useImperativeHandle } from 'react';
 import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import Staging from '../staging/Staging';
 import Terrain from '../meshes/Terrain';
@@ -26,11 +26,10 @@ import CameraController from '../controllers/CameraController';
 import CameraLogger from '../../utils/CameraLogger';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../stores/use-auth-store';
-import { Loader, PositionalAudio, Sparkles, Text3D } from '@react-three/drei';
+import { Loader, PositionalAudio, Sparkles } from '@react-three/drei';
 import { Physics } from "@react-three/rapier";
-import { Vector3 } from 'three';
 
-const Scene = ({ ready, isMuted, setPointsRef }) => {
+const Scene = forwardRef(({ ready, isMuted, setPointsRef, setTreesShown, treesShown }, ref) => {
   const terrainRef = useRef();
   const { logout } = useAuthStore();
   const navigate = useNavigate();
@@ -44,7 +43,6 @@ const Scene = ({ ready, isMuted, setPointsRef }) => {
   const floatingTextRef3 = useRef();
   const floatingTextRef4 = useRef();
   const cameraControllerRef = useRef();
-  const [treesShown, setTreesShown] = useState(true);
 
   const handleTerrainLoad = useCallback((terrain) => {
     terrainRef.current = terrain;
@@ -366,9 +364,9 @@ const Scene = ({ ready, isMuted, setPointsRef }) => {
     }
   };
   
-  const handlePointerOver1 = useCallback(() => {
-    handlePointerOverX(floatingTextRef1);
-  }, []);
+  // const handlePointerOver1 = useCallback(() => {
+  //   handlePointerOverX(floatingTextRef1);
+  // }, []);
 
   const handlePointerOver2 = useCallback(() => {
     handlePointerOverX(floatingTextRef2);
@@ -394,6 +392,10 @@ const Scene = ({ ready, isMuted, setPointsRef }) => {
     }
     setTreesShown(prev => !prev)
   }, [treesRef])
+
+  useImperativeHandle(ref, () => ({
+    handleTreesGrow,
+  }));
 
   return (
     <div className={styles.pageContainer}>
@@ -465,19 +467,19 @@ const Scene = ({ ready, isMuted, setPointsRef }) => {
             sceneIndex={stateIndex}
           />
           <OrangeBird position={[14.95,20.412,-41.98]} rotation={[0,Math.PI/12*10,0]}
-            onPointerOver={handlePointerOver1}
+            // onPointerOver={handlePointerOver1}
             onClick={handleTreesGrow} 
           />
-          { treesShown ? <FloatingText ref={floatingTextRef1} text={'Clean the trees'} position={[14.9,20.6,-41.98]} /> : 
-            <FloatingText ref={floatingTextRef1} text={'Grow trees back'} position={[14.9,20.6,-41.98]} />}
+          { treesShown ? <FloatingText ref={floatingTextRef1} visible={true} text={'Learn the solutions'} position={[14.9,20.6,-41.98]} /> : 
+            <FloatingText ref={floatingTextRef1} visible={true} text={'Recycle'} position={[14.9,20.6,-41.98]} />}
           <FloatingText ref={floatingTextRef2} text={'Get Blades'} position={[17.5, 20.1, -45.856]} scale={0.5}/>
           <FloatingText ref={floatingTextRef3} text={'Pick Up'} position={[19.1, 20.1, -46.5]} scale={0.5} rotationDelta={-Math.PI/12*2}/>
-          <FloatingText ref={floatingTextRef4} text={'Kill the Trees'} position={[19.7, 20.2, -45.1]} scale={0.5} rotationDelta={Math.PI/12*1}/>
+          <FloatingText ref={floatingTextRef4} text={'Let\'s Print'} position={[19.7, 20.2, -45.1]} scale={0.5} rotationDelta={Math.PI/12*1}/>
           <SmallTable position={[17.5, 19.5, -45.858]} scale={0.3} onDoubleClick={handleDoubleClick(1)}/>
           <RedValve position={[17.5, 19.85, -45.887]} scale={0.005}/>
-          <ToggleButton scaleFactor={0.2} initialPosition={[17.65, 19.98, -46.0]} onPointerOver={handlePointerOver2} onClick={handleRedValveClick} onDoubleClick={handleDoubleClick(1)}/>
-          <ToggleButton color={'red'} initialPosition={[17.45, 19.98, -46.05]}  onClick={() => setObjectType('blades')} onDoubleClick={handleDoubleClick(1)}/>
-          <ToggleButton color={'green'} initialPosition={[17.3, 19.98, -46.05]}  onClick={() => setObjectType('bagSeeds')} onDoubleClick={handleDoubleClick(1)}/>
+          <ToggleButton scaleFactor={0.35} initialPosition={[17.5, 19.98, -45.86]} onPointerOver={handlePointerOver2} onClick={handleRedValveClick} onDoubleClick={handleDoubleClick(1)}/>
+          {/* <ToggleButton color={'red'} initialPosition={[17.45, 19.98, -46.05]}  onClick={() => setObjectType('blades')} onDoubleClick={handleDoubleClick(1)}/>
+          <ToggleButton color={'green'} initialPosition={[17.3, 19.98, -46.05]}  onClick={() => setObjectType('bagSeeds')} onDoubleClick={handleDoubleClick(1)}/> */}
           {currentObjectType === 'blades' && blades.map(blade => (
             <InteractiveBlade 
               key={blade.id}
@@ -562,6 +564,6 @@ const Scene = ({ ready, isMuted, setPointsRef }) => {
       <Loader />
     </div>
   );
-};
+});
 
 export default Scene;
