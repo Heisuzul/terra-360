@@ -15,6 +15,8 @@ import DirectionalLight from "../../deforestation/lights/DirectionalLight";
 import Desk from "../../deforestation/meshes/Desk";
 import Laptop from "../../deforestation/meshes/Laptop";
 import Printer from "../../deforestation/meshes/Printer";
+import Flowers from "../../biodiversity/flowers/Flowers"
+import Bee from "../../biodiversity/bee/Bee"
 
 const World = forwardRef(( { handleBoxClick, target, cameraPosition }, ref ) => {
   const relativePosition = 25;
@@ -40,6 +42,9 @@ const World = forwardRef(( { handleBoxClick, target, cameraPosition }, ref ) => 
 
   const isCameraAtTargetPosition = (cameraPosition) =>
     cameraPosition.x === 1 && cameraPosition.y === 10.7 && cameraPosition.z === 6;
+  
+  const isCameraAtBiodiversityPosition = (cameraPosition) =>
+    cameraPosition.x === 10.75 && cameraPosition.y === 0.5 && cameraPosition.z === -50;
 
   //Logic related to the animation of the trees when they are cut
   // -----------------------------------------------------------------
@@ -118,6 +123,9 @@ const World = forwardRef(( { handleBoxClick, target, cameraPosition }, ref ) => 
           <Printer ref={printerRef} position={[-6.6, 0.34, -48.7]} rotation={[0,-Math.PI*7/6,0]}/>
         </Physics>
 
+        <Bee scale={0.1} position={[10.5, 0, -46.5]} baseY={-0.1} rotation={[0.17,2.59,0]} />
+        <Flowers position={[11.75, -0.4, -38.5]} rotation={[0,0,0]} />
+
         <Leaf distance={-1+relativePosition} speed={1} amplitude={1} frequency={2} boundary={5} />
         <Leaf distance={-5+relativePosition} direction={-1} speed={2} amplitude={1} frequency={2} boundary={5} />
         <Leaf distance={-10+relativePosition} height={6} direction={1} speed={0.5} amplitude={3} frequency={0.5} boundary={10} />
@@ -187,6 +195,14 @@ const World = forwardRef(( { handleBoxClick, target, cameraPosition }, ref ) => 
           }}/>
       </Canvas>
       </div>
+      {isCameraAtBiodiversityPosition(cameraPosition) && (
+         <div className={styles.bioInfo}>
+         <p>
+         Imagine a world without bees: without the buzz among the flowers, without fresh fruits on your table and with landscapes devoid of color and life.
+         In this quiz, we will test your knowledge about these wonderful insects. Can you save a bee and help preserve the balance of our ecosystem?
+         </p>
+       </div>
+        )}
     </div>
   )
 });

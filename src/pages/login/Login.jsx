@@ -2,7 +2,6 @@ import { useEffect, useCallback, useState, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores/use-auth-store';
 import UserDAO from '../../DAO/UserDAO';
-
 import World from '../../r3f/homepage/scenes/World.jsx';
 import styles from './Login.module.css'
 
@@ -31,6 +30,10 @@ function Login() {
             position: { x: -5.75, y: 0.5, z: -49.1},
             target: { x: -5, y: 0, z: -46 },
         },
+        {
+            position: { x: 10.75, y: 0.5, z: -50},
+            target: { x: 11, y: 0, z: -46 },
+        }
     ];
 
     // No modificar estado inicial.
