@@ -2,7 +2,6 @@ import { useEffect, useCallback, useState, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores/use-auth-store';
 import UserDAO from '../../DAO/UserDAO';
-
 import World from '../../r3f/homepage/scenes/World.jsx';
 import styles from './Login.module.css'
 
@@ -30,6 +29,10 @@ function Login() {
         {
             position: { x: -5.75, y: 0.5, z: -49.1},
             target: { x: -5, y: 0, z: -46 },
+        },
+        {
+            position: { x: 11.5, y: 0.5, z: -50.5},
+            target: { x: 11, y: 0, z: -46 },
         },
         {
             position: { x: 1.2, y: 0.7, z: 18.5 },
@@ -161,7 +164,7 @@ function Login() {
                                 </p>
                             </div>
                         )}
-                        {currentCameraIndex === 4 && (
+                        {currentCameraIndex === 5 && (
                             <div className={styles.introductionDiv}>
                                 <button className={styles.savePointsButton} onClick={handleSavePoints}>
                                     Save Points
