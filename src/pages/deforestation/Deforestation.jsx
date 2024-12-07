@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Scene from '../../r3f/deforestation/scenes/Scene';
 import InstructionsOverlay from './InstructionsOverlay';
+import SolutionsOverlay from './SolutionsOverlay';
 import Navbar from './navbar/Navbar';
 import './Deforestation.css';
 
@@ -11,6 +12,8 @@ const Deforestation = ({ ready }) => {
   const isDraggingRef = useRef(false);
   const [isMuted, setIsMuted] = useState(false);
   const puffedTreesCountRef = useRef(0);
+  const [treesShown, setTreesShown] = useState(true);
+  const sceneRef = useRef();
   
   
   const updateInstructionsVisibility = () => {
@@ -76,7 +79,7 @@ const Deforestation = ({ ready }) => {
         </div>
       )}
       <Navbar pointsRef={puffedTreesCountRef}/>
-      <Scene ready={ready} isMuted={isMuted} setPointsRef={puffedTreesCountRef}/>
+      <Scene ref={sceneRef} ready={ready} isMuted={isMuted} setPointsRef={puffedTreesCountRef} setTreesShown={setTreesShown} treesShown={treesShown}/>
       
       {showInstructions && (
         <InstructionsOverlay 
@@ -85,6 +88,14 @@ const Deforestation = ({ ready }) => {
             lastInteractionRef.current = Date.now();
           }} 
         />
+      )}
+
+      {!treesShown && (
+        <SolutionsOverlay onHide={() => {
+          if (sceneRef.current) {
+            sceneRef.current.handleTreesGrow();
+          }
+        }} />
       )}
     </div>
   );

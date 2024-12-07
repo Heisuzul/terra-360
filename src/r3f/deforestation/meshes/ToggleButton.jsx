@@ -27,24 +27,33 @@ const ToggleButton = ({ onClick, initialPosition = [0, 0, 0], scaleFactor = 0.1,
   };
 
   return (
-    <RigidBody type='fixed'>
-        <animated.mesh
+    <>
+      <RigidBody type='fixed'>
+        <mesh
             position={position}
-            onPointerDown={handlePointerDown}
-            onPointerUp={handlePointerUp}
             scale={[1*scaleFactor, 1.2*scaleFactor, 1*scaleFactor]}
-            castShadow
-            receiveShadow
-            onPointerOver={handlePointerOver}
-            onPointerOut={() => {
-                setPressed(false)
-                document.body.style.cursor = 'auto'
-            }}
         >
             <boxGeometry args={[1, 0.2, 1]} />
-            <meshStandardMaterial roughness={0.0} metalness={0.4} color={color} />
-        </animated.mesh>
-    </RigidBody>
+            <meshStandardMaterial visible={false} />
+        </mesh>
+      </RigidBody>
+      <animated.mesh
+          position={position}
+          onPointerDown={handlePointerDown}
+          onPointerUp={handlePointerUp}
+          scale={[1*scaleFactor, 1.2*scaleFactor, 1*scaleFactor]}
+          castShadow
+          receiveShadow
+          onPointerOver={handlePointerOver}
+          onPointerOut={() => {
+              setPressed(false)
+              document.body.style.cursor = 'auto'
+          }}
+      >
+          <boxGeometry args={[1, 0.2, 1]} />
+          <meshStandardMaterial roughness={0.0} metalness={0.4} color={color} />
+      </animated.mesh>
+    </>
   );
 };
 

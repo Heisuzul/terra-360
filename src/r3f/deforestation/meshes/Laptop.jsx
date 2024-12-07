@@ -136,7 +136,7 @@ export default function Model({ externalRefs = [], screenToRender = 1, handleTre
                     height: '20px',
                   }}
                 />
-                Login
+                Start Quiz
               </button>
             </div>
           </Html>)}
