@@ -20,7 +20,7 @@ import Flowers from "../../biodiversity/flowers/Flowers"
 import Bee from "../../biodiversity/bee/Bee"
 // import { Bloom, EffectComposer, HueSaturation, BrightnessContrast } from '@react-three/postprocessing'
 
-const World = forwardRef(( { handleBoxClick, target, cameraPosition, deforestationPointsRef, biodiversityPointsRef, erosionPointsRef, storedPoints }, ref ) => {
+const World = forwardRef(( { handleBoxClick, target, cameraPosition, deforestationPointsRef, biodiversityPointsRef, erosionPointsRef, storedPoints, showInstructions }, ref ) => {
   const relativePosition = 25;
 
   // Generates the positions of the trees in the world.
@@ -266,13 +266,13 @@ const World = forwardRef(( { handleBoxClick, target, cameraPosition, deforestati
         />
         <OrangeBird scale={1.5} position={[2.2,1.46,20.1]} rotation={[0,-Math.PI*0.8/12,0]}
           onClick={(event) => {
-            handleBoxClick(2, event);
+            showInstructions(true);
             if (storedPoints > 0) {
               resetPointsRefs();
             }
           }}/>
-        {!storedPoints > 0 ? <FloatingText ref={floatingTextRef1} onClick={(event) => {handleBoxClick(2, event)}} text={'Start Quiz'} position={[1,1.75,20.1]} rotationDelta={3.4} scale={1.1} color={'#db7500'} emissive={'#db7500'} emissiveIntensity={0}/>
-          : <FloatingText ref={floatingTextRef2} onClick={(event) => {handleBoxClick(2, event); resetPointsRefs()}} text={`You have ${storedPoints} points. Restart Quiz?`} position={[-0.8,1.75,20.1]} color={'#db7500'} emissive={'#db7500'} emissiveIntensity={0} rotationDelta={3.4} scale={1}/>}
+        {!storedPoints > 0 ? <FloatingText ref={floatingTextRef1} onClick={(event) => {showInstructions(true)}} text={'Start Quiz'} position={[1,1.75,20.1]} rotationDelta={3.4} scale={1.1} color={'#db7500'} emissive={'#db7500'} emissiveIntensity={0}/>
+          : <FloatingText ref={floatingTextRef2} onClick={(event) => {showInstructions(true); resetPointsRefs()}} text={`You have ${storedPoints} points. Restart Quiz?`} position={[-0.8,1.75,20.1]} color={'#db7500'} emissive={'#db7500'} emissiveIntensity={0} rotationDelta={3.4} scale={1}/>}
       </Canvas>
       </div>
       {isCameraAtBiodiversityPosition(cameraPosition) && (
