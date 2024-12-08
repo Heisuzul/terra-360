@@ -321,7 +321,7 @@
     color: #277e0b;
     border: 0px solid #5b914ae8;
     border-radius: 8px;
-    cursor: pointer;
+    cursor: default;
     font-size: 0.8rem;
     font-weight: bold;
     text-align: center;

@@ -166,23 +166,39 @@ const World = forwardRef(( { handleBoxClick, target, cameraPosition, deforestati
         <Physics>
           <Floor color={"#9ACD32"} />
           <Floor color={"#CD853F"} width={4} height={-0.49}/>
-
           {TreePositions.map((position, index) => (
             <React.Fragment key={index}>
               {showTrees && <Tree key={index} position={position} scale={treeScale} /*onRemove={handleTreeRemoval}*/ popTrees={popTrees} setPopTrees={setPopTrees}/>}
             </React.Fragment>
           ))}
-
-          <Desk onClick={(event) => {
-            handleBoxClick(2, event);
-            document.body.style.cursor = 'auto'
-          }} position={[-5.7, -0.6, -49.2]} rotation={[0,-Math.PI*2/3,0]}/>
+          <Desk 
+            className={styles.magnifierCursorOut}
+            onClick={(event) => {
+              handleBoxClick(2, event);
+              document.body.style.cursor = 'auto'
+            }}
+            onPointerOver={() => {
+              document.body.style.cursor = 'zoom-out';
+            }}
+            onPointerOut={() => {
+              document.body.style.cursor = 'auto'
+            }}
+            position={[-5.7, -0.6, -49.2]} 
+            rotation={[0,-Math.PI*2/3,0]}
+          />
           <Laptop
+            pointer='zoom-in'
             onClick={(event) => {
               handleBoxClick(3, event);
               document.body.style.cursor = 'auto'
             }} 
-            scale={1.3} handleTreesGrow={growTrees} handleTreesPop={puffTrees} handleCorrectAnswer={correctAnswerDeforestation} externalRefs={[printerRef]} position={[-5.65, 0.15, -48.6]} rotation={[0,-Math.PI*11/12,0]} screenToRender={2}/>
+            scale={1.3} 
+            handleTreesGrow={growTrees} 
+            handleTreesPop={puffTrees} 
+            handleCorrectAnswer={correctAnswerDeforestation} 
+            externalRefs={[printerRef]} position={[-5.65, 0.15, -48.6]} 
+            rotation={[0,-Math.PI*11/12,0]} screenToRender={2}
+          />
           <Printer ref={printerRef} position={[-6.6, 0.34, -48.7]} rotation={[0,-Math.PI*7/6,0]}/>
         </Physics>
 
