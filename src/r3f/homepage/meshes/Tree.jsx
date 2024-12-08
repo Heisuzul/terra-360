@@ -12,15 +12,63 @@ const Tree = ({position, scale, popTrees, setPopTrees, /*onRemove*/}) => {
   const coneRef1 = useRef();
   const coneRef2 = useRef();
   const audioRef = useRef();
-
+  const [animationsActive, setAnimationsActive] = useState(true);
 
   const leavesColor = "#6B8E23";
 
+  const [boxSpring, boxApi] = useSpring(() => ({
+    scale: [0, 0, 0],
+    config: { tension: 200, friction: 20 },
+    onRest: () => setAnimationsActive(false), // Disable animations once finished
+  }));
+
+  const [coneSpring1, coneApi1] = useSpring(() => ({
+    scale: [0, 0, 0],
+    delay: 200, 
+    config: { tension: 200, friction: 20 },
+  }));
+
+  const [coneSpring2, coneApi2] = useSpring(() => ({
+    scale: [0, 0, 0],
+    delay: 400,
+    config: { tension: 200, friction: 20 },
+  }));
+
+  const [coneSpring3, coneApi3] = useSpring(() => ({
+    scale: [0, 0, 0],
+    delay: 600,
+    config: { tension: 200, friction: 20 },
+  }));
+
+  useEffect(() => {
+    boxApi.start({ scale: [scale, scale, scale] }); // Animate to the final scale
+    coneApi1.start({ scale: [scale, scale, scale] });
+    coneApi2.start({ scale: [scale, scale, scale] });
+    coneApi3.start({ scale: [scale, scale, scale] });
+  }, [boxApi, coneApi1, coneApi2, coneApi3, scale]);
+
+  useFrame(() => {
+    if (animationsActive) {
+      if (boxRef.current) {
+        boxRef.current.scale.set(...boxSpring.scale.get());
+      }
+      if (coneRef.current) {
+        coneRef.current.scale.set(...coneSpring1.scale.get());
+      }
+      if (coneRef1.current) {
+        coneRef1.current.scale.set(...coneSpring2.scale.get());
+      }
+      if (coneRef2.current) {
+        coneRef2.current.scale.set(...coneSpring3.scale.get());
+      }
+    }
+  });
+
   useFrame((state, delta) => {
     if (coneRef.current && coneRef1.current && coneRef2.current) {
-    coneRef.current.rotation.y += 0.2 * delta;
-    coneRef1.current.rotation.y += 0.2 * delta;
-    coneRef2.current.rotation.y += 0.2 * delta;
+      coneRef.current.rotation.y += 0.2 * delta;
+      coneRef1.current.rotation.y += 0.2 * delta;
+      coneRef2.current.rotation.y += 0.2 * delta;
     }
   });
 
