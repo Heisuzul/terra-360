@@ -4,12 +4,14 @@ import { useAuthStore } from '../../stores/use-auth-store';
 import UserDAO from '../../DAO/UserDAO';
 import World from '../../r3f/homepage/scenes/World.jsx';
 import styles from './Login.module.css'
+import InstructionsOverlay from './InstructionsOverlay.jsx';
 
 
 function Login() {
     const { user, observeAuthState, loginGoogleWithPopup, logout, updateUserPoints } = useAuthStore();
     const navigate = useNavigate();
     const worldRef = useRef(null);
+    const [showInstructions, setShowInstructions] = useState(false);
 
     // Definir estados de las cámaras y sus posiciones y objetivos
     const cameraStatesSet = [
@@ -157,6 +159,7 @@ function Login() {
                             biodiversityPointsRef={biodiversityPointsRef}
                             erosionPointsRef={erosionPointsRef}
                             storedPoints={storedPoints}
+                            showInstructions={setShowInstructions}
                         />
                         {currentCameraIndex === 1 && <div className={styles.welcomeDiv}>
                             <p className={styles.welcomeText}>Welcome, {user.displayName}</p>
@@ -196,6 +199,9 @@ function Login() {
                             <div className={styles.pointsButton}>
                                 {((deforestationPointsRef.current + biodiversityPointsRef.current + erosionPointsRef.current) / 75 * 100).toFixed(1)}%
                             </div>
+                        )}
+                        {showInstructions && (
+                            <InstructionsOverlay onHide={(event)=>{setShowInstructions(false); handleBoxClick(2,event)}}/>
                         )}
                         <div className={styles.navigationButtons}>
                             <button className={styles.navButton} onClick={handleBack} disabled={currentCameraIndex === 0}>
