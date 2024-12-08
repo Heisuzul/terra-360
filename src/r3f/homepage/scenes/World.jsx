@@ -86,7 +86,13 @@ const World = forwardRef(( { handleBoxClick, target, cameraPosition, deforestati
       console.log("REF", popTrees);
   };
 
+  const [treeScale, setTreeScale] = useState(1);
+
   const correctAnswerDeforestation = () => {
+    if (treeScale === 1) {
+      setTreeScale(1.2);
+    }
+
     if (deforestationPointsRef.current < 25) {
       if (puffTreesCountRef.current === 0) {
         deforestationPointsRef.current = 25;
@@ -163,7 +169,7 @@ const World = forwardRef(( { handleBoxClick, target, cameraPosition, deforestati
 
           {TreePositions.map((position, index) => (
             <React.Fragment key={index}>
-              {showTrees && <Tree key={index} position={position} scale={1} /*onRemove={handleTreeRemoval}*/ popTrees={popTrees} setPopTrees={setPopTrees}/>}
+              {showTrees && <Tree key={index} position={position} scale={treeScale} /*onRemove={handleTreeRemoval}*/ popTrees={popTrees} setPopTrees={setPopTrees}/>}
             </React.Fragment>
           ))}
 

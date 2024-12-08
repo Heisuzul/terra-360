@@ -19,7 +19,7 @@ const Tree = ({position, scale, popTrees, setPopTrees, /*onRemove*/}) => {
   const [boxSpring, boxApi] = useSpring(() => ({
     scale: [0, 0, 0],
     config: { tension: 200, friction: 20 },
-    onRest: () => setAnimationsActive(false), // Disable animations once finished
+    // onRest: () => setAnimationsActive(false),
   }));
 
   const [coneSpring1, coneApi1] = useSpring(() => ({
@@ -111,38 +111,38 @@ const Tree = ({position, scale, popTrees, setPopTrees, /*onRemove*/}) => {
         <>
           <RigidBody type="fixed" collider="cuboid" onCollisionEnter={handleCollision}>
             <mesh>
-              <boxGeometry args={[1.5, 8, 1.5]} position={[0, 20, 0]}/>
+              <boxGeometry args={[1.5, 8*scale, 1.5]} position={[0, 20, 0]}/>
               <meshStandardMaterial transparent  opacity={0}/>
             </mesh>
           </RigidBody>
           <mesh
             ref={coneRef}
-            position={[0, 3, 0]}
+            position={[0, 3*scale, 0]}
             rotation={[0, Math.PI * 0.25, 0]}
             scale={scale}
             castShadow
           >
-            <coneGeometry args={[1.27, 4, 6]} />
+            <coneGeometry args={[1.27, 4*scale, 6]} />
             <meshStandardMaterial color={leavesColor} roughness={0.6}/>
           </mesh>
           <mesh
             ref={coneRef1}
-            position={[0, 3.5, 0]}
+            position={[0, 3.5*scale, 0]}
             rotation={[0, Math.PI * 0.25, 0]}
             scale={scale}
             castShadow
           >
-            <coneGeometry args={[1.15, 3, 6]} />
+            <coneGeometry args={[1.15, 3*scale, 6]} />
             <meshStandardMaterial color={leavesColor} roughness={0.6}/>
           </mesh>
           <mesh
             ref={coneRef2}
-            position={[0, 4, 0]}
+            position={[0, 4*scale, 0]}
             rotation={[0, Math.PI * 0.25, 0]}
             scale={scale}
             castShadow
           >
-            <coneGeometry args={[1.10, 2.5, 6]} />
+            <coneGeometry args={[1.10, 2.5*scale, 6]} />
             <meshStandardMaterial color={leavesColor} roughness={0.6}/>
           </mesh>
         </>
@@ -164,7 +164,7 @@ const Tree = ({position, scale, popTrees, setPopTrees, /*onRemove*/}) => {
         }
         <mesh 
           ref={boxRef} 
-          position={[0, 0.5, 0]} 
+          position={scale === 1.2 ? [0, 0.4, 0]: [0, 0.5, 0]} 
           scale={scale}
           castShadow
         >
