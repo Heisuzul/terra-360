@@ -12,15 +12,63 @@ const Tree = ({position, scale, popTrees, setPopTrees, /*onRemove*/}) => {
   const coneRef1 = useRef();
   const coneRef2 = useRef();
   const audioRef = useRef();
-
+  const [animationsActive, setAnimationsActive] = useState(true);
 
   const leavesColor = "#6B8E23";
 
+  const [boxSpring, boxApi] = useSpring(() => ({
+    scale: [0, 0, 0],
+    config: { tension: 200, friction: 20 },
+    // onRest: () => setAnimationsActive(false),
+  }));
+
+  const [coneSpring1, coneApi1] = useSpring(() => ({
+    scale: [0, 0, 0],
+    delay: 200, 
+    config: { tension: 200, friction: 20 },
+  }));
+
+  const [coneSpring2, coneApi2] = useSpring(() => ({
+    scale: [0, 0, 0],
+    delay: 400,
+    config: { tension: 200, friction: 20 },
+  }));
+
+  const [coneSpring3, coneApi3] = useSpring(() => ({
+    scale: [0, 0, 0],
+    delay: 600,
+    config: { tension: 200, friction: 20 },
+  }));
+
+  useEffect(() => {
+    boxApi.start({ scale: [scale, scale, scale] }); // Animate to the final scale
+    coneApi1.start({ scale: [scale, scale, scale] });
+    coneApi2.start({ scale: [scale, scale, scale] });
+    coneApi3.start({ scale: [scale, scale, scale] });
+  }, [boxApi, coneApi1, coneApi2, coneApi3, scale]);
+
+  useFrame(() => {
+    if (animationsActive) {
+      if (boxRef.current) {
+        boxRef.current.scale.set(...boxSpring.scale.get());
+      }
+      if (coneRef.current) {
+        coneRef.current.scale.set(...coneSpring1.scale.get());
+      }
+      if (coneRef1.current) {
+        coneRef1.current.scale.set(...coneSpring2.scale.get());
+      }
+      if (coneRef2.current) {
+        coneRef2.current.scale.set(...coneSpring3.scale.get());
+      }
+    }
+  });
+
   useFrame((state, delta) => {
     if (coneRef.current && coneRef1.current && coneRef2.current) {
-    coneRef.current.rotation.y += 0.2 * delta;
-    coneRef1.current.rotation.y += 0.2 * delta;
-    coneRef2.current.rotation.y += 0.2 * delta;
+      coneRef.current.rotation.y += 0.2 * delta;
+      coneRef1.current.rotation.y += 0.2 * delta;
+      coneRef2.current.rotation.y += 0.2 * delta;
     }
   });
 
@@ -63,38 +111,38 @@ const Tree = ({position, scale, popTrees, setPopTrees, /*onRemove*/}) => {
         <>
           <RigidBody type="fixed" collider="cuboid" onCollisionEnter={handleCollision}>
             <mesh>
-              <boxGeometry args={[1.5, 8, 1.5]} position={[0, 20, 0]}/>
+              <boxGeometry args={[1.5, 8*scale, 1.5]} position={[0, 20, 0]}/>
               <meshStandardMaterial transparent  opacity={0}/>
             </mesh>
           </RigidBody>
           <mesh
             ref={coneRef}
-            position={[0, 3, 0]}
+            position={[0, 3*scale, 0]}
             rotation={[0, Math.PI * 0.25, 0]}
             scale={scale}
             castShadow
           >
-            <coneGeometry args={[1.27, 4, 6]} />
+            <coneGeometry args={[1.27, 4*scale, 6]} />
             <meshStandardMaterial color={leavesColor} roughness={0.6}/>
           </mesh>
           <mesh
             ref={coneRef1}
-            position={[0, 3.5, 0]}
+            position={[0, 3.5*scale, 0]}
             rotation={[0, Math.PI * 0.25, 0]}
             scale={scale}
             castShadow
           >
-            <coneGeometry args={[1.15, 3, 6]} />
+            <coneGeometry args={[1.15, 3*scale, 6]} />
             <meshStandardMaterial color={leavesColor} roughness={0.6}/>
           </mesh>
           <mesh
             ref={coneRef2}
-            position={[0, 4, 0]}
+            position={[0, 4*scale, 0]}
             rotation={[0, Math.PI * 0.25, 0]}
             scale={scale}
             castShadow
           >
-            <coneGeometry args={[1.10, 2.5, 6]} />
+            <coneGeometry args={[1.10, 2.5*scale, 6]} />
             <meshStandardMaterial color={leavesColor} roughness={0.6}/>
           </mesh>
         </>
@@ -116,7 +164,7 @@ const Tree = ({position, scale, popTrees, setPopTrees, /*onRemove*/}) => {
         }
         <mesh 
           ref={boxRef} 
-          position={[0, 0.5, 0]} 
+          position={scale === 1.2 ? [0, 0.4, 0]: [0, 0.5, 0]} 
           scale={scale}
           castShadow
         >

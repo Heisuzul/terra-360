@@ -185,11 +185,16 @@ function Login() {
                                 </p>
                             </div>
                         )}
-                        {currentCameraIndex === 5 && (
+                        {currentCameraIndex === cameraStatesSet.length - 1 && (
                             <div className={styles.introductionDiv}>
                                 <button className={styles.savePointsButton} onClick={(event) => {handleSavePoints(); handleBoxClick(1,event)}}>
                                     Save Points
                                 </button>
+                            </div>
+                        )}
+                        {currentCameraIndex > 1 && (
+                            <div className={styles.pointsButton}>
+                                {((deforestationPointsRef.current + biodiversityPointsRef.current + erosionPointsRef.current) / 75 * 100).toFixed(1)}%
                             </div>
                         )}
                         <div className={styles.navigationButtons}>

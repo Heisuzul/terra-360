@@ -3,7 +3,7 @@ import { useGLTF, Html } from '@react-three/drei'
 import { useNavigate } from 'react-router-dom'
 import '../../../pages/deforestation/Deforestation.css'; // Import the CSS file
 
-export default function Model({ externalRefs = [], screenToRender = 1, handleTreesPop=()=>{}, handleTreesGrow=()=>{}, handleCorrectAnswer=()=>{},  ...props }) {
+export default function Model({ externalRefs = [], screenToRender = 1, handleTreesPop=()=>{}, handleTreesGrow=()=>{}, handleCorrectAnswer=()=>{}, pointer='pointer',  ...props }) {
   const { nodes, materials } = useGLTF('/models-3d/deforestation/laptop.glb')
   const displayRef = useRef()
   const navigate = useNavigate();
@@ -22,11 +22,12 @@ export default function Model({ externalRefs = [], screenToRender = 1, handleTre
     <group {...props} dispose={null}>
       <group name="Silver_colour_Cover" position={[0, 0.001, 0]} scale={[0.19, 0.146, 0.121]} 
         onPointerOver={() => {
-          document.body.style.cursor = 'pointer'
+          document.body.style.cursor = pointer;
         }}
         onPointerOut={() => {
           document.body.style.cursor = 'auto'
-        }}>
+        }}
+        >
         <mesh
           name="Cover_Plane"
           castShadow
