@@ -70,6 +70,69 @@
     transition: 0.3s;
 }
 
+.rewardDiv {
+    filter: drop-shadow(0 0 50px white) drop-shadow(0 0 100px white);
+    position: absolute;
+    top: 15%;
+    left: 20%;
+    transform: translate(-50%, -50%); 
+    z-index: 10; 
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    transition: 0.3s;
+    user-select: none;
+}
+
+.rewardText {
+    color: #277e0b;
+    font-weight: 500;
+    font-size: min(2.5vw, 16px);
+    filter: drop-shadow(0 0 5px white) drop-shadow(0 0 10px white) drop-shadow(0 0 15px white) drop-shadow(0 0 20px white);
+}
+
+.rewardIcon {
+    width: 96px; /* Width proportional to viewport width */
+    transition: 0.5s;
+    filter: drop-shadow(0 0 5px white) drop-shadow(0 0 10px white) drop-shadow(0 0 15px white) drop-shadow(0 0 20px white);
+}
+
+.rewardTreeIcon {
+    width: 72px; /* Width proportional to viewport width */
+    transition: 0.5s;
+    filter: drop-shadow(0 0 5px white) drop-shadow(0 0 10px white) drop-shadow(0 0 15px white) drop-shadow(0 0 20px white);
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Position the tooltip above the text */
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
 .introductionDiv {
     margin: 0px;
     padding: 15px 20px;
@@ -115,6 +178,8 @@
     transition: 0.5s;
 }
 
+.rewardIcon:hover,
+.rewardTreeIcon:hover,
 .loginIcon:hover {
     transform: scale(1.05);
 }
@@ -170,6 +235,10 @@
         text-align: center;
         gap: 10px;
         max-width: 40vh;
+    }
+    .rewardDiv {
+        top: 15%;
+        left: 25%;
     }
 }
 

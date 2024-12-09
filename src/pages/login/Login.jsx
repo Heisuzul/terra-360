@@ -8,10 +8,11 @@ import InstructionsOverlay from './InstructionsOverlay.jsx';
 
 
 function Login() {
-    const { user, observeAuthState, loginGoogleWithPopup, logout, updateUserPoints } = useAuthStore();
+    const { user, observeAuthState, loginGoogleWithPopup, logout, updateUserPoints, updateUserPerfectScoreValue, updateUserTreesSavedValue } = useAuthStore();
     const navigate = useNavigate();
     const worldRef = useRef(null);
     const [showInstructions, setShowInstructions] = useState(false);
+    const [deforestationPoints, setDeforestationPoints] = useState(0);
 
     // Definir estados de las cámaras y sus posiciones y objetivos
     const cameraStatesSet = [
@@ -46,6 +47,8 @@ function Login() {
     const target = cameraStatesSet[currentCameraIndex].target;
     const cameraPosition = cameraStatesSet[currentCameraIndex].position;
     const [storedPoints, setStoredPoints] = useState(0);
+    const [isTreesSaved, setIsTreesSaved] = useState(false);
+    const [isPerfectScore, setIsPerfectScore] = useState(false);
     
     // No modificar función, solo agregar nuevos estados según sea necesario 
     // y llamar la función en el evento deseado usándo el valor de cameraSatesSet definido.
@@ -66,7 +69,11 @@ function Login() {
                 const userDoc = await UserDAO.getUserById(user.uid);
                 if (userDoc && userDoc.success) {
                     const points = userDoc.data.points || 0;
+                    const treesSaved = userDoc.data.treesSaved || false;
+                    const isPerfectScore = userDoc.data.perfectScore || false;
                     setStoredPoints(Math.round(points * 10) / 10);
+                    setIsTreesSaved(treesSaved);
+                    setIsPerfectScore(isPerfectScore);
                 } 
             }
         };
@@ -141,6 +148,18 @@ function Login() {
         if (user) {
             await updateUserPoints(user.uid, totalPoints);
             setStoredPoints(Math.round(totalPoints * 10) / 10);
+            if (!isTreesSaved) {
+                if (deforestationPointsRef.current === 25) {
+                    await updateUserTreesSavedValue(user.uid, true);
+                }
+                setIsTreesSaved(true);
+            }
+            if (!isPerfectScore) {
+                if (Math.round(totalPoints * 10) / 10 === 33.3) {
+                    await updateUserPerfectScoreValue(user.uid, true);
+                }
+                setIsPerfectScore(true);
+            }    
         }
     };
     
@@ -161,7 +180,24 @@ function Login() {
                             storedPoints={storedPoints}
                             showInstructions={setShowInstructions}
                             cameraIndex={currentCameraIndex}
+                            setDeforestationPoints={setDeforestationPoints}
                         />
+                        {currentCameraIndex === 1 && (
+                            <div className={styles.rewardDiv}>
+                                { isPerfectScore && (
+                                    <div className={styles.tooltip}>
+                                        <img src="Terra360 Logo-03.svg" alt="Terra Logo" className={styles.rewardIcon} />
+                                        <span className={styles.tooltiptext}>Perfect Score!</span>
+                                    </div>
+                                )}
+                                { isTreesSaved && (
+                                    <div className={styles.tooltip}>
+                                        <img src="low-poly-tree.svg" alt="Terra Logo" className={styles.rewardTreeIcon} />
+                                        <span className={styles.tooltiptext}>All Trees Saved!</span>
+                                    </div>
+                                )}
+                            </div>
+                        )}
                         {currentCameraIndex === 1 && <div className={styles.welcomeDiv}>
                             <p className={styles.welcomeText}>Welcome, {user.displayName}</p>
                             <button className={styles.logoutButton} onClick={handleLogout}>
@@ -198,7 +234,7 @@ function Login() {
                         )}
                         {currentCameraIndex > 1 && (
                             <div className={styles.pointsButton}>
-                                {((deforestationPointsRef.current + biodiversityPointsRef.current + erosionPointsRef.current) / 75 * 100).toFixed(1)}%
+                                {((deforestationPointsRef.current + biodiversityPointsRef.current + erosionPointsRef.current) / 75 * 100).toFixed(1)} points
                             </div>
                         )}
                         {showInstructions && (

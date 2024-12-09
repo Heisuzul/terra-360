@@ -44,6 +44,24 @@ const useAuthStore = create((set) => ({
             console.error('Error updating user points:', error);
         }
     },
+    updateUserPerfectScoreValue: async (uid, perfectScore) => {
+        try {
+            const userDocRef = doc(db, 'users', uid);
+            await setDoc(userDocRef, { perfectScore }, { merge: true });
+            console.log('User perfectScore value updated successfully');
+        } catch (error) {
+            console.error('Error updating user perfectScore:', error);
+        }
+    },
+    updateUserTreesSavedValue: async (uid, treesSaved) => {
+        try {
+            const userDocRef = doc(db, 'users', uid);
+            await setDoc(userDocRef, { treesSaved }, { merge: true });
+            console.log('User treesSaved value updated successfully');
+        } catch (error) {
+            console.error('Error updating user treesSaved:', error);
+        }
+    },
 }));
 
 export { useAuthStore };
