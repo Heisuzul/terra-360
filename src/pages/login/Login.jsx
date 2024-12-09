@@ -160,6 +160,7 @@ function Login() {
                             erosionPointsRef={erosionPointsRef}
                             storedPoints={storedPoints}
                             showInstructions={setShowInstructions}
+                            cameraIndex={currentCameraIndex}
                         />
                         {currentCameraIndex === 1 && <div className={styles.welcomeDiv}>
                             <p className={styles.welcomeText}>Welcome, {user.displayName}</p>

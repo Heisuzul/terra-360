@@ -20,7 +20,7 @@ import Flowers from "../../biodiversity/flowers/Flowers"
 import Bee from "../../biodiversity/bee/Bee"
 // import { Bloom, EffectComposer, HueSaturation, BrightnessContrast } from '@react-three/postprocessing'
 
-const World = forwardRef(( { handleBoxClick, target, cameraPosition, deforestationPointsRef, biodiversityPointsRef, erosionPointsRef, storedPoints, showInstructions }, ref ) => {
+const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition, deforestationPointsRef, biodiversityPointsRef, erosionPointsRef, storedPoints, showInstructions }, ref ) => {
   const relativePosition = 25;
 
   // Generates the positions of the trees in the world.
@@ -172,25 +172,30 @@ const World = forwardRef(( { handleBoxClick, target, cameraPosition, deforestati
             </React.Fragment>
           ))}
           <Desk 
-            className={styles.magnifierCursorOut}
-            onClick={(event) => {
-              handleBoxClick(2, event);
-              document.body.style.cursor = 'auto'
-            }}
-            onPointerOver={() => {
-              document.body.style.cursor = 'zoom-out';
-            }}
-            onPointerOut={() => {
-              document.body.style.cursor = 'auto'
-            }}
+            // className={styles.magnifierCursorOut}
+            // onClick={(event) => {
+            //   handleBoxClick(2, event);
+            //   document.body.style.cursor = 'auto'
+            // }}
+            // onPointerOver={() => {
+            //   document.body.style.cursor = 'zoom-out';
+            // }}
+            // onPointerOut={() => {
+            //   document.body.style.cursor = 'auto'
+            // }}
             position={[-5.7, -0.6, -49.2]} 
             rotation={[0,-Math.PI*2/3,0]}
           />
           <Laptop
-            pointer='zoom-in'
+            pointer={cameraIndex === 2? 'zoom-in' : 'zoom-out'}
             onClick={(event) => {
-              handleBoxClick(3, event);
-              document.body.style.cursor = 'auto'
+              if (cameraIndex === 2) {
+                handleBoxClick(3, event);
+                document.body.style.cursor = 'zoom-out'
+              } else if (cameraIndex === 3) {
+                handleBoxClick(2, event);
+                document.body.style.cursor = 'zoom-in'
+              }
             }} 
             scale={1.3} 
             handleTreesGrow={growTrees} 
