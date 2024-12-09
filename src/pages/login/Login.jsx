@@ -157,14 +157,14 @@ function Login() {
             if (!isTreesSaved) {
                 if (deforestationPointsRef.current === 25) {
                     await updateUserTreesSavedValue(user.uid, true);
+                    setIsTreesSaved(true);
                 }
-                setIsTreesSaved(true);
             }
             if (!isPerfectScore) {
-                if (Math.round(totalPoints * 10) / 10 === 33.3) {
+                if (Math.round(totalPoints * 10) / 10 === 100) {
                     await updateUserPerfectScoreValue(user.uid, true);
+                    setIsPerfectScore(true);
                 }
-                setIsPerfectScore(true);
             }    
         }
     };
