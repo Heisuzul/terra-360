@@ -136,6 +136,8 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
     cameraPosition.x === 11.5 && cameraPosition.y === 0.5 && cameraPosition.z === -50.5;
   const [showFlowers, setShowFlowers] = useState(false);
   const [clicked, setClicked] = useState(false);
+  const [optionClicked, setOptionClicked] = useState(false);
+  const [correctAnswer, setCorrectAnswer] = useState(false);
 
   const flowerAnimation = useSpring({
     positionY: showFlowers && clicked ? -0.4 : -3, // Aparece en -0.4
@@ -145,14 +147,24 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
   const handleOptionClick = (option) => {
     if (option === "B") {
       setShowFlowers(true);
+      setOptionClicked(true);
+      setCorrectAnswer(true);
       biodiversityPointsRef.current = 25;
       console.log("Biodiversity points:", biodiversityPointsRef.current);
+    } else if (option === "A"){
+      setOptionClicked(true);
+      setCorrectAnswer(false);
     }
   };
   
-  const animationProps = useSpring({
-    positionY: clicked ? 0 : 3, // Desde Y=3 (arriba) hacia Y=0 (posición original)
+  const textAnimation = useSpring({
+    positionY: clicked && !optionClicked ? 0 : 3, // Desde Y=3 (arriba) hacia Y=0 (posición original)
     config: { tension: 100, friction: 30 },
+  });
+
+  const messageAnimation = useSpring({
+    positionY: optionClicked ? 0 : 3, // Desde Y=3 (arriba) hacia Y=0 (posición original)
+    config: { tension: 200, friction: 20 },
   });
 
   const handleClick = () => {
@@ -163,6 +175,8 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
     if (!isCameraAtBiodiversityPosition(cameraPosition)) {
       setClicked(false);
       setShowFlowers(false);
+      setOptionClicked(false);
+      setCorrectAnswer(false);
     }
   }, [isCameraAtBiodiversityPosition(cameraPosition)]);
 
@@ -241,9 +255,21 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
             bottom: -5
         }}/>
         <Bee scale={0.1} position={[11, 0, -46.5]} baseY={-0.3} rotation={[0.17,2.7,0]} />
-        <Flowers position={[18.65, -0.4, -47.99]} rotation={[0,1.5,0]} scale={0.5}/>
+        {!optionClicked && (
+          <Flowers position={[18.65, -0.4, -47.99]} rotation={[0,1.5,0]} scale={0.5}/>
+        )}
 
-        <animated.group position-y={animationProps.positionY}>
+        {optionClicked && !correctAnswer && (
+          <>
+            <Flowers
+              position={[17.25, -0.4, -47.99]}
+              rotation={[0, 1.5, 0]}
+              scale={0.4}
+            />
+          </>
+        )}
+
+        <animated.group position-y={textAnimation.positionY}>
         <Text3D
             position={[13.4, 2, -46.6]}
             rotation={[-0.07, 3.02, 0]}
@@ -261,6 +287,7 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
             scale={0.11}
             onPointerOver={() => {document.body.style.cursor = "pointer"}}
             onPointerOut={() => {document.body.style.cursor = "default"}}
+            onClick={() => handleOptionClick("A")}
             castShadow
         >  
         A. Eat leaves to maintain balance.
@@ -293,13 +320,43 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
         </Text3D>
         </animated.group>
 
+        {optionClicked && (
+          correctAnswer ? (
+            <animated.group position-y={messageAnimation.positionY}>
+              <Text3D
+                position={[13.9, 1.75, -46.6]}
+                rotation={[-0.07, 3.02, 0]}
+                font="/fonts/TiltWarp-Regular.json"
+                scale={0.2}
+                castShadow
+              >
+                Congrats! You have restored biodiversity
+                <meshStandardMaterial color="#ff883c" />
+              </Text3D>
+            </animated.group>
+          ) : (
+          <animated.group position-y={messageAnimation.positionY}>
+            <Text3D
+              position={[13.5, 1.75, -46.6]}
+              rotation={[-0.07, 3.02, 0]}
+              font="/fonts/TiltWarp-Regular.json"
+              scale={0.2}
+              castShadow
+            >
+              Oh no! The flowers lost their shine...
+              <meshStandardMaterial color="#ff883c" />
+            </Text3D>
+          </animated.group>
+          )
+        )}
+
         {showFlowers && (
         <>
           <animated.group position-y={flowerAnimation.positionY}>
-            <Flowers position={[16.65, 0, -47.99]} rotation={[0, 1.5, 0]} scale={0.5} />
-            <Flowers position={[20.65, 0, -47.99]} rotation={[0, 1.5, 0]} scale={0.5} />
+            <Flowers position={[16.65, 0, -48.89]} rotation={[0, 1.5, 0]} scale={0.5} />
+            <Flowers position={[20.65, 0, -48.6]} rotation={[0, 1.5, 0]} scale={0.5} />
           </animated.group>
-          <Bee scale={0.1} position={[14, 0, -48]} baseY={-0.3} rotation={[0,5.5,0]} />
+          <Bee scale={0.1} position={[13.8, 0, -48.5]} baseY={-0.4} rotation={[-0.3,5.5,0]} />
           <Bee scale={0.1} position={[9.5, 0, -47.5]} baseY={-0.3} rotation={[0.17,2.7,0]} />
         </>
       )}
