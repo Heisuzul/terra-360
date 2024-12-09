@@ -44,6 +44,8 @@ class UserDAO {
             name: userData.name,
             photo: userData.photo,
             points: 0, // Initialize points field
+            perfectScore: false,
+            treesSaved: false,
         }, { merge: true })
         .then(() => {
             console.log("Document written with ID:", userData.uid);

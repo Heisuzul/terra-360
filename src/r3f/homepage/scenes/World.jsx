@@ -20,7 +20,7 @@ import Flowers from "../../biodiversity/flowers/Flowers"
 import Bee from "../../biodiversity/bee/Bee"
 // import { Bloom, EffectComposer, HueSaturation, BrightnessContrast } from '@react-three/postprocessing'
 
-const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition, deforestationPointsRef, biodiversityPointsRef, erosionPointsRef, storedPoints, showInstructions }, ref ) => {
+const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition, deforestationPointsRef, biodiversityPointsRef, erosionPointsRef, storedPoints, showInstructions, setDeforestationPoints }, ref ) => {
   const relativePosition = 25;
 
   // Generates the positions of the trees in the world.
@@ -101,6 +101,7 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
       }
       console.log("Deforestation points:", deforestationPointsRef.current);
     }
+    setDeforestationPoints(deforestationPointsRef.current);
   }
 
   // reset the points when the user restarts the quiz
