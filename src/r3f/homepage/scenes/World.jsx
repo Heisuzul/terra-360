@@ -108,6 +108,8 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
     deforestationPointsRef.current = 0;
     biodiversityPointsRef.current = 0;
     erosionPointsRef.current = 0;
+    puffTreesCountRef.current = 0;
+    setTreeScale(1);
   }
 
   // Use `useImperativeHandle` to expose a function to the parent component
