@@ -13,6 +13,13 @@ function Login() {
     const worldRef = useRef(null);
     const [showInstructions, setShowInstructions] = useState(false);
     const [deforestationPoints, setDeforestationPoints] = useState(0);
+    const deforestationPointsRef = useRef(0);
+    const biodiversityPointsRef = useRef(0);
+    const erosionPointsRef = useRef(0);
+    const [currentCameraIndex, setCurrentCameraIndex] = useState(0);
+    const [storedPoints, setStoredPoints] = useState(0);
+    const [isTreesSaved, setIsTreesSaved] = useState(false);
+    const [isPerfectScore, setIsPerfectScore] = useState(false);
 
     // Definir estados de las cámaras y sus posiciones y objetivos
     const cameraStatesSet = [
@@ -42,13 +49,8 @@ function Login() {
         },
     ];
 
-    // No modificar estado inicial.
-    const [currentCameraIndex, setCurrentCameraIndex] = useState(0);
     const target = cameraStatesSet[currentCameraIndex].target;
     const cameraPosition = cameraStatesSet[currentCameraIndex].position;
-    const [storedPoints, setStoredPoints] = useState(0);
-    const [isTreesSaved, setIsTreesSaved] = useState(false);
-    const [isPerfectScore, setIsPerfectScore] = useState(false);
     
     // No modificar función, solo agregar nuevos estados según sea necesario 
     // y llamar la función en el evento deseado usándo el valor de cameraSatesSet definido.
@@ -107,11 +109,20 @@ function Login() {
  
     const handleLogout = useCallback(async() => {
         await logout();
+        setShowInstructions(false);
+        setDeforestationPoints(0);
+        setCurrentCameraIndex(0);
+        setStoredPoints(0);
+        setIsTreesSaved(false);
+        setIsPerfectScore(false);
+        deforestationPointsRef.current = 0;
+        biodiversityPointsRef.current = 0;
+        erosionPointsRef.current = 0;
         navigate('/');
     }, [logout], [navigate]);
 
     // Funciones para navegar a las páginas de deforestation, biodiversity y erosion
-    const handlePage1 = () => {navigate('/deforestation')};
+    const handlePage1 = () => navigate('/deforestation');
     const handlePage2 = () => navigate('/biodiversity');
     const handlePage3 = () => navigate('/erosion'); 
 
@@ -136,11 +147,6 @@ function Login() {
     const handleBack = () => {
         setCurrentCameraIndex((prevIndex) => Math.max(prevIndex - 1, 0));
     };
-
-    // Referencias para almacenar los puntos de cada apartado
-    const deforestationPointsRef = useRef(0);
-    const biodiversityPointsRef = useRef(0);
-    const erosionPointsRef = useRef(0);
 
     // Función para guardar los puntos del usuario
     const handleSavePoints = async () => {
