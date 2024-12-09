@@ -1,5 +1,6 @@
 import { Canvas } from "@react-three/fiber";
 import { Text3D } from '@react-three/drei'
+import { useSpring, animated } from '@react-spring/three';
 import Tree from "../meshes/Tree";
 import Leaf from "../meshes/Leaf";
 import Floor from "../meshes/Floor";
@@ -133,8 +134,26 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
   //Biodiversity Section
   const isCameraAtBiodiversityPosition = (cameraPosition) =>
     cameraPosition.x === 11.5 && cameraPosition.y === 0.5 && cameraPosition.z === -50.5;
-  
+  const [showFlowers, setShowFlowers] = useState(false);
   const [clicked, setClicked] = useState(false);
+
+  const flowerAnimation = useSpring({
+    positionY: showFlowers && clicked ? -0.4 : -3, // Aparece en -0.4
+    config: { tension: 300, friction: 25 }, // Velocidad ajustada
+  });
+
+  const handleOptionClick = (option) => {
+    if (option === "B") {
+      setShowFlowers(true);
+      biodiversityPointsRef.current = 25;
+      console.log("Biodiversity points:", biodiversityPointsRef.current);
+    }
+  };
+  
+  const animationProps = useSpring({
+    positionY: clicked ? 0 : 3, // Desde Y=3 (arriba) hacia Y=0 (posición original)
+    config: { tension: 100, friction: 30 },
+  });
 
   const handleClick = () => {
     setClicked(true);
@@ -143,8 +162,10 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
   useEffect(() => {
     if (!isCameraAtBiodiversityPosition(cameraPosition)) {
       setClicked(false);
+      setShowFlowers(false);
     }
   }, [isCameraAtBiodiversityPosition(cameraPosition)]);
+
 
   return (
     <div className={styles.pageContainer}>
@@ -210,8 +231,79 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
           <Printer ref={printerRef} position={[-6.6, 0.34, -48.7]} rotation={[0,-Math.PI*7/6,0]}/>
         </Physics>
 
-        <Bee scale={0.1} position={[10.8, 0, -46.5]} baseY={-0.3} rotation={[0.17,2.7,0]} />
-        <Flowers position={[18.5, -0.4, -47.99]} rotation={[0,1.5,0]} scale={0.5}/>
+        {/* Biodiversity 3D Elements */}
+        <DirectionalLight position={[10, 15, -50]} intensity={1} shadowCamera = {{
+            near: -5,
+            far: 5,            // Increase far value to encompass larger scenes
+            left: 5,          // Half of the plane size
+            right: 5,
+            top: 5,
+            bottom: -5
+        }}/>
+        <Bee scale={0.1} position={[11, 0, -46.5]} baseY={-0.3} rotation={[0.17,2.7,0]} />
+        <Flowers position={[18.65, -0.4, -47.99]} rotation={[0,1.5,0]} scale={0.5}/>
+
+        <animated.group position-y={animationProps.positionY}>
+        <Text3D
+            position={[13.4, 2, -46.6]}
+            rotation={[-0.07, 3.02, 0]}
+            font="/fonts/TiltWarp-Regular.json"
+            scale={0.2}
+            castShadow
+        >  
+        What do bees do for the ecosystem?
+        <meshStandardMaterial color="#d1ffb4" />
+        </Text3D>
+        <Text3D
+            position={[14.5, 1.3, -46.6]}
+            rotation={[-0.07, 3.02, 0.1]}
+            font="/fonts/TiltWarp-Regular.json"
+            scale={0.11}
+            onPointerOver={() => {document.body.style.cursor = "pointer"}}
+            onPointerOut={() => {document.body.style.cursor = "default"}}
+            castShadow
+        >  
+        A. Eat leaves to maintain balance.
+        <meshStandardMaterial color="#ff8787" roughness={0.2}/>
+        </Text3D>
+        <Text3D
+            position={[12.5, 1.15, -46.6]}
+            rotation={[-0.07, 3.02, 0]}
+            font="/fonts/TiltWarp-Regular.json"
+            scale={0.11}
+            onPointerOver={() => {document.body.style.cursor = "pointer"}}
+            onPointerOut={() => {document.body.style.cursor = "default"}}
+            onClick={() => handleOptionClick("B")}
+            castShadow
+        >  
+        B. Pollinate flowers and crops
+        <meshStandardMaterial color="#e681ff" roughness={0.2}/>
+        </Text3D>
+        <Text3D
+            position={[10.5, 1.6, -46.6]}
+            rotation={[-0.07, 3.02, -0.1]}
+            font="/fonts/TiltWarp-Regular.json"
+            scale={0.11}
+            onPointerOver={() => {document.body.style.cursor = "pointer"}}
+            onPointerOut={() => {document.body.style.cursor = "default"}}
+            castShadow
+        >  
+        C. Produce honey to feed all the animals
+        <meshStandardMaterial color="#ffa560" roughness={0.2}/>
+        </Text3D>
+        </animated.group>
+
+        {showFlowers && (
+        <>
+          <animated.group position-y={flowerAnimation.positionY}>
+            <Flowers position={[16.65, 0, -47.99]} rotation={[0, 1.5, 0]} scale={0.5} />
+            <Flowers position={[20.65, 0, -47.99]} rotation={[0, 1.5, 0]} scale={0.5} />
+          </animated.group>
+          <Bee scale={0.1} position={[14, 0, -48]} baseY={-0.3} rotation={[0,5.5,0]} />
+          <Bee scale={0.1} position={[9.5, 0, -47.5]} baseY={-0.3} rotation={[0.17,2.7,0]} />
+        </>
+      )}
+
 
         <Leaf distance={-1+relativePosition} speed={1} amplitude={1} frequency={2} boundary={5} />
         <Leaf distance={-5+relativePosition} direction={-1} speed={2} amplitude={1} frequency={2} boundary={5} />
@@ -290,14 +382,14 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
             <p>
               Imagine a world without bees: without the buzz among the flowers, without fresh fruits on your table and with landscapes devoid of color and life.
               In this quiz, we will test your knowledge about these wonderful insects. 
-              <span className={styles.highlightText}>Can you save a bee and help preserve the balance of our ecosystem?</span>
+              <span className={styles.highlightText}> Can you save a bee and help preserve the balance of our ecosystem?</span>
             </p>
             <p className={styles.continueText}>
               <em>Click <b>Here</b> to continue...</em>
             </p>
           </div>
         ) : (
-          <div className={styles.newBioInfo}>
+          <div className={`${styles.newBioInfo} ${clicked ? styles.fadeOut : ''}`} >
             <p>
             Answer correctly and show that you are a guardian of biodiversity. Good luck!
             </p>
