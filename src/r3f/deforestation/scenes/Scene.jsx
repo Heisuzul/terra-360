@@ -29,7 +29,7 @@ import { useAuthStore } from '../../../stores/use-auth-store';
 import { Loader, PositionalAudio, Sparkles } from '@react-three/drei';
 import { Physics } from "@react-three/rapier";
 
-const Scene = forwardRef(({ ready, isMuted, setPointsRef, setTreesShown, treesShown }, ref) => {
+const Scene = forwardRef(({ ready, isMuted, setPointsRef, setTreesShown, treesShown, showSharePopUp, setShowSharePopUp }, ref) => {
   const terrainRef = useRef();
   const { logout } = useAuthStore();
   const navigate = useNavigate();
@@ -393,8 +393,18 @@ const Scene = forwardRef(({ ready, isMuted, setPointsRef, setTreesShown, treesSh
     setTreesShown(prev => !prev)
   }, [treesRef])
 
+  const phoneHandleRef = useRef();
+
+  const handleRestartPositionPH = useCallback(() => {
+    if (phoneHandleRef.current) {
+      phoneHandleRef.current.restartPosition();
+    }
+  }, [phoneHandleRef]);
+
+
   useImperativeHandle(ref, () => ({
     handleTreesGrow,
+    restartPosition: handleRestartPositionPH,
   }));
 
   return (
@@ -459,12 +469,15 @@ const Scene = forwardRef(({ ready, isMuted, setPointsRef, setTreesShown, treesSh
           <Printer onDoubleClick={handleTreesPuff} onClick={handleDoubleClick(3)} ref={printerRef} position={[18.98, 20.14, -45.65]} rotation={[0,Math.PI*3/4,0]} onPointerOver={handlePointerOver4}/>
           <PhoneBody onClick={handleDoubleClick(4)} onPointerOver={handlePointerOver3} position={[19.1, 19.95, -46.7]} rotation={[0, Math.PI*2/4, 0]}/>
           <PhoneHandle 
+            ref={phoneHandleRef}
             position={[19.1, 19.95, -46.7]} 
             rotation={[0, Math.PI*2/4, 0]}
             onDragStart={() => toggleCameraControls(false)}
             onDragEnd={() => toggleCameraControls(true)}
             onClick={handleDoubleClick(4)}
             sceneIndex={stateIndex}
+            showPopup={showSharePopUp}
+            setShowPopup={setShowSharePopUp}
           />
           <OrangeBird position={[14.95,20.412,-41.98]} rotation={[0,Math.PI/12*10,0]}
             // onPointerOver={handlePointerOver1}
@@ -472,8 +485,7 @@ const Scene = forwardRef(({ ready, isMuted, setPointsRef, setTreesShown, treesSh
           />
           { treesShown ? <FloatingText ref={floatingTextRef1} onClick={handleTreesGrow} visible={true} text={'Learn the solutions'} position={[14.9,20.6,-41.98]} /> : 
             <FloatingText ref={floatingTextRef1} visible={true} text={'Recycle'} position={[14.9,20.6,-41.98]} />}
-          <FloatingText ref={floatingTextRef2} text={'Get Blades'} position={[17.5, 20.1, -45.856]} scale={0.5}/>
-          <FloatingText ref={floatingTextRef3} text={'Pick Up'} position={[19.1, 20.1, -46.5]} scale={0.5} rotationDelta={-Math.PI/12*2}/>
+          <FloatingText ref={floatingTextRef2} text={'Pick Up to Share'} position={[19.1, 20.1, -46.5]} scale={0.5} rotationDelta={-Math.PI/12*2}/>
           <FloatingText ref={floatingTextRef4} text={'Let\'s Print'} position={[19.7, 20.2, -45.1]} scale={0.5} rotationDelta={Math.PI/12*1}/>
           <SmallTable position={[17.5, 19.5, -45.858]} scale={0.3} onDoubleClick={handleDoubleClick(1)}/>
           <RedValve position={[17.5, 19.85, -45.887]} scale={0.005}/>
