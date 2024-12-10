@@ -29,7 +29,7 @@ import { useAuthStore } from '../../../stores/use-auth-store';
 import { Loader, PositionalAudio, Sparkles } from '@react-three/drei';
 import { Physics } from "@react-three/rapier";
 
-const Scene = forwardRef(({ ready, isMuted, setPointsRef, setTreesShown, treesShown }, ref) => {
+const Scene = forwardRef(({ ready, isMuted, setPointsRef, setTreesShown, treesShown, showSharePopUp, setShowSharePopUp }, ref) => {
   const terrainRef = useRef();
   const { logout } = useAuthStore();
   const navigate = useNavigate();
@@ -393,8 +393,18 @@ const Scene = forwardRef(({ ready, isMuted, setPointsRef, setTreesShown, treesSh
     setTreesShown(prev => !prev)
   }, [treesRef])
 
+  const phoneHandleRef = useRef();
+
+  const handleRestartPositionPH = useCallback(() => {
+    if (phoneHandleRef.current) {
+      phoneHandleRef.current.restartPosition();
+    }
+  }, [phoneHandleRef]);
+
+
   useImperativeHandle(ref, () => ({
     handleTreesGrow,
+    restartPosition: handleRestartPositionPH,
   }));
 
   return (
@@ -459,12 +469,15 @@ const Scene = forwardRef(({ ready, isMuted, setPointsRef, setTreesShown, treesSh
           <Printer onDoubleClick={handleTreesPuff} onClick={handleDoubleClick(3)} ref={printerRef} position={[18.98, 20.14, -45.65]} rotation={[0,Math.PI*3/4,0]} onPointerOver={handlePointerOver4}/>
           <PhoneBody onClick={handleDoubleClick(4)} onPointerOver={handlePointerOver3} position={[19.1, 19.95, -46.7]} rotation={[0, Math.PI*2/4, 0]}/>
           <PhoneHandle 
+            ref={phoneHandleRef}
             position={[19.1, 19.95, -46.7]} 
             rotation={[0, Math.PI*2/4, 0]}
             onDragStart={() => toggleCameraControls(false)}
             onDragEnd={() => toggleCameraControls(true)}
             onClick={handleDoubleClick(4)}
             sceneIndex={stateIndex}
+            showPopup={showSharePopUp}
+            setShowPopup={setShowSharePopUp}
           />
           <OrangeBird position={[14.95,20.412,-41.98]} rotation={[0,Math.PI/12*10,0]}
             // onPointerOver={handlePointerOver1}
