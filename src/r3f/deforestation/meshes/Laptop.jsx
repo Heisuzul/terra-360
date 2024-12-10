@@ -189,6 +189,7 @@ export default function Model({ externalRefs = [], screenToRender = 1, handleTre
             }}>
               <button
                 onClick={handleTreesGrow}
+                title="Recycle"
                 style={{
                   padding: '0.5rem 0.5rem',
                   border: 'none',

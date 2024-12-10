@@ -11,7 +11,7 @@ const Tree = ({position, scale, popTrees, setPopTrees, /*onRemove*/}) => {
   const coneRef = useRef();
   const coneRef1 = useRef();
   const coneRef2 = useRef();
-  const audioRef = useRef();
+  // const audioRef = useRef();
   const [animationsActive, setAnimationsActive] = useState(true);
 
   const leavesColor = "#6B8E23";
@@ -79,11 +79,11 @@ const Tree = ({position, scale, popTrees, setPopTrees, /*onRemove*/}) => {
     setIsVisible(false);
     setShowPuff(true);
     // setPuffedTreesCountRef.current += 1;
-    if (audioRef.current) {
-      const audio = audioRef.current;
-      audio.playbackRate = Math.random() * 0.5 + 0.75; // Random playback rate between 0.75 and 1.25
-      audio.play();
-    }
+    // if (audioRef.current) {
+    //   const audio = audioRef.current;
+    //   audio.playbackRate = Math.random() * 0.5 + 0.75; // Random playback rate between 0.75 and 1.25
+    //   audio.play();
+    // }
     setTimeout(() => {
       setShowPuff(false);
     }, 500); // Puff effect duration in milliseconds
@@ -153,7 +153,7 @@ const Tree = ({position, scale, popTrees, setPopTrees, /*onRemove*/}) => {
             <a.meshStandardMaterial color="white" transparent opacity={puffSpring.opacity} />
           </a.mesh>
         )}
-        <PositionalAudio ref={audioRef} url="/sounds/muffled-sound-of-falling.mp3" distance={1} loop={false} />
+        {/* <PositionalAudio ref={audioRef} url="/sounds/muffled-sound-of-falling.mp3" distance={1} loop={false} /> */}
         {popTrees &&
           <RigidBody type="dynamic" collider="cuboid" onCollisionEnter={handleCollisionPuff}>
             <mesh position={[-0.2, 2, 0]}>
