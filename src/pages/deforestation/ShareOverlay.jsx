@@ -3,14 +3,15 @@ import './ShareOverlay.css';
 
 const HOMEPAGE_URL = 'https://terra-360.vercel.app/';
 const SHARE_MESSAGE = 'Hey! Do you want to learn how to save the earth? Learn How:';
+const URL_TITLE = 'Terra 360 - Save the Earth';
 
 const ShareOverlay = ({ onHide }) => {
   const handleShare = async () => {
     // const url = window.location.href;
-    const url = HOMEPAGE_URL;
     // const title = document.title;
-    const title = 'Terra 360 - Save the Earth';
-    const text = `${SHARE_MESSAGE} ${url}`;
+    const url = HOMEPAGE_URL;
+    const title = URL_TITLE;
+    const text = `${SHARE_MESSAGE}`;
 
     if (navigator.share) {
       try {

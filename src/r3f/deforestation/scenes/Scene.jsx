@@ -463,11 +463,17 @@ const Scene = forwardRef(({ ready, isMuted, setPointsRef, setTreesShown, treesSh
             textNext={"Start Quiz"}
             textBack={"Back"}
           />
-          <Platform onDoubleClick={handleDoubleClick(0)} position={[16.895, 19, -45.858]}/>
-          <Desk position={[19.7, 19.2, -46.2]} rotation={[0,Math.PI,0]} onPointerOver={handlePointerOver2}/>
+          <Platform onDoubleClick={(event) => {
+              if (activeSet === 1) {
+                toggleCameraSet();
+              } 
+              handleDoubleClick(0)(event);
+            }} 
+            position={[16.895, 19, -45.858]}/>
+          <Desk position={[19.7, 19.2, -46.2]} rotation={[0,Math.PI,0]} /*onPointerOver={handlePointerOver2}*//>
           <Laptop onClick={handleDoubleClick(2)} externalRefs={[printerRef]} position={[20, 19.95, -45.75]} rotation={[0,Math.PI,0]}/>
           <Printer onDoubleClick={handleTreesPuff} onClick={handleDoubleClick(3)} ref={printerRef} position={[18.98, 20.14, -45.65]} rotation={[0,Math.PI*3/4,0]} onPointerOver={handlePointerOver4}/>
-          <PhoneBody onClick={handleDoubleClick(4)} onPointerOver={handlePointerOver3} position={[19.1, 19.95, -46.7]} rotation={[0, Math.PI*2/4, 0]}/>
+          <PhoneBody onClick={handleDoubleClick(4)} onPointerOver={handlePointerOver2} position={[19.1, 19.95, -46.7]} rotation={[0, Math.PI*2/4, 0]}/>
           <PhoneHandle 
             ref={phoneHandleRef}
             position={[19.1, 19.95, -46.7]} 
@@ -486,10 +492,11 @@ const Scene = forwardRef(({ ready, isMuted, setPointsRef, setTreesShown, treesSh
           { treesShown ? <FloatingText ref={floatingTextRef1} onClick={handleTreesGrow} visible={true} text={'Learn the solutions'} position={[14.9,20.6,-41.98]} /> : 
             <FloatingText ref={floatingTextRef1} visible={true} text={'Recycle'} position={[14.9,20.6,-41.98]} />}
           <FloatingText ref={floatingTextRef2} text={'Pick Up to Share'} position={[19.1, 20.1, -46.5]} scale={0.5} rotationDelta={-Math.PI/12*2}/>
+          <FloatingText ref={floatingTextRef3} text={'Get Blades'} position={[17.5, 20.1, -45.856]} scale={0.5}/>
           <FloatingText ref={floatingTextRef4} text={'Let\'s Print'} position={[19.7, 20.2, -45.1]} scale={0.5} rotationDelta={Math.PI/12*1}/>
           <SmallTable position={[17.5, 19.5, -45.858]} scale={0.3} onDoubleClick={handleDoubleClick(1)}/>
           <RedValve position={[17.5, 19.85, -45.887]} scale={0.005}/>
-          <ToggleButton scaleFactor={0.35} initialPosition={[17.5, 19.98, -45.86]} onPointerOver={handlePointerOver2} onClick={handleRedValveClick} onDoubleClick={handleDoubleClick(1)}/>
+          <ToggleButton scaleFactor={0.35} initialPosition={[17.5, 19.98, -45.86]} onPointerOver={handlePointerOver3} onClick={handleRedValveClick} onDoubleClick={handleDoubleClick(1)}/>
           {/* <ToggleButton color={'red'} initialPosition={[17.45, 19.98, -46.05]}  onClick={() => setObjectType('blades')} onDoubleClick={handleDoubleClick(1)}/>
           <ToggleButton color={'green'} initialPosition={[17.3, 19.98, -46.05]}  onClick={() => setObjectType('bagSeeds')} onDoubleClick={handleDoubleClick(1)}/> */}
           {currentObjectType === 'blades' && blades.map(blade => (
