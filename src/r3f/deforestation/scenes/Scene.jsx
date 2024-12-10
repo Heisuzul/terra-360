@@ -470,7 +470,7 @@ const Scene = forwardRef(({ ready, isMuted, setPointsRef, setTreesShown, treesSh
             // onPointerOver={handlePointerOver1}
             onClick={handleTreesGrow} 
           />
-          { treesShown ? <FloatingText ref={floatingTextRef1} visible={true} text={'Learn the solutions'} position={[14.9,20.6,-41.98]} /> : 
+          { treesShown ? <FloatingText ref={floatingTextRef1} onClick={handleTreesGrow} visible={true} text={'Learn the solutions'} position={[14.9,20.6,-41.98]} /> : 
             <FloatingText ref={floatingTextRef1} visible={true} text={'Recycle'} position={[14.9,20.6,-41.98]} />}
           <FloatingText ref={floatingTextRef2} text={'Get Blades'} position={[17.5, 20.1, -45.856]} scale={0.5}/>
           <FloatingText ref={floatingTextRef3} text={'Pick Up'} position={[19.1, 20.1, -46.5]} scale={0.5} rotationDelta={-Math.PI/12*2}/>
