@@ -13,6 +13,7 @@ function Login() {
     const worldRef = useRef(null);
     const [showInstructions, setShowInstructions] = useState(false);
     const [deforestationPoints, setDeforestationPoints] = useState(0);
+    const [biodiversityPoints, setBiodiversityPoints] = useState(0);
     const deforestationPointsRef = useRef(0);
     const biodiversityPointsRef = useRef(0);
     const erosionPointsRef = useRef(0);
@@ -111,6 +112,7 @@ function Login() {
         await logout();
         setShowInstructions(false);
         setDeforestationPoints(0);
+        setBiodiversityPoints(0);
         setCurrentCameraIndex(0);
         setStoredPoints(0);
         setIsTreesSaved(false);
@@ -187,6 +189,7 @@ function Login() {
                             showInstructions={setShowInstructions}
                             cameraIndex={currentCameraIndex}
                             setDeforestationPoints={setDeforestationPoints}
+                            setBiodiversityPoints={setBiodiversityPoints}
                         />
                         {currentCameraIndex === 1 && (
                             <div className={styles.rewardDiv}>

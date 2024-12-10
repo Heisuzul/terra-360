@@ -22,7 +22,7 @@ import WitheredFlowers from "../../biodiversity/flowers/WitheredFlowers"
 import Bee from "../../biodiversity/bee/Bee"
 // import { Bloom, EffectComposer, HueSaturation, BrightnessContrast } from '@react-three/postprocessing'
 
-const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition, deforestationPointsRef, biodiversityPointsRef, erosionPointsRef, storedPoints, showInstructions, setDeforestationPoints }, ref ) => {
+const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition, deforestationPointsRef, biodiversityPointsRef, erosionPointsRef, storedPoints, showInstructions, setDeforestationPoints, setBiodiversityPoints }, ref ) => {
   const relativePosition = 25;
 
   // Generates the positions of the trees in the world.
@@ -135,13 +135,14 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
   //Biodiversity Section
   const isCameraAtBiodiversityPosition = (cameraPosition) =>
     cameraPosition.x === 11.5 && cameraPosition.y === 0.5 && cameraPosition.z === -50.5;
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [showFlowers, setShowFlowers] = useState(false);
   const [clicked, setClicked] = useState(false);
   const [optionClicked, setOptionClicked] = useState(false);
   const [correctAnswer, setCorrectAnswer] = useState(false);
 
   const flowerAnimation = useSpring({
-    positionY: showFlowers && clicked ? -0.4 : -3, // Aparece en -0.4
+    positionY: (showFlowers && clicked) || (!correctAnswer && optionClicked) ? -0.4 : -3, // Aparece en -0.4
     config: { tension: 300, friction: 25 }, // Velocidad ajustada
   });
 
@@ -151,6 +152,7 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
       setOptionClicked(true);
       setCorrectAnswer(true);
       biodiversityPointsRef.current = 25;
+      setBiodiversityPoints(biodiversityPointsRef.current);
       console.log("Biodiversity points:", biodiversityPointsRef.current);
     } else if (option === "A"){
       setOptionClicked(true);
@@ -181,6 +183,9 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
       setShowFlowers(false);
       setOptionClicked(false);
       setCorrectAnswer(false);
+      setIsAudioPlaying(false);
+    } else {
+      setIsAudioPlaying(true);
     }
   }, [isCameraAtBiodiversityPosition(cameraPosition)]);
 
@@ -250,7 +255,7 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
         </Physics>
 
         {/* Biodiversity 3D Elements */}
-        <DirectionalLight position={[10, 15, -50]} intensity={1} shadowCamera = {{
+        <DirectionalLight position={[10, 18, -40]} intensity={1} shadowCamera = {{
             near: -5,
             far: 5,            // Increase far value to encompass larger scenes
             left: 5,          // Half of the plane size
@@ -267,61 +272,61 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
 
         {optionClicked && !correctAnswer && (
           <>
-            
-            <WitheredFlowers position={[17.25, -0.4, -47.99]} rotation={[0, 1.5, 0]} scale={0.4}/>
-     
+            <animated.group position-y={flowerAnimation.positionY}>
+            <WitheredFlowers position={[17.25, -0, -47.99]} rotation={[0, 1.5, 0]} scale={0.4}/>
+            </animated.group>
           </>
         )}
 
         <animated.group position-y={textAnimation.positionY}>
         <Text3D
-            position={[13.4, 2, -46.6]}
+            position={[13.58, 2, -46.6]}
             rotation={[-0.07, 3.02, 0]}
             font="/fonts/TiltWarp-Regular.json"
             scale={0.2}
             castShadow
         >  
         What do bees do for the ecosystem?
-        <meshStandardMaterial color="#d1ffb4" />
+        <meshStandardMaterial color="#f2b70e" />
         </Text3D>
         <Text3D
-            position={[14.5, 1.3, -46.6]}
-            rotation={[-0.07, 3.02, 0.1]}
+            position={[14.58, 1.3, -46.6]}
+            rotation={[-0.07, 3.04, 0.1]}
             font="/fonts/TiltWarp-Regular.json"
-            scale={0.11}
+            scale={0.13}
             onPointerOver={() => {document.body.style.cursor = "pointer"}}
             onPointerOut={() => {document.body.style.cursor = "default"}}
             onClick={() => handleOptionClick("A")}
             castShadow
         >  
         A. Eat leaves to maintain balance.
-        <meshStandardMaterial color="#ff8787" roughness={0.2}/>
+        <meshStandardMaterial color="#fb655f" roughness={0.2}/>
         </Text3D>
         <Text3D
-            position={[12.5, 1.15, -46.6]}
+            position={[12.5, 1.2, -46.6]}
             rotation={[-0.07, 3.02, 0]}
             font="/fonts/TiltWarp-Regular.json"
-            scale={0.11}
+            scale={0.13}
             onPointerOver={() => {document.body.style.cursor = "pointer"}}
             onPointerOut={() => {document.body.style.cursor = "default"}}
             onClick={() => handleOptionClick("B")}
             castShadow
         >  
         B. Pollinate flowers and crops
-        <meshStandardMaterial color="#e681ff" roughness={0.2}/>
+        <meshStandardMaterial color="#774ea8" roughness={0.2}/>
         </Text3D>
         <Text3D
-            position={[10.5, 1.6, -46.6]}
-            rotation={[-0.07, 3.02, -0.1]}
+            position={[10.5, 1.7, -46.6]}
+            rotation={[-0.07, 2.9, -0.15]}
             font="/fonts/TiltWarp-Regular.json"
-            scale={0.11}
+            scale={0.13}
             onPointerOver={() => {document.body.style.cursor = "pointer"}}
             onPointerOut={() => {document.body.style.cursor = "default"}}
             onClick={() => handleOptionClick("C")}
             castShadow
         >  
         C. Produce honey to feed all the animals
-        <meshStandardMaterial color="#ffa560" roughness={0.2}/>
+        <meshStandardMaterial color="#ed7124" roughness={0.2}/>
         </Text3D>
         </animated.group>
 
@@ -340,18 +345,20 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
               </Text3D>
             </animated.group>
           ) : (
-          <animated.group position-y={messageAnimation.positionY}>
-            <Text3D
-              position={[13.5, 1.7, -46.6]}
-              rotation={[-0.07, 3.02, 0]}
-              font="/fonts/TiltWarp-Regular.json"
-              scale={0.2}
-              castShadow
-            >
-              Oh no! The flowers lost their shine...
-              <meshStandardMaterial color="#ff883c" />
-            </Text3D>
-          </animated.group>
+          <>
+           <animated.group position-y={messageAnimation.positionY}>
+                  <Text3D
+                    position={[13.5, 1.5, -46.6]}
+                    rotation={[-0.07, 3.02, 0]}
+                    font="/fonts/TiltWarp-Regular.json"
+                    scale={0.2}
+                    castShadow
+                  >
+                    Oh no! The flowers lost their shine...
+                    <meshStandardMaterial color="#ff883c" />
+                  </Text3D>
+            </animated.group>
+           </>
           )
         )}
 
@@ -440,6 +447,9 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
       </div>
       {isCameraAtBiodiversityPosition(cameraPosition) && (
       <>
+      {isAudioPlaying && (
+            <audio src="/sounds/naturesounds.mp3" autoPlay loop />
+      )}
         {!clicked ? (
           <div className={styles.bioInfo} onClick={handleClick}>
             <p>
@@ -460,6 +470,18 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
         )}
       </>
     )}
+    {optionClicked && (
+          correctAnswer ? (
+            <>
+            <audio src="/sounds/dirtsound.mp3" autoPlay />
+            <audio src="/sounds/celebrationsound.mp3" autoPlay />
+            </>
+          ) : (
+            <>
+            <audio src="/sounds/gameoversound.mp3" autoPlay />
+            </>
+          )
+        )}
     </div>
   )
 });
