@@ -485,8 +485,7 @@ const Scene = forwardRef(({ ready, isMuted, setPointsRef, setTreesShown, treesSh
           />
           { treesShown ? <FloatingText ref={floatingTextRef1} onClick={handleTreesGrow} visible={true} text={'Learn the solutions'} position={[14.9,20.6,-41.98]} /> : 
             <FloatingText ref={floatingTextRef1} visible={true} text={'Recycle'} position={[14.9,20.6,-41.98]} />}
-          <FloatingText ref={floatingTextRef2} text={'Get Blades'} position={[17.5, 20.1, -45.856]} scale={0.5}/>
-          <FloatingText ref={floatingTextRef3} text={'Pick Up'} position={[19.1, 20.1, -46.5]} scale={0.5} rotationDelta={-Math.PI/12*2}/>
+          <FloatingText ref={floatingTextRef2} text={'Pick Up to Share'} position={[19.1, 20.1, -46.5]} scale={0.5} rotationDelta={-Math.PI/12*2}/>
           <FloatingText ref={floatingTextRef4} text={'Let\'s Print'} position={[19.7, 20.2, -45.1]} scale={0.5} rotationDelta={Math.PI/12*1}/>
           <SmallTable position={[17.5, 19.5, -45.858]} scale={0.3} onDoubleClick={handleDoubleClick(1)}/>
           <RedValve position={[17.5, 19.85, -45.887]} scale={0.005}/>
