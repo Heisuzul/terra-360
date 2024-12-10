@@ -64,6 +64,7 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
     counter.current = 0;
     // handleTreeReset();
     growTreesCountRef.current += 1;
+    setTreeScale(1);
   }
 
   // const handleTreeRemoval = () => {
@@ -84,6 +85,7 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
             puffTreesCountRef.current += 1;
           }
       }
+      setPlayWrongAnsDef(true);
       console.log("Counter", counter.current);
       console.log("REF", popTrees);
   };
@@ -94,6 +96,8 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
     if (treeScale === 1) {
       setTreeScale(1.2);
     }
+
+    setPlayCorrectAnsDef(true)
 
     if (deforestationPointsRef.current < 25) {
       if (puffTreesCountRef.current === 0) {
@@ -146,7 +150,7 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
     config: { tension: 300, friction: 25 }, // Velocidad ajustada
   });
 
-  const handleOptionClick = (option) => {
+  const handleOptionClick = (option, event) => {
     if (option === "B") {
       setShowFlowers(true);
       setOptionClicked(true);
@@ -161,6 +165,7 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
       setOptionClicked(true);
       setCorrectAnswer(false);
     }
+    event.stopPropagation();
   };
   
   const textAnimation = useSpring({
@@ -189,6 +194,20 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
     }
   }, [isCameraAtBiodiversityPosition(cameraPosition)]);
 
+  //For the deforestation question sound effects:
+  const [playCorrectAnsDef, setPlayCorrectAnsDef] = useState(false)
+  const [playWrongAnsDef, setPlayWrongAnsDef] = useState(false);
+
+  useEffect(() => {
+    if (playCorrectAnsDef || playWrongAnsDef) {
+      const timer = setTimeout(() => {
+        setPlayCorrectAnsDef(false);
+        setPlayWrongAnsDef(false);
+      }, 1000); // Set the period (e.g., 3000ms = 3 seconds)
+
+      return () => clearTimeout(timer); // Cleanup the timer on unmount or when dependencies change
+    }
+  }, [playCorrectAnsDef, playWrongAnsDef]);
 
   return (
     <div className={styles.pageContainer}>
@@ -296,7 +315,7 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
             scale={0.13}
             onPointerOver={() => {document.body.style.cursor = "pointer"}}
             onPointerOut={() => {document.body.style.cursor = "default"}}
-            onClick={() => handleOptionClick("A")}
+            onClick={(event) => handleOptionClick("A", event)}
             castShadow
         >  
         A. Eat leaves to maintain balance.
@@ -309,7 +328,7 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
             scale={0.13}
             onPointerOver={() => {document.body.style.cursor = "pointer"}}
             onPointerOut={() => {document.body.style.cursor = "default"}}
-            onClick={() => handleOptionClick("B")}
+            onClick={(event) => handleOptionClick("B", event)}
             castShadow
         >  
         B. Pollinate flowers and crops
@@ -322,7 +341,7 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
             scale={0.13}
             onPointerOver={() => {document.body.style.cursor = "pointer"}}
             onPointerOut={() => {document.body.style.cursor = "default"}}
-            onClick={() => handleOptionClick("C")}
+            onClick={(event) => handleOptionClick("C",event)}
             castShadow
         >  
         C. Produce honey to feed all the animals
@@ -482,6 +501,12 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
             </>
           )
         )}
+    {playCorrectAnsDef && (
+        <audio src="/sounds/celebrationsound2.mp3" autoPlay />
+    )}
+    {playWrongAnsDef && (
+        <audio src="/sounds/gameoversound1.mp3" autoPlay />
+    )}
     </div>
   )
 });

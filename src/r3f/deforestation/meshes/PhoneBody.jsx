@@ -14,6 +14,12 @@ export default function Model(props) {
           material={materials.M_Telephone}
           rotation={[-Math.PI / 2, 0, 0]}
           scale={6.025}
+          onPointerOver={() => {
+            document.body.style.cursor = 'pointer'
+          }}
+          onPointerOut={() => {
+            document.body.style.cursor = 'auto'
+          }}
         />
       </group>
     </group>
