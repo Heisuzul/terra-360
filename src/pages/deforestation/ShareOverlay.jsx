@@ -16,6 +16,7 @@ const ShareOverlay = ({ onHide }) => {
       try {
         await navigator.share({
           title: title,
+          text: text,
           url: url,
         });
         console.log('Link shared successfully');
