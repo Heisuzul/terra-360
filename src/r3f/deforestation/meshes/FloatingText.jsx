@@ -28,7 +28,6 @@ const FloatingText = forwardRef(({ text, position, scale = 1, rotationDelta=0, c
       onPointerOut={() => {
         document.body.style.cursor = 'auto'
       }}
-      onClick={onClick}
     >
       {text}
       <meshStandardMaterial 
@@ -36,6 +35,14 @@ const FloatingText = forwardRef(({ text, position, scale = 1, rotationDelta=0, c
         emissive={emissive} // Add emissive color for glow
         emissiveIntensity={emissiveIntensity} // Adjust intensity as needed
       />
+      <mesh 
+        position={[0.05+text.length/22, 0.08, 0.01]}
+        scale={scale}
+        visible={false}
+        onClick={onClick}
+      >
+        <boxGeometry args={[0.10*text.length, 0.2, 0.06]} />
+      </mesh>
     </Text3D>
   );
 });
