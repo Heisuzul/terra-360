@@ -18,6 +18,7 @@ import Laptop from "../../deforestation/meshes/Laptop";
 import Printer from "../../deforestation/meshes/Printer";
 import FloatingText from "../../deforestation/meshes/FloatingText";
 import Flowers from "../../biodiversity/flowers/Flowers"
+import WitheredFlowers from "../../biodiversity/flowers/WitheredFlowers"
 import Bee from "../../biodiversity/bee/Bee"
 // import { Bloom, EffectComposer, HueSaturation, BrightnessContrast } from '@react-three/postprocessing'
 
@@ -154,6 +155,9 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
     } else if (option === "A"){
       setOptionClicked(true);
       setCorrectAnswer(false);
+    } else if (option === "C") {
+      setOptionClicked(true);
+      setCorrectAnswer(false);
     }
   };
   
@@ -254,18 +258,18 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
             top: 5,
             bottom: -5
         }}/>
-        <Bee scale={0.1} position={[11, 0, -46.5]} baseY={-0.3} rotation={[0.17,2.7,0]} />
+        {!(optionClicked && !correctAnswer) && (
+          <Bee scale={0.1} position={[11, 0, -46.5]} baseY={-0.3} rotation={[0.17, 2.7, 0]} />
+        )}
         {!optionClicked && (
           <Flowers position={[18.65, -0.4, -47.99]} rotation={[0,1.5,0]} scale={0.5}/>
         )}
 
         {optionClicked && !correctAnswer && (
           <>
-            <Flowers
-              position={[17.25, -0.4, -47.99]}
-              rotation={[0, 1.5, 0]}
-              scale={0.4}
-            />
+            
+            <WitheredFlowers position={[17.25, -0.4, -47.99]} rotation={[0, 1.5, 0]} scale={0.4}/>
+     
           </>
         )}
 
@@ -313,6 +317,7 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
             scale={0.11}
             onPointerOver={() => {document.body.style.cursor = "pointer"}}
             onPointerOut={() => {document.body.style.cursor = "default"}}
+            onClick={() => handleOptionClick("C")}
             castShadow
         >  
         C. Produce honey to feed all the animals
@@ -337,7 +342,7 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
           ) : (
           <animated.group position-y={messageAnimation.positionY}>
             <Text3D
-              position={[13.5, 1.75, -46.6]}
+              position={[13.5, 1.7, -46.6]}
               rotation={[-0.07, 3.02, 0]}
               font="/fonts/TiltWarp-Regular.json"
               scale={0.2}
@@ -355,6 +360,7 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
           <animated.group position-y={flowerAnimation.positionY}>
             <Flowers position={[16.65, 0, -48.89]} rotation={[0, 1.5, 0]} scale={0.5} />
             <Flowers position={[20.65, 0, -48.6]} rotation={[0, 1.5, 0]} scale={0.5} />
+            <Flowers position={[18.65, 0, -47.99]} rotation={[0,1.5,0]} scale={0.5}/>
           </animated.group>
           <Bee scale={0.1} position={[13.8, 0, -48.5]} baseY={-0.4} rotation={[-0.3,5.5,0]} />
           <Bee scale={0.1} position={[9.5, 0, -47.5]} baseY={-0.3} rotation={[0.17,2.7,0]} />
