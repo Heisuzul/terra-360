@@ -135,6 +135,7 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
   //Biodiversity Section
   const isCameraAtBiodiversityPosition = (cameraPosition) =>
     cameraPosition.x === 11.5 && cameraPosition.y === 0.5 && cameraPosition.z === -50.5;
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [showFlowers, setShowFlowers] = useState(false);
   const [clicked, setClicked] = useState(false);
   const [optionClicked, setOptionClicked] = useState(false);
@@ -182,6 +183,9 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
       setShowFlowers(false);
       setOptionClicked(false);
       setCorrectAnswer(false);
+      setIsAudioPlaying(false);
+    } else {
+      setIsAudioPlaying(true);
     }
   }, [isCameraAtBiodiversityPosition(cameraPosition)]);
 
@@ -341,18 +345,20 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
               </Text3D>
             </animated.group>
           ) : (
-          <animated.group position-y={messageAnimation.positionY}>
-            <Text3D
-              position={[13.5, 1.5, -46.6]}
-              rotation={[-0.07, 3.02, 0]}
-              font="/fonts/TiltWarp-Regular.json"
-              scale={0.2}
-              castShadow
-            >
-              Oh no! The flowers lost their shine...
-              <meshStandardMaterial color="#ff883c" />
-            </Text3D>
-          </animated.group>
+          <>
+           <animated.group position-y={messageAnimation.positionY}>
+                  <Text3D
+                    position={[13.5, 1.5, -46.6]}
+                    rotation={[-0.07, 3.02, 0]}
+                    font="/fonts/TiltWarp-Regular.json"
+                    scale={0.2}
+                    castShadow
+                  >
+                    Oh no! The flowers lost their shine...
+                    <meshStandardMaterial color="#ff883c" />
+                  </Text3D>
+            </animated.group>
+           </>
           )
         )}
 
@@ -441,7 +447,9 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
       </div>
       {isCameraAtBiodiversityPosition(cameraPosition) && (
       <>
-      <audio src="/sounds/naturesounds.mp3" autoPlay loop/>
+      {isAudioPlaying && (
+            <audio src="/sounds/naturesounds.mp3" autoPlay loop />
+      )}
         {!clicked ? (
           <div className={styles.bioInfo} onClick={handleClick}>
             <p>
@@ -462,6 +470,18 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
         )}
       </>
     )}
+    {optionClicked && (
+          correctAnswer ? (
+            <>
+            <audio src="/sounds/dirtsound.mp3" autoPlay />
+            <audio src="/sounds/celebrationsound.mp3" autoPlay />
+            </>
+          ) : (
+            <>
+            <audio src="/sounds/gameoversound.mp3" autoPlay />
+            </>
+          )
+        )}
     </div>
   )
 });
