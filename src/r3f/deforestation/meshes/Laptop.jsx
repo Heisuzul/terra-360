@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useMemo } from 'react'
+import React, { useRef, useCallback, useMemo, useState } from 'react'
 import { useGLTF, Html } from '@react-three/drei'
 import { useNavigate } from 'react-router-dom'
 import '../../../pages/deforestation/Deforestation.css'; // Import the CSS file
@@ -7,6 +7,7 @@ export default function Model({ externalRefs = [], screenToRender = 1, handleTre
   const { nodes, materials } = useGLTF('/models-3d/deforestation/laptop.glb')
   const displayRef = useRef()
   const navigate = useNavigate();
+  const [isHovered, setIsHovered] = useState(false);
 
    // Filter and validate refs - only include refs that have a current value
   const validOccludeRefs = useMemo(() => {
@@ -23,9 +24,15 @@ export default function Model({ externalRefs = [], screenToRender = 1, handleTre
       <group name="Silver_colour_Cover" position={[0, 0.001, 0]} scale={[0.19, 0.146, 0.121]} 
         onPointerOver={() => {
           document.body.style.cursor = pointer;
+          if (screenToRender === 1) {
+            setIsHovered(true);
+          }
         }}
         onPointerOut={() => {
           document.body.style.cursor = 'auto'
+          if (screenToRender === 1) {
+            setIsHovered(false);
+          }
         }}
         >
         <mesh
@@ -206,6 +213,22 @@ export default function Model({ externalRefs = [], screenToRender = 1, handleTre
             </div>
           </Html>)}
         </mesh>
+        { screenToRender === 1 && isHovered && (
+            <Html position={[-1.5, 0.5, -0.3]} center>
+              <div style={{
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                border: '1px solid black',
+                padding: '5px',
+                borderRadius: '5px',
+                textAlign: 'center',
+                fontSize: '11px',
+                boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
+                pointerEvents: 'none'
+              }}>
+                From here you can start the Quiz.
+              </div>
+            </Html>
+          )}
       </group>
     </group>
   )

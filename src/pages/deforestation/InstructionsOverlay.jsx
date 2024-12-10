@@ -29,8 +29,8 @@ const InstructionsOverlay = ({ onHide }) => {
         
         <ul className="instructions-list">
           <li>🎥 <strong>Rotate:</strong> Left-click and drag</li>
-          <li>🔎 <strong>Zoom:</strong> Scroll wheel 🖱️</li>
-          <li>🧭 <strong>Navigation:</strong> Use the arrow keys ⌨️ or swipe 📲</li>
+          <li>🔎 <strong>Zoom:</strong> Scroll wheel 🖱️. Click over the objects with the 👆 or Double Click on the ones without it to get closer.</li>
+          <li>🧭 <strong>Navigation:</strong> Use the arrow keys ⌨️ or swipe 📲.</li>
           <li>🧱 <strong>Enter/Exit quiz area:</strong> Press ENTER key or double click on platform floor </li>
           <li>🔇 <strong>Mute/Unmute sounds:</strong> Press M key</li>
           <li>↩️ <strong>Reset position:</strong> Press ESC key</li>

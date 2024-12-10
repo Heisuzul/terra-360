@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { useGLTF, Text } from '@react-three/drei';
+import { useGLTF, Text, Html } from '@react-three/drei';
 import { Box3, Vector3 } from 'three';
 import * as THREE from 'three';
 
@@ -35,6 +35,8 @@ export default function BackNextArrows({ onNextClick, onBackClick, ...props }) {
     }
   }, [meshRef.current])
 
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <group {...props} dispose={null}>
       <group name="Scene">
@@ -47,8 +49,9 @@ export default function BackNextArrows({ onNextClick, onBackClick, ...props }) {
             receiveShadow
             geometry={nodes.Cylinder005.geometry}
             material={materials['Light Wood']}
-            onPointerOver={() => {
+            onPointerOver={(event) => {
               document.body.style.cursor = 'pointer'
+              event.stopPropagation();
             }}
             onPointerOut={() => {
               document.body.style.cursor = 'auto'
@@ -61,6 +64,12 @@ export default function BackNextArrows({ onNextClick, onBackClick, ...props }) {
             receiveShadow
             geometry={nodes.Cylinder005_1.geometry}
             material={materials['Dark Wood']}
+            onPointerOver={() => {
+              setIsHovered(true);
+            }}
+            onPointerOut={() => {
+              setIsHovered(false);
+            }}
           />
           <mesh
             name="Cylinder005_2"
@@ -69,6 +78,22 @@ export default function BackNextArrows({ onNextClick, onBackClick, ...props }) {
             geometry={nodes.Cylinder005_2.geometry}
             material={materials.Herbs}
           />
+          {isHovered && (
+            <Html position={[0.4, 0.5, 0.3]} center>
+              <div style={{
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                border: '1px solid black',
+                padding: '5px',
+                borderRadius: '5px',
+                textAlign: 'center',
+                fontSize: '11px',
+                boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
+                pointerEvents: 'none'
+              }}>
+                Double Click to enter/exit the quiz area.
+              </div>
+            </Html>
+          )}
         </group>
       </group>
       {dimensions && (<Text
