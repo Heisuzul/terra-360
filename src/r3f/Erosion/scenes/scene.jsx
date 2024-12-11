@@ -9,14 +9,14 @@ import ForestWithRiver from '/src/r3f/Erosion/meshes/forest-with-river';
 import Rocks from '/src/r3f/Erosion/meshes/rocks';
 import Staging from '/src/r3f/Erosion/staging/staging';
 import CameraControl from '/src/r3f/Erosion/camera-control/camera-control';
-import SoundControl from '/src/r3f/Erosion/sounds/erosion-sounds';
-import CausesTextErosion from '/src/r3f/Erosion/texts-and-buttons/causes-text-erosion';
-import SolutionsTextErosion from '/src/r3f/Erosion/texts-and-buttons/solutions-text-erosion';
+import CausesTextErosion from '/src/r3f/Erosion/texts-and-buttons/causes-text-erosion.jsx';
+import SolutionsTextErosion from '/src/r3f/Erosion/texts-and-buttons/solutions-text-erosion.jsx';
 import DescriptionTextErosion from '/src/r3f/Erosion/texts-and-buttons/description-text-erosion.jsx';
 import HomeButton from '/src/r3f/Erosion/texts-and-buttons/home-button';
 import Instructions from '/src/r3f/Erosion/texts-and-buttons/instructions';
 import MuteButton from '/src/r3f/Erosion/texts-and-buttons/mute-button';
 import { Physics } from '@react-three/rapier';
+import SoundControl from '/src/r3f/Erosion/sounds/erosion-sounds';
 import './scene.css';
 
 /**
