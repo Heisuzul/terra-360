@@ -1,0 +1,28 @@
+.muteButtonContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10; 
+}
+
+.muteButton {
+  margin: 0px 10px;
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #579135;
+  background-color: #ffffff;
+  transition: 0.5s;
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.muteButton:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px #ffffff;
+}
+
+  

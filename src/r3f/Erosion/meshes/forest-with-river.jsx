@@ -1,7 +1,7 @@
 import { useGLTF } from '@react-three/drei';
 import React from 'react';
 
-const Forest_with_river = (props) => {
+const ForestWithRiver = (props) => {
     const { nodes, materials } = useGLTF('/3d-models/low_poly_forest.glb')
     return (
         <group {...props} dispose={null}>
@@ -6747,4 +6747,4 @@ const Forest_with_river = (props) => {
 
 
 useGLTF.preload('/3d-models/low_poly_forest.glb');
-export default Forest_with_river;
+export default ForestWithRiver;

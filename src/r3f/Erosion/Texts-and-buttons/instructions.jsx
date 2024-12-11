@@ -33,14 +33,6 @@ const Instructions = ({ onHide }) => {
           <li>🔇 <strong>Mute/Unmute sounds:</strong> Press M key</li>
         </ul>
         
-        <label className={styles['checkbox-label']}>
-          <input 
-            type="checkbox" 
-            checked={hideInstructions}
-            onChange={handleCheckboxChange}
-          />
-          Don't show again
-        </label>
       </div>
     </div>
   );
