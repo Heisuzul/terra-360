@@ -10,9 +10,9 @@ import Rocks from '/src/r3f/Erosion/meshes/rocks';
 import Staging from '/src/r3f/Erosion/staging/staging';
 import CameraControl from '/src/r3f/Erosion/camera-control/camera-control';
 import SoundControl from '/src/r3f/Erosion/sounds/erosion-sounds';
-import DescriptionText from '/src/r3f/Erosion/texts-and-buttons/description-text-erosion';
-import CausesText from '/src/r3f/Erosion/texts-and-buttons/causes-text-erosion';
-import SolutionsText from '/src/r3f/Erosion/texts-and-buttons/solutions-text-erosion';
+import CausesTextErosion from '/src/r3f/Erosion/texts-and-buttons/causes-text-erosion';
+import SolutionsTextErosion from '/src/r3f/Erosion/texts-and-buttons/solutions-text-erosion';
+import DescriptionTextErosion from '/src/r3f/Erosion/texts-and-buttons/description-text-erosion.jsx';
 import HomeButton from '/src/r3f/Erosion/texts-and-buttons/home-button';
 import Instructions from '/src/r3f/Erosion/texts-and-buttons/instructions';
 import MuteButton from '/src/r3f/Erosion/texts-and-buttons/mute-button';
@@ -73,9 +73,9 @@ const Scene = () => {
         <SoundControl isMuted={isMuted} />
 
         {/* Descriptive texts */}
-        <DescriptionText />  {/* Text describing the erosion scene */}
-        <CausesText />  {/* Text describing the causes of erosion */}
-        <SolutionsText />  {/* Text describing the solutions to land erosion */}
+        <DescriptionTextErosion />  {/* Text describing the erosion scene */}
+        <CausesTextErosion />  {/* Text describing the causes of erosion */}
+        <SolutionsTextErosion />  {/* Text describing the solutions to land erosion */}
       </Canvas>
 
       {/* Home button for navigation */}
