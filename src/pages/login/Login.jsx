@@ -14,6 +14,7 @@ function Login() {
     const [showInstructions, setShowInstructions] = useState(false);
     const [deforestationPoints, setDeforestationPoints] = useState(0);
     const [biodiversityPoints, setBiodiversityPoints] = useState(0);
+    const [ErosionPoints, setErosionPoints] = useState(0);
     const deforestationPointsRef = useRef(0);
     const biodiversityPointsRef = useRef(0);
     const erosionPointsRef = useRef(0);
@@ -43,6 +44,10 @@ function Login() {
         {
             position: { x: 11.5, y: 0.5, z: -50.5},
             target: { x: 11, y: 0, z: -46 },
+        },
+        {
+            position: { x: -20, y: 0.5, z: -50.5},
+            target: { x: -20, y: 0.2, z: -46 },
         },
         {
             position: { x: 1.2, y: 0.7, z: 18.5 },
@@ -113,6 +118,7 @@ function Login() {
         setShowInstructions(false);
         setDeforestationPoints(0);
         setBiodiversityPoints(0);
+        setErosionPoints(0);
         setCurrentCameraIndex(0);
         setStoredPoints(0);
         setIsTreesSaved(false);
@@ -190,6 +196,7 @@ function Login() {
                             cameraIndex={currentCameraIndex}
                             setDeforestationPoints={setDeforestationPoints}
                             setBiodiversityPoints={setBiodiversityPoints}
+                            setErosionPoints={setErosionPoints}
                         />
                         {currentCameraIndex === 1 && (
                             <div className={styles.rewardDiv}>
