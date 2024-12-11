@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState,useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
 import Tumbleweed from '/src/r3f/Erosion/meshes/tumble-weed';
 import Farm from '/src/r3f/Erosion/meshes/farm-low-poly';
@@ -10,12 +10,12 @@ import Rocks from '/src/r3f/Erosion/meshes/rocks';
 import Staging from '/src/r3f/Erosion/staging/staging';
 import CameraControl from '/src/r3f/Erosion/camera-control/camera-control';
 import SoundControl from '/src/r3f/Erosion/sounds/erosion-sounds';
-import DescriptionTextErosion from '/src/r3f/Erosion/Texts-and-buttons/description-text-erosion';
-import CausesTextErosion from '/src/r3f/Erosion/Texts-and-buttons/causes-text-erosion';
-import SolutionsTextErosion from '/src/r3f/Erosion/Texts-and-buttons/solutions-text-erosion';
-import HomeButton from '/src/r3f/Erosion/Texts-and-buttons/home-button';
-import Instructions from '/src/r3f/Erosion/Texts-and-buttons/instructions';
-import MuteButton from '/src/r3f/Erosion/Texts-and-buttons/mute-button';
+import DescriptionTextErosion from '/src/r3f/Erosion/texts-and-buttons/description-text-erosion';
+import CausesTextErosion from '/src/r3f/Erosion/texts-and-buttons/causes-text-erosion';
+import SolutionsTextErosion from '/src/r3f/Erosion/texts-and-buttons/solutions-text-erosion';
+import HomeButton from '/src/r3f/Erosion/texts-and-buttons/home-button';
+import Instructions from '/src/r3f/Erosion/texts-and-buttons/instructions';
+import MuteButton from '/src/r3f/Erosion/texts-and-buttons/mute-button';
 import { Physics } from '@react-three/rapier';
 import './scene.css';
 
