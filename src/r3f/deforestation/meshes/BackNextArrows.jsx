@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useGLTF, Text, Html } from '@react-three/drei';
 import { Box3, Vector3 } from 'three';
 import * as THREE from 'three';
+import ToolTip from './HtmlToolTip'
 
 export default function BackNextArrows({ onNextClick, onBackClick, ...props }) {
   const { nodes, materials } = useGLTF('/models-3d/deforestation/back-next-arrows-sign.glb');
@@ -79,20 +80,10 @@ export default function BackNextArrows({ onNextClick, onBackClick, ...props }) {
             material={materials.Herbs}
           />
           {isHovered && (
-            <Html position={[0.4, 0.5, 0.3]} center>
-              <div style={{
-                backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                border: '1px solid black',
-                padding: '5px',
-                borderRadius: '5px',
-                textAlign: 'center',
-                fontSize: '11px',
-                boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
-                pointerEvents: 'none'
-              }}>
-                Double Click to enter/exit the quiz area.
-              </div>
-            </Html>
+            <ToolTip 
+              position={[0.4, 0.5, 0.3]} 
+              text={'Double Click to enter/exit the quiz area'}
+            />
           )}
         </group>
       </group>
