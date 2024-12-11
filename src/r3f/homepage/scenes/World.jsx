@@ -121,6 +121,12 @@ const World = forwardRef(({ handleBoxClick, cameraIndex, target, cameraPosition,
     erosionPointsRef.current = 0;
     puffTreesCountRef.current = 0;
     setTreeScale(1);
+    setBonsaiScale([10.25, 10.25, 10.25]);
+    setSoilColor("#9ACD32");
+    setBonsaiGrown(false);
+    setIsFieldWithCornSelected(false);
+    setSelectionMade(false);
+    setSelectedOption("");
   }
 
   // Use `useImperativeHandle` to expose a function to the parent component
