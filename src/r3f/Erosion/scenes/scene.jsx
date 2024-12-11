@@ -1,19 +1,22 @@
-import React, { useState, useRef } from 'react';
+import React, { useState} from 'react';
 import { Canvas } from '@react-three/fiber';
 import Tumbleweed from '/src/r3f/Erosion/meshes/tumble-weed';
 import Farm from '/src/r3f/Erosion/meshes/farm-low-poly';
 import Terrain from '/src/r3f/Erosion/meshes/terrain';
 import Lights from '/src/r3f/Erosion/lights/lights';
 import DesertForest from '/src/r3f/Erosion/meshes/desert-forest';
-import Forest_with_river from '/src/r3f/Erosion/meshes/forest-with-river';
+import ForestWithRiver from '/src/r3f/Erosion/meshes/forest-with-river';
 import Rocks from '/src/r3f/Erosion/meshes/rocks';
 import Staging from '/src/r3f/Erosion/staging/staging';
 import CameraControl from '/src/r3f/Erosion/camera-control/camera-control';
-import DescriptionText from '/src/r3f/Erosion/Texts-and-buttons/description-text-erosion';
-import CausesText from '/src/r3f/Erosion/Texts-and-buttons/causes-text-erosion';
+import CausesTextErosion from '../Texts-and-buttons/causes-text-erosion.jsx';
+import SolutionsTextErosion from '../Texts-and-buttons/solutions-text-erosion.jsx';
+import DescriptionTextErosion from '../Texts-and-buttons/description-text-erosion.jsx';
 import HomeButton from '/src/r3f/Erosion/Texts-and-buttons/home-button';
 import Instructions from '/src/r3f/Erosion/Texts-and-buttons/instructions';
+import MuteButton from '/src/r3f/Erosion/Texts-and-buttons/mute-button';
 import { Physics } from '@react-three/rapier';
+import SoundControl from '/src/r3f/Erosion/sounds/erosion-sounds';
 import './scene.css';
 
 /**
@@ -24,9 +27,8 @@ import './scene.css';
  */
 
 const Scene = () => {
-  // Refs to store references to the loaded 3D models (Desert and Farm)
-  const desertRef = useRef();
-  const farmRef = useRef();
+
+  const [isMuted, setIsMuted] = useState(true);
 
   // State to manage the visibility of the instructions
   const [instructionsVisible, setInstructionsVisible] = useState(true);
@@ -36,13 +38,6 @@ const Scene = () => {
    */
   const handleHideInstructions = () => {
     setInstructionsVisible(false); // Set instructions visibility to false when dismissed
-  };
-
-  /**
-   * Placeholder function for the home button click (can be extended later).
-   */
-  const handleHomeButtonClick = () => {
-    // Logic for handling home button click (navigation, etc.)
   };
 
   return (
@@ -66,7 +61,7 @@ const Scene = () => {
 
         {/* 3D objects */}
         <Farm position={[3, -0.4, 0.1]} />  {/* Farm mesh */}
-        <Forest_with_river  position={[-0.5, 0.5, 1.69]} rotation={[0, 3, 0]} scale={[0.0022, 0.002, 0.002]}/> 
+        <ForestWithRiver  position={[-0.5, 0.5, 1.69]} rotation={[0, 3, 0]} scale={[0.0022, 0.002, 0.002]}/> 
         <Rocks position={[-0.37, 0.15, -0.4]} scale={[0.022, 0.02, 0.02]} />  {/* Rocks mesh */}
         <Physics>
         <Terrain />
@@ -74,13 +69,18 @@ const Scene = () => {
         <DesertForest />
         </Physics>
 
+
+        <SoundControl isMuted={isMuted} />
+
         {/* Descriptive texts */}
-        <DescriptionText />  {/* Text describing the erosion scene */}
-        <CausesText />  {/* Text describing the causes of erosion */}
+        <DescriptionTextErosion />  {/* Text describing the erosion scene */}
+        <CausesTextErosion />  {/* Text describing the causes of erosion */}
+        <SolutionsTextErosion />  {/* Text describing the solutions to land erosion */}
       </Canvas>
 
       {/* Home button for navigation */}
-      <HomeButton onClick={handleHomeButtonClick} label="Home" />
+      <HomeButton />
+      <MuteButton onMuteToggle={setIsMuted}/>
     </div>
   );
 };
