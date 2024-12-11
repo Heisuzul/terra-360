@@ -227,6 +227,17 @@ const World = forwardRef(({ handleBoxClick, cameraIndex, target, cameraPosition,
   const [selectedOption, setSelectedOption] = useState("");
 
 
+  const isCameraAtErosionPosition = (cameraPosition) =>
+    cameraPosition.x === -20 && cameraPosition.y === 0.5 && cameraPosition.z === -50.5;
+  
+  useEffect(() => {
+    if (isCameraAtErosionPosition(cameraPosition) && !selectionMade) {
+      setShowText(true);  
+    } else {
+      setShowText(false);  
+    }
+  }, [cameraPosition, selectionMade]);
+
 const handleFieldClick = () => {
   setShowText(false);  
   setSelectionMade(true);
