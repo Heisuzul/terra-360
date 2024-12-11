@@ -1,7 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { useGLTF, Text } from '@react-three/drei';
+import { useGLTF, Text, Html } from '@react-three/drei';
 import { Box3, Vector3 } from 'three';
 import * as THREE from 'three';
+import ToolTip from './HtmlToolTip'
 
 export default function BackNextArrows({ onNextClick, onBackClick, ...props }) {
   const { nodes, materials } = useGLTF('/models-3d/deforestation/back-next-arrows-sign.glb');
@@ -35,6 +36,8 @@ export default function BackNextArrows({ onNextClick, onBackClick, ...props }) {
     }
   }, [meshRef.current])
 
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <group {...props} dispose={null}>
       <group name="Scene">
@@ -47,8 +50,9 @@ export default function BackNextArrows({ onNextClick, onBackClick, ...props }) {
             receiveShadow
             geometry={nodes.Cylinder005.geometry}
             material={materials['Light Wood']}
-            onPointerOver={() => {
+            onPointerOver={(event) => {
               document.body.style.cursor = 'pointer'
+              event.stopPropagation();
             }}
             onPointerOut={() => {
               document.body.style.cursor = 'auto'
@@ -61,6 +65,12 @@ export default function BackNextArrows({ onNextClick, onBackClick, ...props }) {
             receiveShadow
             geometry={nodes.Cylinder005_1.geometry}
             material={materials['Dark Wood']}
+            onPointerOver={() => {
+              setIsHovered(true);
+            }}
+            onPointerOut={() => {
+              setIsHovered(false);
+            }}
           />
           <mesh
             name="Cylinder005_2"
@@ -69,6 +79,12 @@ export default function BackNextArrows({ onNextClick, onBackClick, ...props }) {
             geometry={nodes.Cylinder005_2.geometry}
             material={materials.Herbs}
           />
+          {isHovered && (
+            <ToolTip 
+              position={[0.4, 0.5, 0.3]} 
+              text={'Double Click to enter/exit the quiz area'}
+            />
+          )}
         </group>
       </group>
       {dimensions && (<Text

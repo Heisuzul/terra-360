@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Scene from '../../r3f/deforestation/scenes/Scene';
 import InstructionsOverlay from './InstructionsOverlay';
+import SolutionsOverlay from './SolutionsOverlay';
+import ShareOverlay from './ShareOverlay';
 import Navbar from './navbar/Navbar';
 import './Deforestation.css';
 
@@ -10,6 +12,11 @@ const Deforestation = ({ ready }) => {
   const timeoutRef = useRef(null);
   const isDraggingRef = useRef(false);
   const [isMuted, setIsMuted] = useState(false);
+  const puffedTreesCountRef = useRef(0);
+  const [treesShown, setTreesShown] = useState(true);
+  const [showSharePopUp, setShowSharePopUp] = useState(false);
+  const sceneRef = useRef();
+  
   
   const updateInstructionsVisibility = () => {
     const hideInstructions = localStorage.getItem('hideInstructions');
@@ -73,9 +80,17 @@ const Deforestation = ({ ready }) => {
           <button className='tutorial-button' onClick={() => setShowInstructions(true)}>🎓</button>
         </div>
       )}
-      <Navbar />
-      <Scene ready={ready} isMuted={isMuted} />
-      
+      <Navbar pointsRef={puffedTreesCountRef}/>
+      <Scene 
+        ref={sceneRef} 
+        ready={ready} 
+        isMuted={isMuted} 
+        setPointsRef={puffedTreesCountRef} 
+        setTreesShown={setTreesShown} 
+        treesShown={treesShown}
+        showSharePopUp={showSharePopUp}
+        setShowSharePopUp={setShowSharePopUp}  
+      />
       {showInstructions && (
         <InstructionsOverlay 
           onHide={() => {
@@ -83,6 +98,22 @@ const Deforestation = ({ ready }) => {
             lastInteractionRef.current = Date.now();
           }} 
         />
+      )}
+
+      {!treesShown && (
+        <SolutionsOverlay onHide={() => {
+          if (sceneRef.current) {
+            sceneRef.current.handleTreesGrow();
+          }
+        }} />
+      )}
+      {showSharePopUp && (
+        <ShareOverlay onHide={() => {
+          setShowSharePopUp(false);
+          if (sceneRef.current) {
+            sceneRef.current.restartPosition();
+          }
+        }} />
       )}
     </div>
   );

@@ -6,7 +6,7 @@ import { easeCubicInOut } from 'd3-ease';
 import { animated as animatedDiv, useSpring as useSpringWeb } from 'react-spring';
 import { PositionalAudio } from '@react-three/drei';
 
-export default function InteractiveBlade({scale, onDragStart, onDragEnd, ...props}) {
+export default function InteractiveBlade({scale, onDragStart, onDragEnd, type = 'dynamic', ...props}) {
   const { nodes, materials } = useGLTF('/models-3d/deforestation/circular-blade.glb')
   const rbSawRef = useRef()
   const [clickStartTime, setClickStartTime] = useState(null)
@@ -21,9 +21,9 @@ export default function InteractiveBlade({scale, onDragStart, onDragEnd, ...prop
   });
 
   const handlePointerDown = useCallback((e) => {
+    e.stopPropagation();
     setIsHolding(true);
     setClickStartTime(Date.now())
-    e.stopPropagation();
 
     rbSawRef.current.setAngvel({
         x: 0,
@@ -53,8 +53,6 @@ export default function InteractiveBlade({scale, onDragStart, onDragEnd, ...prop
         z: 0
       }, true);
 
-
-    e.stopPropagation();
     setClickStartTime(null);
     setIsHolding(false);
     onDragEnd?.();
@@ -93,7 +91,7 @@ export default function InteractiveBlade({scale, onDragStart, onDragEnd, ...prop
   return (
     
         <group {...props} dispose={null}>
-            <RigidBody type="dynamic" colliders="hull" ref={rbSawRef} onCollisionEnter={handleCollision}>
+            <RigidBody type={type} colliders="hull" ref={rbSawRef} onCollisionEnter={handleCollision} restitution={0.2}>
                 <group name="Sketchfab_Scene" 
                 onPointerDown={handlePointerDown}
                 onPointerUp={handlePointerUp}

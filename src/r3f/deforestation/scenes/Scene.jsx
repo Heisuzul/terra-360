@@ -1,4 +1,4 @@
-import React, { Suspense, useRef, useState, useCallback, useEffect, useMemo } from 'react';
+import React, { forwardRef, useRef, useState, useCallback, useEffect, useMemo, useImperativeHandle } from 'react';
 import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import Staging from '../staging/Staging';
 import Terrain from '../meshes/Terrain';
@@ -19,16 +19,17 @@ import InteractiveBlade from '../meshes/InteractiveBlade';
 import SmallTable from '../meshes/SmallTable';
 import RedValve from '../meshes/RedValve';
 import OrangeBird from '../meshes/OrangeBird';
+import BagSeeds from '../meshes/BagSeeds';
+import ToggleButton from '../meshes/ToggleButton';
 import FloatingText from '../meshes/FloatingText';
 import CameraController from '../controllers/CameraController';
 import CameraLogger from '../../utils/CameraLogger';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../stores/use-auth-store';
-import { Loader, PositionalAudio, Sparkles, Text3D } from '@react-three/drei';
+import { Loader, PositionalAudio, Sparkles } from '@react-three/drei';
 import { Physics } from "@react-three/rapier";
-import { Vector3 } from 'three';
 
-const Scene = ({ ready, isMuted }) => {
+const Scene = forwardRef(({ ready, isMuted, setPointsRef, setTreesShown, treesShown, showSharePopUp, setShowSharePopUp }, ref) => {
   const terrainRef = useRef();
   const { logout } = useAuthStore();
   const navigate = useNavigate();
@@ -37,10 +38,10 @@ const Scene = ({ ready, isMuted }) => {
   const audioBackgroundRef3 = useRef();
   const printerRef = useRef();
   const treesRef = useRef(null);
-  const floatingTextRef = useRef();
+  const floatingTextRef1 = useRef();
   const floatingTextRef2 = useRef();
   const floatingTextRef3 = useRef();
-  const [blades, setBlades] = useState([]);
+  const floatingTextRef4 = useRef();
   const cameraControllerRef = useRef();
 
   const handleTerrainLoad = useCallback((terrain) => {
@@ -97,10 +98,11 @@ const Scene = ({ ready, isMuted }) => {
       maxDistance: 4,
     },
     {
-      position: { x: 19.594912373471416, y: 20.266932236068055, z: -46.529617574715886},
+      // position: { x: 19.594912373471416, y: 20.266932236068055, z: -46.529617574715886},
+      position: { x: 19.546187522229683, y: 20.355783900403754, z: -46.54106880552209},
       target: { x: 19.05, y: 20.14, z: -45.65},
       minDistance: 1,
-      maxDistance: 2,
+      maxDistance: 4,
     },
     {
       position: { x: 19.47957256085322, y: 20.28159496741572, z: -47.28132092043356},
@@ -302,8 +304,8 @@ const Scene = ({ ready, isMuted }) => {
   });
 
   const handleDoubleClick = useCallback((targetIndex) => (event) => {
-    if (activeSet === 2) {
     event.stopPropagation();
+    if (activeSet === 2) {
     setStateIndex(targetIndex);
     } else {
       event.stopPropagation();
@@ -325,8 +327,12 @@ const Scene = ({ ready, isMuted }) => {
     setIsAudioPlaying(!isAudioPlaying);
   }, [isMuted]);
 
+  const [currentObjectType, setCurrentObjectType] = useState('blades'); // 'blades' or 'bagSeeds'
+  const [blades, setBlades] = useState([]);
+  const [bagSeeds, setBagSeeds] = useState([]);
+
   const handleRedValveClick = () => {
-    const newBlade = {
+    const newObject = {
       id: Date.now(),
       position: [
         17.9 + (Math.random() - 0.5) * 0.5,  // Random X offset
@@ -335,41 +341,71 @@ const Scene = ({ ready, isMuted }) => {
       ],
       scale: 1
     };
-    setBlades(prevBlades => [...prevBlades, newBlade]);
+  
+    if (currentObjectType === 'blades') {
+      setBlades(prevBlades => [...prevBlades, newObject]);
+    } else if (currentObjectType === 'bagSeeds') {
+      setBagSeeds(prevBagSeeds => [...prevBagSeeds, newObject]);
+    }
   };
 
-  const handlePointerOver = useCallback(() => {
-    if (floatingTextRef.current) {
-      floatingTextRef.current.visible = true;
+  const setObjectType = (type) => {
+    setCurrentObjectType(type);
+  };
+
+  const handlePointerOverX = (ref) => {
+    if (ref.current) {
+      ref.current.visible = true;
       setTimeout(() => {
-        if (floatingTextRef.current) {
-          floatingTextRef.current.visible = false;
+        if (ref.current) {
+          ref.current.visible = false;
         }
       }, 3000); // Adjust the duration as needed (3000ms = 3 seconds)
     }
-  }, []);
+  };
+  
+  // const handlePointerOver1 = useCallback(() => {
+  //   handlePointerOverX(floatingTextRef1);
+  // }, []);
 
   const handlePointerOver2 = useCallback(() => {
-    if (floatingTextRef2.current) {
-      floatingTextRef2.current.visible = true;
-      setTimeout(() => {
-        if (floatingTextRef2.current) {
-          floatingTextRef2.current.visible = false;
-        }
-      }, 3000); // Adjust the duration as needed (3000ms = 3 seconds)
-    }
+    handlePointerOverX(floatingTextRef2);
   }, []);
 
   const handlePointerOver3 = useCallback(() => {
-    if (floatingTextRef3.current) {
-      floatingTextRef3.current.visible = true;
-      setTimeout(() => {
-        if (floatingTextRef3.current) {
-          floatingTextRef3.current.visible = false;
-        }
-      }, 3000); // Adjust the duration as needed (3000ms = 3 seconds)
-    }
+    handlePointerOverX(floatingTextRef3);
   }, []);
+
+  const handlePointerOver4 = useCallback(() => {
+    handlePointerOverX(floatingTextRef4);
+  }, []);
+
+  const handleTreesPuff = useCallback(() => {
+    if (treesRef.current) {
+      treesRef.current.puffTrees();
+    }
+  }, [treesRef])
+
+  const handleTreesGrow = useCallback(() => {
+    if (treesRef.current) {
+      treesRef.current.growTrees();
+    }
+    setTreesShown(prev => !prev)
+  }, [treesRef])
+
+  const phoneHandleRef = useRef();
+
+  const handleRestartPositionPH = useCallback(() => {
+    if (phoneHandleRef.current) {
+      phoneHandleRef.current.restartPosition();
+    }
+  }, [phoneHandleRef]);
+
+
+  useImperativeHandle(ref, () => ({
+    handleTreesGrow,
+    restartPosition: handleRestartPositionPH,
+  }));
 
   return (
     <div className={styles.pageContainer}>
@@ -391,7 +427,7 @@ const Scene = ({ ready, isMuted }) => {
         <DirectionalLight intensity={2} position={[30, 50, 20]}/>
         <Physics>
           <Terrain onTerrainLoad={handleTerrainLoad} />
-          <Trees ref={treesRef} terrain={terrainRef} amount_rows={12} amount_cols={16} phase_x={0} phase_z={0} space={6}/>
+          <Trees ref={treesRef} terrain={terrainRef} setPuffedTreesCountRef={setPointsRef} amount_rows={12} amount_cols={16} phase_x={0} phase_z={0} space={6}/>
           <BackNextArrows 
             position={[15,18.48,-42]} 
             rotation={[0,Math.PI*(11/12),0]} 
@@ -427,34 +463,56 @@ const Scene = ({ ready, isMuted }) => {
             textNext={"Start Quiz"}
             textBack={"Back"}
           />
-          <Platform onDoubleClick={handleDoubleClick(0)} position={[16.895, 19, -45.858]}/>
-          <Desk position={[19.7, 19.2, -46.2]} rotation={[0,Math.PI,0]}/>
-          <Laptop onDoubleClick={handleDoubleClick(2)} externalRefs={[printerRef]} position={[20, 19.95, -45.75]} rotation={[0,Math.PI,0]}/>
-          <Printer onDoubleClick={handleDoubleClick(3)} ref={printerRef} position={[18.98, 20.14, -45.65]} rotation={[0,Math.PI*3/4,0]}/>
-          <PhoneBody onDoubleClick={handleDoubleClick(4)} onPointerOver={handlePointerOver3} position={[19.1, 19.95, -46.7]} rotation={[0, Math.PI*2/4, 0]}/>
+          <Platform onDoubleClick={(event) => {
+              if (activeSet === 1) {
+                toggleCameraSet();
+              } 
+              handleDoubleClick(0)(event);
+            }} 
+            position={[16.895, 19, -45.858]}/>
+          <Desk position={[19.7, 19.2, -46.2]} rotation={[0,Math.PI,0]} /*onPointerOver={handlePointerOver2}*//>
+          <Laptop onClick={handleDoubleClick(2)} externalRefs={[printerRef]} position={[20, 19.95, -45.75]} rotation={[0,Math.PI,0]}/>
+          <Printer onDoubleClick={handleTreesPuff} onClick={handleDoubleClick(3)} ref={printerRef} position={[18.98, 20.14, -45.65]} rotation={[0,Math.PI*3/4,0]} onPointerOver={handlePointerOver4}/>
+          <PhoneBody onClick={handleDoubleClick(4)} onPointerOver={handlePointerOver2} position={[19.1, 19.95, -46.7]} rotation={[0, Math.PI*2/4, 0]}/>
           <PhoneHandle 
+            ref={phoneHandleRef}
             position={[19.1, 19.95, -46.7]} 
             rotation={[0, Math.PI*2/4, 0]}
             onDragStart={() => toggleCameraControls(false)}
             onDragEnd={() => toggleCameraControls(true)}
-            onDoubleClick={handleDoubleClick(4)}
+            onClick={handleDoubleClick(4)}
             sceneIndex={stateIndex}
+            showPopup={showSharePopUp}
+            setShowPopup={setShowSharePopUp}
           />
           <OrangeBird position={[14.95,20.412,-41.98]} rotation={[0,Math.PI/12*10,0]}
-            onPointerOver={handlePointerOver}
-            onClick={handleStartQuiz} 
+            // onPointerOver={handlePointerOver1}
+            onClick={handleTreesGrow} 
           />
-          { activeSet === 1 ? <FloatingText ref={floatingTextRef} text={'Start Quiz'} position={[14.9,20.6,-41.98]} /> : 
-            <FloatingText ref={floatingTextRef} text={'Back to The Forest'} position={[14.9,20.6,-41.98]} />}
-          <FloatingText ref={floatingTextRef2} text={'Get Blades'} position={[17.5, 20.1, -45.856]} scale={0.5}/>
-          <FloatingText ref={floatingTextRef3} text={'Pick Up'} position={[19.1, 20.1, -46.5]} scale={0.5} rotationDelta={-Math.PI/12*2}/>
+          { treesShown ? <FloatingText ref={floatingTextRef1} onClick={handleTreesGrow} visible={true} text={'Learn the solutions'} position={[14.9,20.6,-41.98]} /> : 
+            <FloatingText ref={floatingTextRef1} visible={true} text={'Recycle'} position={[14.9,20.6,-41.98]} />}
+          <FloatingText ref={floatingTextRef2} text={'Pick Up to Share'} position={[19.1, 20.1, -46.5]} scale={0.5} rotationDelta={-Math.PI/12*2}/>
+          <FloatingText ref={floatingTextRef3} text={'Get Blades'} position={[17.5, 20.1, -45.856]} scale={0.5}/>
+          <FloatingText ref={floatingTextRef4} text={'Let\'s Print'} position={[19.7, 20.2, -45.1]} scale={0.5} rotationDelta={Math.PI/12*1}/>
           <SmallTable position={[17.5, 19.5, -45.858]} scale={0.3} onDoubleClick={handleDoubleClick(1)}/>
-          <RedValve position={[17.5, 19.972, -45.856]} scale={0.005} onPointerOver={handlePointerOver2} onClick={handleRedValveClick} onDoubleClick={handleDoubleClick(1)}/>
-          {blades.map(blade => (
+          <RedValve position={[17.5, 19.85, -45.887]} scale={0.005}/>
+          <ToggleButton scaleFactor={0.35} initialPosition={[17.5, 19.98, -45.86]} onPointerOver={handlePointerOver3} onClick={handleRedValveClick} onDoubleClick={handleDoubleClick(1)}/>
+          {/* <ToggleButton color={'red'} initialPosition={[17.45, 19.98, -46.05]}  onClick={() => setObjectType('blades')} onDoubleClick={handleDoubleClick(1)}/>
+          <ToggleButton color={'green'} initialPosition={[17.3, 19.98, -46.05]}  onClick={() => setObjectType('bagSeeds')} onDoubleClick={handleDoubleClick(1)}/> */}
+          {currentObjectType === 'blades' && blades.map(blade => (
             <InteractiveBlade 
               key={blade.id}
               position={blade.position}
               scale={blade.scale}
+              onDragStart={() => toggleCameraControls(false)}
+              onDragEnd={() => toggleCameraControls(true)}
+            />
+          ))}
+          {currentObjectType === 'bagSeeds' && bagSeeds.map(bagSeed => (
+            <BagSeeds 
+              key={bagSeed.id}
+              position={bagSeed.position}
+              scale={bagSeed.scale*0.5}
               onDragStart={() => toggleCameraControls(false)}
               onDragEnd={() => toggleCameraControls(true)}
             />
@@ -525,6 +583,6 @@ const Scene = ({ ready, isMuted }) => {
       <Loader />
     </div>
   );
-};
+});
 
 export default Scene;

@@ -3,11 +3,13 @@
   align-items: center;
   justify-content: center;
   position: absolute; /* Posicionamos la navbar de forma absoluta */
-  top: 3vh;
-  left: 1.5vh;
+  top: 0vh;
+  left: 0vh;
   width: 100%; /* Hacemos que ocupe todo el ancho */
   z-index: 10; /* Aseguramos que esté sobre el fondo */
   color: rgb(255, 255, 255);
+  gap: 30vw;
+  margin: 3vh 0vw;
 }
 
 
@@ -29,24 +31,12 @@
   cursor: pointer;
 }
 
-.navQuiz {
-  padding: 10px 20px;
-  border-radius: 50px;
-  /* background: linear-gradient(270deg, #579135 0.36%, #79d345 102.06%); */
-  background-color: #67a32e;
-  font-size: 18px;
-  cursor: pointer;
-  transition: 0.5s;
-  text-align: center;
-  box-shadow: 0 0 10px #579135;
-  font-weight: 500;
-}
-
 .navQuiz:hover {
   transform: scale(1.05);
 }
 
-.backButton {
+.backButton,
+.resultsButton {
   margin: 0px 40px;
   color: white;
   border-radius: 10px;
@@ -55,18 +45,15 @@
   transition: 0.5s;
 }
 
-.backButton:hover {
+.backButton:hover,
+.resultsButton:hover {
   transform: scale(1.05);
 }
 
 /* Responsive styles */
 @media (max-width: 100vh) {
-  .navQuiz {
-    padding: 8px 16px;
-    font-size: 11px;
-  }
-
-  .backButton {
+  .backButton,
+  .resultsButton {
     margin: 0px 20px;
     font-size: 11px;
   }

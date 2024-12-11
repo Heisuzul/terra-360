@@ -1,16 +1,19 @@
-import React, { useRef, useState, useCallback, useEffect } from 'react';
-import { useGLTF } from '@react-three/drei';
+import React, { useRef, useState, useCallback, useEffect, forwardRef, useImperativeHandle } from 'react';
+import { useGLTF, Html } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+import '../../../pages/deforestation/Deforestation.css';
 
-export default function PhoneHandle({ 
+const PhoneHandle = forwardRef(({ 
   position: initialPosition, 
   rotation, 
   onDragStart,
   onDragEnd,
   sceneIndex,
+  showPopup,
+  setShowPopup,
   ...props 
-}) {
+}, ref) => {
   const { nodes, materials } = useGLTF('/models-3d/deforestation/phone-handle.glb');
   
   const groupRef = useRef();
@@ -33,7 +36,7 @@ export default function PhoneHandle({
 
   const CONSTRAINTS = {
     MIN_Y: initialPosition[1],
-    MAX_Y: initialPosition[1] + 0.3,
+    MAX_Y: initialPosition[1] + 0.2,
     SMOOTHING_FACTOR: 0.92,
     MOMENTUM_DECAY: 0.2,
     MOVEMENT_SENSITIVITY: 0.005
@@ -86,6 +89,10 @@ export default function PhoneHandle({
       isDraggingRef.current ? (1 - CONSTRAINTS.SMOOTHING_FACTOR) : (1 - CONSTRAINTS.SMOOTHING_FACTOR * 0.5)
     );
 
+    if (newY === CONSTRAINTS.MAX_Y) {
+      setShowPopup(true);
+    }
+
     velocityRef.current = newY - pos.current;
     
     if (!isDraggingRef.current) {
@@ -116,6 +123,14 @@ export default function PhoneHandle({
     rotation[2] + rotationRef.current
   ] : [0, 0, rotationRef.current];
 
+  const handleRestartPosition = () => {
+    positionRef.current.target = positionRef.current.initial;
+  };
+
+  useImperativeHandle(ref, () => ({
+    restartPosition: handleRestartPosition
+  }));
+
   return (
     <group 
       ref={groupRef}
@@ -144,6 +159,8 @@ export default function PhoneHandle({
       />
     </group>
   );
-}
+});
 
 useGLTF.preload('/models-3d/deforestation/phone-handle.glb');
+
+export default PhoneHandle;

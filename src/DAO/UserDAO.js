@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, addDoc, updateDoc, deleteDoc, query, where, getDocs } from 'firebase/firestore';
+import { collection, doc, getDoc, setDoc, addDoc, updateDoc, deleteDoc, query, where, getDocs } from 'firebase/firestore';
 import { db } from "../../firebase.config";
 
 class UserDAO {
@@ -7,18 +7,17 @@ class UserDAO {
     }
 
     async getUserById(id) {
-        await getDoc(doc(this.collectionRef, id))
-            .then((userDoc) => {
-                if (userDoc.exist()) {
-                    return { sucess: true, data: userDoc.data() };
-
-                } else {
-                    return { sucess: false, data: null };
-                }
-            })
-            .catch((error) => {
-                console.log("Error getting document:", error);
-            })
+        try {
+            const userDoc = await getDoc(doc(this.collectionRef, id));
+            if (userDoc.exists()) {
+                return { success: true, data: userDoc.data() };
+            } else {
+                return { success: false, data: null };
+            }
+        } catch (error) {
+            console.log("Error getting document:", error);
+            return { success: false, data: null };
+        }
     }
 
     async getUserByEmail(email) {
@@ -39,13 +38,21 @@ class UserDAO {
             return;
         }
 
-        await addDoc(this.collectionRef, userData)
-            .then((docRef) => {
-                console.log("Document written with ID:", docRef.id);
-            })
-            .catch((error) => {
-                console.log("Error adding document:", error);
-            });
+        const userDocRef = doc(this.collectionRef, userData.uid);
+        await setDoc(userDocRef, {
+            email: userData.email,
+            name: userData.name,
+            photo: userData.photo,
+            points: 0, // Initialize points field
+            perfectScore: false,
+            treesSaved: false,
+        }, { merge: true })
+        .then(() => {
+            console.log("Document written with ID:", userData.uid);
+        })
+        .catch((error) => {
+            console.log("Error adding document:", error);
+        });
     }
 
     async updateUser(id, userData) {
