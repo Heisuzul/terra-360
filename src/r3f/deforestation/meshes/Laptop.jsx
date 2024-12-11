@@ -2,6 +2,7 @@ import React, { useRef, useCallback, useMemo, useState } from 'react'
 import { useGLTF, Html } from '@react-three/drei'
 import { useNavigate } from 'react-router-dom'
 import '../../../pages/deforestation/Deforestation.css'; // Import the CSS file
+import ToolTip from './HtmlToolTip'
 
 export default function Model({ externalRefs = [], screenToRender = 1, handleTreesPop=()=>{}, handleTreesGrow=()=>{}, handleCorrectAnswer=()=>{}, pointer='pointer',  ...props }) {
   const { nodes, materials } = useGLTF('/models-3d/deforestation/laptop.glb')
@@ -214,20 +215,10 @@ export default function Model({ externalRefs = [], screenToRender = 1, handleTre
           </Html>)}
         </mesh>
         { screenToRender === 1 && isHovered && (
-            <Html position={[-1.5, 0.5, -0.3]} center>
-              <div style={{
-                backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                border: '1px solid black',
-                padding: '5px',
-                borderRadius: '5px',
-                textAlign: 'center',
-                fontSize: '11px',
-                boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
-                pointerEvents: 'none'
-              }}>
-                From here you can start the Quiz.
-              </div>
-            </Html>
+            <ToolTip 
+              position={[-1.5, 0.5, -0.3]} 
+              text={'From here you can start the Quiz'}
+            />
           )}
       </group>
     </group>

@@ -270,7 +270,7 @@ const World = forwardRef(( { handleBoxClick, cameraIndex, target, cameraPosition
             externalRefs={[printerRef]} position={[-5.65, 0.15, -48.6]} 
             rotation={[0,-Math.PI*11/12,0]} screenToRender={2}
           />
-          <Printer ref={printerRef} position={[-6.6, 0.34, -48.7]} rotation={[0,-Math.PI*7/6,0]}/>
+          <Printer ref={printerRef} onDoubleClick={puffTrees} position={[-6.6, 0.34, -48.7]} rotation={[0,-Math.PI*7/6,0]}/>
         </Physics>
 
         {/* Biodiversity 3D Elements */}

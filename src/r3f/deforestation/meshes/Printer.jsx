@@ -1,5 +1,6 @@
 import React, { forwardRef, useState } from 'react'
 import { useGLTF, Html } from '@react-three/drei'
+import ToolTip from './HtmlToolTip'
 
 const Model = forwardRef((props, ref) => {
   const { nodes, materials } = useGLTF('/models-3d/deforestation/printer.glb')
@@ -24,20 +25,10 @@ const Model = forwardRef((props, ref) => {
         }}
       />
       {isHovered && (
-        <Html position={[-0.45, -0.1, 0.3]} center>
-          <div style={{
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            border: '1px solid black',
-            padding: '5px',
-            borderRadius: '5px',
-            textAlign: 'center',
-            fontSize: '11px',
-            boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
-            pointerEvents: 'none'
-          }}>
-            Double Click to Print
-          </div>
-        </Html>
+        <ToolTip 
+          position={[-0.45, -0.1, 0.3]} 
+          text={'Double Click to Print'}
+        />
       )}
     </group>
   )
