@@ -1,28 +1,34 @@
+/* Mute Button Styles */
+
+/* Container for the mute button */
 .muteButtonContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  z-index: 10; 
+  display: flex; /* Aligns items in a flex container */
+  align-items: center; /* Vertically centers items in the container */
+  justify-content: center; /* Horizontally centers items in the container */
+  position: absolute; /* Positions the container relative to its nearest positioned ancestor */
+  bottom: 20px; /* Sets the distance from the bottom of the viewport or container */
+  right: 20px; /* Sets the distance from the right of the viewport or container */
+  z-index: 10; /* Ensures the button is above other elements on the page */
 }
 
+/* Styles for the mute button */
 .muteButton {
-  margin: 0px 10px;
-  color: white;
-  border-radius: 10px;
-  box-shadow: 0 0 10px #579135;
-  background-color: #ffffff;
-  transition: 0.5s;
-  border: none;
-  font-size: 30px;
-  cursor: pointer;
+  margin: 0px 10px; /* Adds horizontal spacing around the button */
+  color: white; /* Sets the text color to white */
+  border-radius: 10px; /* Rounds the corners of the button */
+  box-shadow: 0 0 10px #579135; /* Adds a green glowing shadow around the button */
+  background-color: #ffffff; /* Sets the background color to white */
+  transition: 0.5s; /* Adds a smooth transition effect for hover animations */
+  border: none; /* Removes the default border of the button */
+  font-size: 30px; /* Sets the size of the text/icon inside the button */
+  cursor: pointer; /* Changes the cursor to a pointer when hovering over the button */
 }
 
+/* Hover effect for the mute button */
 .muteButton:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 15px #ffffff;
+  transform: scale(1.1); /* Slightly enlarges the button on hover */
+  box-shadow: 0 0 15px #ffffff; /* Increases the intensity of the glow effect on hover */
 }
+
 
   
